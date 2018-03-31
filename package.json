@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/lionben89/BookIt/issues"
   },
-  "homepage": "https://github.com/lionben89/BookIt#readme"
+  "homepage": "https://github.com/lionben89/BookIt#readme",
+  "devDependencies": {
+    "webpack": "^4.4.1"
+  }
 }
