@@ -5,6 +5,32 @@
   </h1>
   <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
   <courses></courses>
-  <app-book></app-book>
+
+  <div *ngIf="auth.user | async; then authenticated else guest">
+    <!-- template will replace this div (depending on authentication state -->
+  </div>
 </div>
 <router-outlet></router-outlet>
+
+
+<!-- User not logged in -->
+<ng-template #guest>
+  <button (click)="auth.googleLogin()">
+    <i class="fa fa-google"></i> Login With Google
+  </button>
+  <button (click)="auth.facebookLogin()">
+    <i class="fab fa-facebook-f"></i> Login With Facebook
+  </button>
+</ng-template>
+
+<!-- User logged in -->
+<ng-template #authenticated>
+  <div *ngIf="auth.user | async as user">
+    <h3>Hi {{ user.displayName }}</h3>
+    <img [src]="user.photoURL" />
+    <button (click)="auth.logout()">
+      Logout
+    </button>
+  </div>
+  <app-book></app-book>
+</ng-template>
