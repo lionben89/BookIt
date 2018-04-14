@@ -24,8 +24,11 @@
     "@ngrx/core": "^1.2.0",
     "@ngrx/store": "^5.2.0",
     "angularfire2": "^5.0.0-rc.6",
+    "bootstrap": "^4.1.0",
     "core-js": "^2.4.1",
     "firebase": "^4.12.1",
+    "ng2-slider-component": "^1.0.9",
+    "primeng": "^5.2.4",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"
   },

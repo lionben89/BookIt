@@ -15,6 +15,10 @@ import { CoursesService } from './courses.service';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { environment } from '../environments/environment';
+import { SettingsComponent } from './main/settings/settings.component';
+
+import { FormsModule, NgForm } from '@angular/forms';
+import {SliderModule} from 'primeng/slider';
 
 
 @NgModule({
@@ -23,10 +27,13 @@ import { environment } from '../environments/environment';
     MainComponent,
     CoursesComponent,
     BookComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
+    SliderModule,
     AppRoutingModule,
+    FormsModule,
     CoreModule,
     AngularFireModule.initializeApp(environment.firebase, 'BookIt')
   ],
