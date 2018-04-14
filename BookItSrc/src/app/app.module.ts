@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 
 import { AppComponent } from './app.component';
+import { MainComponent } from './main/main.component';
+
 import {CoursesComponent} from './courses.component';
 import { BookComponent } from './book/book.component';
 
@@ -18,6 +20,7 @@ import { environment } from '../environments/environment';
 @NgModule({
   declarations: [
     AppComponent,
+    MainComponent,
     CoursesComponent,
     BookComponent,
   ],
