@@ -1,12 +1,11 @@
-import { Observable } from 'rxjs/Observable';
-import { IconsService } from './../../icons.service';
 import { Component, OnInit } from '@angular/core';
-import { MatIconRegistry } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
+
+import { MatIconRegistry } from '@angular/material/icon';
+import { IconsService } from './../../../icons.service';
+
 import { Store } from '@ngrx/store';
-import * as fromStore from '../../store';
-
-
-
+import * as fromStore from '../../../store';
 
 @Component({
   selector: 'app-navbar',
@@ -17,7 +16,6 @@ import * as fromStore from '../../store';
 })
 export class NavbarComponent implements OnInit {
   public _optionEnabled$: Observable<string>;
-
 
   constructor(private store: Store<fromStore.MainState>, iconService: IconsService) {
   }
@@ -35,7 +33,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this._optionEnabled$ = this.store.select(fromStore.getContextNavbarOptionEnabled);
-  };
+  }
 
 }
 

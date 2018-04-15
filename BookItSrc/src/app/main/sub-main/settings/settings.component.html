@@ -1,5 +1,6 @@
-
-<div class="container">
+<div class="container" *ngIf="auth.user | async as user">
+    <h3>Hi {{ user.displayName }}</h3>
+    <img [src]="user.photoURL" style="width:100px;" />
     <h1>Settings</h1>
       <form>
         <div id="location_div">
@@ -38,6 +39,8 @@
 
         <button type="disable" class="btn btn-default">Disable Account</button><br><br>
 
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default">Submit</button><br>
+
+        <button  class="btn btn-default" (click)="auth.logout()">Logout</button>
       </form>
 </div>

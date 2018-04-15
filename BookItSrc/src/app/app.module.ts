@@ -5,21 +5,27 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 
 import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
+import { NavbarComponent } from './main/navbar/navbar/navbar.component';
+import { AutoCompleteComponent } from './main/navbar/auto-complete/auto-complete.component';
+import { SubMainComponent } from './main/sub-main/sub-main.component';
+import { SettingsComponent } from './main/sub-main/settings/settings.component';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatMenuModule, MatButtonModule, MatIconModule,MatCardModule,MatToolbarModule, MatIconRegistry, MatInputModule,MatAutocomplete} from '@angular/material' ;
+import { MatMenuModule, MatButtonModule, MatIconModule,MatCardModule,MatToolbarModule, MatIconRegistry, MatInputModule,MatAutocomplete } from '@angular/material' ;
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { environment } from '../environments/environment';
+
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { NavbarComponent } from './navbar/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
-import { AutoCompleteComponent } from './navbar/auto-complete/auto-complete.component';
 import { ReactiveFormsModule, FormsModule, NgForm } from '@angular/forms';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import { SettingsComponent } from './main/settings/settings.component';
-import {SliderModule} from 'primeng/slider';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
+import { SliderModule } from 'primeng/slider';
 
 //ngrx
 import {StoreModule} from '@ngrx/store'; 
@@ -32,19 +38,21 @@ import { reducers } from './store/reducers';
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
     AppComponent,
-    AutoCompleteComponent,
-    NavbarComponent,
-    SettingsComponent,
+    LoginComponent,
     MainComponent,
+    NavbarComponent,
+    AutoCompleteComponent,
+    SubMainComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    BrowserModule,
-    SliderModule,
     AppRoutingModule,
     FormsModule,
     CoreModule,
+    BrowserModule,
+    SliderModule,
     MatToolbarModule,
     MatMenuModule,
     MatButtonModule,

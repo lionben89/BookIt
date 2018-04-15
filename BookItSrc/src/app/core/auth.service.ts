@@ -59,7 +59,8 @@ export class AuthService {
   private oAuthLogin(provider) {
     return this.afAuth.auth.signInWithPopup(provider)
       .then((credential) => {
-        this.updateUserData(credential.user)
+        this.updateUserData(credential.user);
+        this.router.navigate(['']);
       });
   }
 
@@ -90,7 +91,10 @@ export class AuthService {
   }
 
   logout() {
-    this.afAuth.auth.signOut();
+    this.afAuth.auth.signOut()
+    .then(() => {
+      this.router.navigate(['/login']);
+    });
   }
 
 }
