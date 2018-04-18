@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 
 import { AppComponent } from './app.component';
+import { MainComponent } from './main/main.component';
 import { BookComponent } from './book/book.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatMenuModule, MatButtonModule, MatIconModule,MatCardModule,MatToolbarModule, MatIconRegistry, MatInputModule,MatAutocomplete} from '@angular/material' ;
@@ -26,6 +27,9 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     AppComponent,
     AutoCompleteComponent,
     NavbarComponent,
+
+    MainComponent,
+
   ],
   imports: [
     BrowserModule,
