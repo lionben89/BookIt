@@ -1,0 +1,46 @@
+<mat-toolbar class="mat-toolbar" color="primary" >
+  <mat-toolbar-row  class="mat-toolbar-row" color="primary" >
+    <button  mat-icon-button (click)="settingEnabled=true">
+      <div *ngIf="settingEnabled; then settingEnableIcon; else settingDisableIcon"></div>
+    </button>
+    
+    <button mat-icon-button (click)="explorerEnabled=true">
+      <div *ngIf="explorerEnabled; then explorerEnableIcon; else explorerDisableIcon"></div>
+    </button>
+   
+    <button mat-icon-button (click)="myBooksEnabled=true">
+      <div *ngIf="myBooksEnabled; then myBooksEnableIcon; else myBooksDisableIcon"></div>
+    </button>
+  </mat-toolbar-row>
+  <mat-toolbar-row  class="mat-toolbar-row2">
+     
+      <app-auto-complete id="auto-complete"></app-auto-complete>
+      <span class="spacer"></span>
+      <span class="spacer"></span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+<ng-template #settingEnableIcon>
+  <mat-icon aria-label='person enable' svgIcon='person-blue' class=gray-icon></mat-icon>
+</ng-template>
+
+<ng-template #settingDisableIcon>
+  <mat-icon svgIcon='person-gray' class=blue-icon></mat-icon>
+</ng-template>
+
+<ng-template #myBooksEnableIcon>
+  <mat-icon svgIcon='book-closed-blue' class=gray-icon></mat-icon>
+</ng-template>
+
+<ng-template #myBooksDisableIcon>
+  <mat-icon svgIcon='book-closed-gray' class=blue-icon></mat-icon>
+</ng-template>
+
+<ng-template #explorerEnableIcon>
+  <mat-icon svgIcon='book-open-blue' class=gray-icon></mat-icon>
+</ng-template>
+
+<ng-template #explorerDisableIcon>
+  <mat-icon svgIcon='book-open-gray' class=blue-icon></mat-icon>
+</ng-template>

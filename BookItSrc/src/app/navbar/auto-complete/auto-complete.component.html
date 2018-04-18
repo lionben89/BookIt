@@ -1,0 +1,12 @@
+<form class="example-form" >
+  <mat-form-field   color=accent class="example-half-width">
+    <input class="auto-complete-chosen" matInput placeholder="Find Me a Book" aria-label="book" [matAutocomplete]="auto" [formControl]="bookCtrl">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let book of filteredBooks | async" [value]="book.name">
+        <img style="vertical-align:middle;" aria-hidden src="{{book.pic}}" height="25" />
+        <span>{{ book.name }}</span> |
+        <small>Autor: {{book.autor}}</small>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>

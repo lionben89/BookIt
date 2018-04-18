@@ -1,0 +1,32 @@
+.blue-icon svg {
+  fill:#64B5F6;
+}
+.gray-icon svg{
+  fill:#d0d0d0;
+}
+  
+  .spacer {
+    flex:2;
+  }
+
+  .mat-toolbar-row{
+    display: flex;
+    justify-content: space-between;
+  }
+  .mat-toolbar-row2{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  #auto-complete{
+    flex:1 auto;
+  }
+
+  .mat-toolbar{
+    display:flex;
+    flex-direction: column;
+  }
+
+ 
