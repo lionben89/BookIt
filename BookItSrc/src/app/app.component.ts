@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { AuthService } from './core/auth.service';
+import {MatMenuModule, MatButtonModule, MatIconModule,MatCardModule} from '@angular/material' ;
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'BookIt App';
