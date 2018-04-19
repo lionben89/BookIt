@@ -17,12 +17,16 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NavbarComponent } from './navbar/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AutoCompleteComponent } from './navbar/auto-complete/auto-complete.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule, NgForm } from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { SettingsComponent } from './main/settings/settings.component';
+import {SliderModule} from 'primeng/slider';
 
 //ngrx
 import {StoreModule} from '@ngrx/store'; 
 import { reducers } from './store/reducers';
+
+
 
 
 @NgModule({
@@ -33,12 +37,17 @@ import { reducers } from './store/reducers';
     NavbarComponent,
 
     MainComponent,
-
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    CoursesComponent,
+    BookComponent,
+    SettingsComponent,
+    BrowserModule,
+    SliderModule,
     AppRoutingModule,
+    FormsModule,
     CoreModule,
     MatToolbarModule,
     MatMenuModule,
