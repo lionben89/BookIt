@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit {
   public _optionEnabled$: Observable<string>;
 
   constructor(private store: Store<fromStore.MainState>, iconService: IconsService) {
+    console.log("navbar");
   }
 
   setSetting() {

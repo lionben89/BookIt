@@ -10,7 +10,7 @@ export const ActionsConsts={
 
 
 export class ChooseExplorer implements Action{
-    readonly type =ActionsConsts.CHOOSE_EXPLORER;
+    readonly type=ActionsConsts.CHOOSE_EXPLORER;
 }
 
 export class ChooseSettings implements Action{

@@ -42,7 +42,7 @@ export class AutoCompleteComponent implements OnInit {
   
     constructor() {
       this.bookCtrl = new FormControl();
-      //this.bookCtrl.disable();
+      console.log("auto complete");
       this.filteredBooks = this.bookCtrl.valueChanges
         .pipe(
           startWith(''),
