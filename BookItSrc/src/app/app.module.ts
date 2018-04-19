@@ -3,11 +3,11 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
-
+import {MatRadioModule} from '@angular/material/radio'
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatMenuModule, MatButtonModule, MatIconModule,MatCardModule,MatToolbarModule, MatIconRegistry, MatInputModule,MatAutocomplete} from '@angular/material' ;
+import {MatMenuModule, MatButtonModule, MatIconModule,MatCardModule,MatToolbarModule, MatIconRegistry, MatInputModule,MatAutocomplete, MatRadioButton} from '@angular/material' ;
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestore } from 'angularfire2/firestore';
@@ -20,6 +20,8 @@ import { ReactiveFormsModule, FormsModule, NgForm } from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { SettingsComponent } from './main/settings/settings.component';
 import {SliderModule} from 'primeng/slider';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 //ngrx
 import {StoreModule} from '@ngrx/store'; 
@@ -49,6 +51,7 @@ import { reducers } from './store/reducers';
     MatMenuModule,
     MatButtonModule,
     MatCardModule,
+    MatRadioModule,
     MatIconModule,
     MatAutocompleteModule,
     FlexLayoutModule,
@@ -57,6 +60,7 @@ import { reducers } from './store/reducers';
     MatInputModule,
     ReactiveFormsModule,
     FormsModule,
+MatCheckboxModule,
     StoreModule.forRoot(reducers),
     AngularFireModule.initializeApp(environment.firebase, 'BookIt')
   ],
