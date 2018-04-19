@@ -1,46 +1,60 @@
 <div class="container" *ngIf="auth.user | async as user">
-    <h3>Hi {{ user.displayName }}</h3>
-    <img [src]="user.photoURL" style="width:100px;" />
-    <h1>Settings</h1>
-      <form>
-        <div id="location_div">
-          <label for="location">Use current location?</label>
-          <input type="checkbox" id="location_cb">
-        </div><br><br>
+  <h3>Hi {{ user.displayName }}</h3>
+  <img [src]="user.photoURL" style="width:100px;" />
 
-        <div id="fav_cat">
-          <label id="label_pick_cat">Pick your favorite book categories</label><br>
-          <label for="fav_cat">Love</label><input type="radio" class="form-control" id="fav_cat">
-          <label for="fav_cat">Hate</label><input type="radio" class="form-control" id="fav_cat">
-          <label for="fav_cat">Food</label><input type="radio" class="form-control" id="fav_cat">
-          <label for="fav_cat">Option 4</label><input type="radio" class="form-control" id="fav_cat"><br>
-          <label for="fav_cat">Option 5</label><input type="radio" class="form-control" id="fav_cat">
-          <label for="fav_cat">Option 6</label><input type="radio" class="form-control" id="fav_cat">
-          <label for="fav_cat">Option 7</label><input type="radio" class="form-control" id="fav_cat">
-          <label for="fav_cat">Option 8</label><input type="radio" class="form-control" id="fav_cat"><br>
-          <label for="fav_cat">Option 9</label><input type="radio" class="form-control" id="fav_cat">
-          <label for="fav_cat">Option 10</label><input type="radio" class="form-control" id="fav_cat">
-          <label for="fav_cat">Option 11</label><input type="radio" class="form-control" id="fav_cat">
-          <label for="fav_cat">Option 12</label><input type="radio" class="form-control" id="fav_cat">
-        </div><br>
+<h1>Settings</h1>
+  
+<mat-card class="location">
+  <mat-card-content>
+    <section class="form-section">
+      <mat-checkbox class="form-margin" [(ngModel)]="checked" name="location_cb" [(indeterminate)]="indeterminate" [align]="align" [disabled]="disabled" ngDefaultControl>
+        Use my current location
+      </mat-checkbox>
+    </section>
+  </mat-card-content>
+</mat-card>
 
-        <div class="form-group">
-            <label for="metric">Pick display metric</label><br>
-            <label for="metric">Kilometers</label><input type="checkbox" class="form-control" id="metric">
-            <label for="metric">Miles</label><input type="checkbox" class="form-control" id="metric">
-        </div><br>
+<mat-card class="categories">
+  <section class="form-section">
+    <label class="form-margin" name="category_lab" ngDefaultControl>Pick wanted categories:</label>
+  </section>
+  <mat-chip-list [aria-orientation]="horizontal">
+    <mat-chip *ngFor="let chip of availableColors" selected="true" name="category_list" [color]="chip.color" ngDefaultControl>
+      {{chip.name}}
+    </mat-chip>
+  </mat-chip-list>
+</mat-card>
 
-        <div class="form-group">
-            <label for="radius">Book search radius : {{ val_radius }}</label><br>
-            <p-slider [(ngModel)]="val_radius" name="radius_slide"
-             [style]="{'height': '20px', 'width': '70%','display': 'inline-block', 'color': 'red'}"
-              [animate]="true"></p-slider>    
-          </div><br>
+<mat-card class="search_radius">
+  <mat-card-content>
+    <section class="form-section">
+      <label class="form-margin" name="search_radius_lab">Book search radius : {{ value }}Km</label>
+    </section>
+    <section class="form-section">
+      <mat-slider
+          name="search_radius_slider"
+          class="form-margin"
+          [max]="max"
+          [min]="min"
+          [step]="step"
+          [thumb-label]="thumbLabel"
+          [(ngModel)]="value"
+          ngDefaultControl>
+      </mat-slider>
+    </section>
+  </mat-card-content>
+</mat-card>
 
-        <button type="disable" class="btn btn-default">Disable Account</button><br><br>
+<mat-card class="buttons">
+  <mat-card-content>
+    <section class="form-section">
+      <button mat-button name="button_disable">Disable account</button>
+    </section>
+      
+    <section class="form-section" name="button_logout">
+      <button mat-button (click)="auth.logout()">Logout</button>
+    </section>
+  </mat-card-content>
+</mat-card>
 
-        <button type="submit" class="btn btn-default">Submit</button><br>
-
-        <button  class="btn btn-default" (click)="auth.logout()">Logout</button>
-      </form>
 </div>

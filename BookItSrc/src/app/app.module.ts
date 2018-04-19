@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
-
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
@@ -13,7 +12,8 @@ import { SubMainComponent } from './main/sub-main/sub-main.component';
 import { SettingsComponent } from './main/sub-main/settings/settings.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatMenuModule, MatButtonModule, MatIconModule,MatCardModule,MatToolbarModule, MatIconRegistry, MatInputModule,MatAutocomplete } from '@angular/material' ;
+import {MatMenuModule, MatButtonModule, MatIconModule,MatCardModule,MatToolbarModule, MatIconRegistry, MatInputModule,MatAutocomplete} from '@angular/material' ;
+import { MatCheckboxModule, MatChipsModule, MatSliderModule } from '@angular/material';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 import { AngularFireModule } from 'angularfire2';
@@ -24,7 +24,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule, NgForm } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-
 import { SliderModule } from 'primeng/slider';
 
 //ngrx
@@ -57,8 +56,12 @@ import { reducers } from './store/reducers';
     MatMenuModule,
     MatButtonModule,
     MatCardModule,
+    MatCheckboxModule,
     MatIconModule,
     MatAutocompleteModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatSliderModule,
     FlexLayoutModule,
     HttpClientModule,
     BrowserAnimationsModule,
