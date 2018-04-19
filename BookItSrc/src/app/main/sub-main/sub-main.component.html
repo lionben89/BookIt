@@ -1,1 +1,12 @@
-<app-settings></app-settings>
+<div>
+  <div *ngIf="(_optionEnabled$ | async) === 'settings'; then Settings;"></div>
+  <div *ngIf="(_optionEnabled$ | async) === 'explorer'; then myRequests;"></div>
+</div>
+
+<ng-template #myRequests>
+  <app-my-requests></app-my-requests>
+</ng-template>
+
+<ng-template #Settings>
+  <app-settings></app-settings>
+</ng-template>

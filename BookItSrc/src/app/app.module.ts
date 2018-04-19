@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
@@ -14,13 +13,16 @@ import { AutoCompleteComponent } from './main/navbar/auto-complete/auto-complete
 import { SubMainComponent } from './main/sub-main/sub-main.component';
 import { SettingsComponent } from './main/sub-main/settings/settings.component';
 import { MyRequestsComponent } from './main/my-requests/my-requests.component';
+import { RequestedBookComponent } from './main/my-requests/requested-book/requested-book.component';
+//our modules
+import { AppRoutingModule } from './app-routing.module';
+import { MyRequestsModule } from './main/my-requests/my-requests.module';
 //design Moudles
-import { MatMenuModule, MatButtonModule, MatIconModule,MatCardModule,MatToolbarModule, MatIconRegistry, MatInputModule,MatAutocomplete } from '@angular/material' ;
+import { MatMenuModule, MatButtonModule, MatIconModule,MatCardModule,MatToolbarModule, MatIconRegistry, MatInputModule,MatAutocomplete } from '@angular/material';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
-import { FlexLayoutModule } from '@angular/flex-layout';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatDividerModule} from '@angular/material/divider';
 //firebase
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestore } from 'angularfire2/firestore';
@@ -28,7 +30,6 @@ import { environment } from '../environments/environment';
 //ngrx
 import {StoreModule} from '@ngrx/store'; 
 import { reducers } from './store/reducers';
-
 
 
 
@@ -43,6 +44,7 @@ import { reducers } from './store/reducers';
     SubMainComponent,
     SettingsComponent,
     MyRequestsComponent,
+    RequestedBookComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,14 +53,12 @@ import { reducers } from './store/reducers';
     FormsModule,
     CoreModule,
     BrowserModule,
-    SliderModule,
     MatToolbarModule,
     MatMenuModule,
     MatButtonModule,
     MatCardModule,
     MatIconModule,
     MatAutocompleteModule,
-    MatDividerModule,
     FlexLayoutModule,
     HttpClientModule,
     BrowserAnimationsModule,

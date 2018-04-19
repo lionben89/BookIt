@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MyRequestsComponent } from './my-requests.component';
+import { RequestedBookComponent } from './requested-book/requested-book.component';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    MatDividerModule,
   ],
-  declarations: [MyRequestsComponent]
+  declarations: [MyRequestsComponent, RequestedBookComponent]
 })
 export class MyRequestsModule { }
