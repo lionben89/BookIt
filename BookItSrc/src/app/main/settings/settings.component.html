@@ -2,26 +2,54 @@
 <div class="container">
     <h1>Settings</h1>
       <form>
-        <div id="location_div">
-          <label for="location">Use current location?</label>
-          <input type="checkbox" id="location_cb">
-        </div><br><br>
+        
+          <mat-card>
+              <mat-card-content>
+                <h2 class="example-h2">Checkbox configuration</h2>
+            
+                <section class="example-section">
+                  <mat-checkbox class="example-margin" [(ngModel)]="checked">Checked</mat-checkbox>
+                  <mat-checkbox class="example-margin" [(ngModel)]="indeterminate">Indeterminate</mat-checkbox>
+                </section>
+            
+                <section class="example-section">
+                  <label class="example-margin">Align:</label>
+                  <mat-radio-group [(ngModel)]="align">
+                    <mat-radio-button class="example-margin" value="start">Start</mat-radio-button>
+                    <mat-radio-button class="example-margin" value="end">End</mat-radio-button>
+                  </mat-radio-group>
+                </section>
+            
+                <section class="example-section">
+                  <mat-checkbox class="example-margin" [(ngModel)]="disabled">Disabled</mat-checkbox>
+                </section>
+              </mat-card-content>
+            </mat-card>
+            
+            <mat-card class="result">
+              <mat-card-content>
+                <h2 class="example-h2">Result</h2>
+            
+                <section class="example-section">
+                  <mat-checkbox
+                      class="example-margin"
+                      [(ngModel)]="checked"
+                      [(indeterminate)]="indeterminate"
+                      [align]="align"
+                      [disabled]="disabled">
+                    I'm a checkbox
+                  </mat-checkbox>
+                </section>
+              </mat-card-content>
+            </mat-card>
+        <br><br>
 
-        <div id="fav_cat">
-          <label id="label_pick_cat">Pick your favorite book categories</label><br>
-          <label for="fav_cat">Love</label><input type="radio" class="form-control" id="fav_cat">
-          <label for="fav_cat">Hate</label><input type="radio" class="form-control" id="fav_cat">
-          <label for="fav_cat">Food</label><input type="radio" class="form-control" id="fav_cat">
-          <label for="fav_cat">Option 4</label><input type="radio" class="form-control" id="fav_cat"><br>
-          <label for="fav_cat">Option 5</label><input type="radio" class="form-control" id="fav_cat">
-          <label for="fav_cat">Option 6</label><input type="radio" class="form-control" id="fav_cat">
-          <label for="fav_cat">Option 7</label><input type="radio" class="form-control" id="fav_cat">
-          <label for="fav_cat">Option 8</label><input type="radio" class="form-control" id="fav_cat"><br>
-          <label for="fav_cat">Option 9</label><input type="radio" class="form-control" id="fav_cat">
-          <label for="fav_cat">Option 10</label><input type="radio" class="form-control" id="fav_cat">
-          <label for="fav_cat">Option 11</label><input type="radio" class="form-control" id="fav_cat">
-          <label for="fav_cat">Option 12</label><input type="radio" class="form-control" id="fav_cat">
-        </div><br>
+        <mat-chip-list class="mat-chip-list-stacked">
+            <mat-chip *ngFor="let chip of availableColors" selected="true" [color]="chip.color">
+              {{chip.name}}
+            </mat-chip>
+          </mat-chip-list>
+        <br>
 
         <div class="form-group">
             <label for="metric">Pick display metric</label><br>
