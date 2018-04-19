@@ -20,6 +20,10 @@ import { AutoCompleteComponent } from './navbar/auto-complete/auto-complete.comp
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
+//ngrx
+import {StoreModule} from '@ngrx/store'; 
+import { reducers } from './store/reducers';
+
 
 @NgModule({
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
@@ -48,6 +52,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatInputModule,
     ReactiveFormsModule,
     FormsModule,
+    StoreModule.forRoot(reducers),
     AngularFireModule.initializeApp(environment.firebase, 'BookIt')
   ],
   providers: [AngularFirestore,MatIconRegistry],

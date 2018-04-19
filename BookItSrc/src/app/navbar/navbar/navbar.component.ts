@@ -1,6 +1,9 @@
+import { Observable } from 'rxjs/Observable';
 import { IconsService } from './../../icons.service';
 import { Component, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
+import { Store } from '@ngrx/store';
+import * as fromStore from '../../store';
 
 
 
@@ -13,50 +16,26 @@ import { MatIconRegistry } from '@angular/material';
 
 })
 export class NavbarComponent implements OnInit {
-  private _explorerEnabled: boolean=false;
-  private _settingEnabled: boolean=false;
-  private _myBooksEnabled: boolean=false;
+  public _optionEnabled$: Observable<string>;
 
-  constructor(iconService: IconsService) {
-    this._explorerEnabled=false;
-    this._settingEnabled=false;
-    this._explorerEnabled=true;
+
+  constructor(private store: Store<fromStore.MainState>, iconService: IconsService) {
   }
 
-  get explorerEnabled() {
-    return this._explorerEnabled;
-  }
-  get settingEnabled() {
-    return this._settingEnabled;
-  }
-  get myBooksEnabled() {
-    return this._myBooksEnabled;
+  setSetting() {
+    this.store.dispatch(new fromStore.ChooseSettings);
   }
 
-  set explorerEnabled(enable:boolean){
-    if (enable){
-      this._explorerEnabled=enable;
-      this._settingEnabled=!enable;
-      this._myBooksEnabled=!enable;
-    }
+  setExplorer() {
+    this.store.dispatch(new fromStore.ChooseExplorer);
   }
-  set settingEnabled(enable:boolean){
-    if (enable){
-      this._explorerEnabled=!enable;
-      this._settingEnabled=enable;
-      this._myBooksEnabled=!enable;
-    }
+  setMyBooks() {
+    this.store.dispatch(new fromStore.ChooseMyBooks);
   }
-  set myBooksEnabled(enable:boolean){
-    if (enable){
-      this._explorerEnabled=!enable;
-      this._settingEnabled=!enable;
-      this._myBooksEnabled=enable;
-    }
-  }
+
   ngOnInit() {
-   
-  }
+    this._optionEnabled$ = this.store.select(fromStore.getContextNavbarOptionEnabled);
+  };
 
 }
 

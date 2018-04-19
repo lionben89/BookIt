@@ -2,10 +2,6 @@
 
 <app-navbar></app-navbar>
 <div style="text-align:center">
-
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
   
   <div *ngIf="auth.user | async; then authenticated else guest">
     <!-- template will replace this div (depending on authentication state -->

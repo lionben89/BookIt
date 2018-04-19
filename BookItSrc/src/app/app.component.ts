@@ -1,6 +1,14 @@
+
 import { Component } from '@angular/core';
 import { AuthService } from './core/auth.service';
 import {MatMenuModule, MatButtonModule, MatIconModule,MatCardModule} from '@angular/material' ;
+
+//ngrx
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs/Observable';
+
+
+
 
 @Component({
   selector: 'app-root',
@@ -8,8 +16,7 @@ import {MatMenuModule, MatButtonModule, MatIconModule,MatCardModule} from '@angu
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'BookIt App';
-  
+
 
   constructor(public auth: AuthService) {
   }
