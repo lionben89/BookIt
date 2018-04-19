@@ -6,7 +6,6 @@ import { CoreModule } from './core/core.module';
 
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
-import { BookComponent } from './book/book.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatMenuModule, MatButtonModule, MatIconModule,MatCardModule,MatToolbarModule, MatIconRegistry, MatInputModule,MatAutocomplete} from '@angular/material' ;
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
@@ -41,8 +40,6 @@ import { reducers } from './store/reducers';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    CoursesComponent,
-    BookComponent,
     SettingsComponent,
     BrowserModule,
     SliderModule,
