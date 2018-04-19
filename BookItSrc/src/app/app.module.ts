@@ -34,13 +34,12 @@ import { reducers } from './store/reducers';
     AppComponent,
     AutoCompleteComponent,
     NavbarComponent,
-
+    SettingsComponent,
     MainComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    SettingsComponent,
     BrowserModule,
     SliderModule,
     AppRoutingModule,
