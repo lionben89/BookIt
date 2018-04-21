@@ -19,3 +19,4 @@ export const getContextState = createFeatureSelector<ContextState>('context');
 
 export const getContextNavbar=createSelector(getContextState,fromContext.getContextNavbar);
 export const getContextNavbarOptionEnabled=createSelector(getContextState,fromContext.getContetxtNavbarOptionEnabled);
+export const getContextSettingsOption=createSelector(getContextState,fromContext.getContextSettingsOption);

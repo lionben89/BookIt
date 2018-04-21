@@ -13,7 +13,7 @@ import { SettingsComponent } from './main/sub-main/settings/settings.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatMenuModule, MatButtonModule, MatIconModule,MatCardModule,MatToolbarModule, MatIconRegistry, MatInputModule,MatAutocomplete} from '@angular/material' ;
-import { MatCheckboxModule, MatChipsModule, MatSliderModule } from '@angular/material';
+import { MatCheckboxModule, MatChipsModule, MatSliderModule, MatSlideToggleModule } from '@angular/material';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 import { AngularFireModule } from 'angularfire2';
@@ -29,6 +29,8 @@ import { SliderModule } from 'primeng/slider';
 //ngrx
 import {StoreModule} from '@ngrx/store'; 
 import { reducers } from './store/reducers';
+import { CategoriesComponent } from './main/sub-main/settings/categories/categories.component';
+import { LocationsComponent } from './main/sub-main/settings/locations/locations.component';
 
 
 
@@ -43,6 +45,8 @@ import { reducers } from './store/reducers';
     AutoCompleteComponent,
     SubMainComponent,
     SettingsComponent,
+    CategoriesComponent,
+    LocationsComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,6 +61,7 @@ import { reducers } from './store/reducers';
     MatButtonModule,
     MatCardModule,
     MatCheckboxModule,
+    MatSlideToggleModule,
     MatIconModule,
     MatAutocompleteModule,
     MatCheckboxModule,

@@ -6,7 +6,8 @@ import {ContextState} from '../../data_types/states.model'
 
 let initState:ContextState={
     navbar:{
-        optionEnabled:"explorer"
+        optionEnabled:"explorer",
+        settingsOption:"settings",
     }
 };
 export function contextReducer(state:ContextState=initState,action:fromContext.ContextActions){
@@ -20,7 +21,16 @@ export function contextReducer(state:ContextState=initState,action:fromContext.C
             return {...state,navbar:{...state.navbar,optionEnabled:"my books"}};
         }
         case fromContext.ActionsConsts.CHOOSE_SETTINGS:{
-            return {...state,navbar:{...state.navbar,optionEnabled:"settings"}};
+            return {...state,navbar:{...state.navbar,optionEnabled:"settings",settingsOption:"settings"}};
+        }
+        case fromContext.ActionsConsts.CHOOSE_SETTINGS_MAIN:{
+            return {...state,navbar:{...state.navbar,settingsOption:"settings"}};
+        }
+        case fromContext.ActionsConsts.CHOOSE_SETTINGS_LOCATIONS:{
+            return {...state,navbar:{...state.navbar,settingsOption:"locations"}};
+        }
+        case fromContext.ActionsConsts.CHOOSE_SETTINGS_CATEGORIES:{
+            return {...state,navbar:{...state.navbar,settingsOption:"categories"}};
         }
         default: return state;
     }
@@ -28,3 +38,4 @@ export function contextReducer(state:ContextState=initState,action:fromContext.C
 
 export const getContetxtNavbarOptionEnabled=(state:ContextState)=>{return state.navbar.optionEnabled;}
 export const getContextNavbar=(state:ContextState)=>{return state.navbar;}
+export const getContextSettingsOption=(state:ContextState)=>{return state.navbar.settingsOption;}

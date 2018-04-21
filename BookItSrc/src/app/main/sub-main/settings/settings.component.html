@@ -1,60 +1,88 @@
-<div class="container" *ngIf="auth.user | async as user">
-  <h3>Hi {{ user.displayName }}</h3>
-  <img [src]="user.photoURL" style="width:100px;" />
+<container-element [ngSwitch]="this.which_page">
+  <div class="switch_container_1" *ngSwitchCase="'settings'">
+    <div class="container" *ngIf="auth.user | async as user">
+      <img [src]="user.photoURL" style="width:100px;" />
+      <h3> {{ user.displayName }}</h3>
+      <br>
 
-<h1>Settings</h1>
+      <mat-card class="RightLeftStyle">
+        <mat-card-content>
+          <section class="form-section">
+            <div class="container_location">
+              <label class="form-margin-c1" name="location_lab_1"> Location</label>
+              <span class="spacer"></span>
+              <button mat-button label class="button-switch-page" (click)="goToLocations()" [style.color]="'#8a8a8a'"> ></button>
+            </div>
+          </section>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="search_radius">
+        <mat-card-content>
+          <div class="container_search_radius">
+            <label class="form-margin-sr1" name="search_radius_lab_1"> Search Radius</label>
+            <span class="spacer"></span>
+            <label class="form-margin-sr2" name="search_radius_lab_2" [style.color]="'#8a8a8a'"> {{ value }}Km.</label>
+          </div>
+          <mat-slider name="search_radius_slider" class="form-margin" [max]="max" [min]="min" [step]="step" [thumb-label]="thumbLabel"
+            [(ngModel)]="value" ngDefaultControl>
+          </mat-slider>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="RightLeftStyle">
+        <mat-card-content>
+          <section class="form-section">
+            <div class="container_categories">
+              <label class="form-margin-c1" name="categories_lab_1"> Categories</label>
+              <span class="spacer"></span>
+              <button mat-button label class="button-switch-page" (click)="goToCategories()" [style.color]="'#8a8a8a'"> ></button>
+            </div>
+          </section>
+        </mat-card-content>
+      </mat-card>
+
+      <!--<mat-card class="location-categories">
+    <section class="form-section">
+      <label class="form-margin" name="category_lab" ngDefaultControl>Pick wanted categories:</label>
+    </section>
+    <mat-chip-list [aria-orientation]="horizontal">
+      <mat-chip *ngFor="let chip of availableColors" selected="true" name="category_list" [color]="chip.color" ngDefaultControl>
+        {{chip.name}}
+      </mat-chip>
+    </mat-chip-list>
+    </mat-card>-->
+
+      <mat-card class="RightLeftStyle">
+        <mat-card-content>
+          <section class="form-section">
+            <div class="container_location">
+              <label class="form-margin-c1" name="location_lab_1"> Show My Books</label>
+              <span class="spacer"></span>
+              <mat-slide-toggle class="slide-show-books" [color]="slide_color" [checked]="slide_checked">
+              </mat-slide-toggle>
+            </div>
+          </section>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="buttons">
+        <mat-card-content>
+          <div class="container_logout">
+            <button mat-button (click)="auth.logout()" id="button_logout">Logout</button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+  </div>
+
+  <!--###############  END OF SETTINGS  ###################-->
+
+  <app-categories *ngSwitchCase="'categories'"></app-categories>
+
+
+  <app-locations *ngSwitchCase="'locations'">  </app-locations>
+
   
-<mat-card class="location">
-  <mat-card-content>
-    <section class="form-section">
-      <mat-checkbox class="form-margin" [(ngModel)]="checked" name="location_cb" [(indeterminate)]="indeterminate" [align]="align" [disabled]="disabled" ngDefaultControl>
-        Use my current location
-      </mat-checkbox>
-    </section>
-  </mat-card-content>
-</mat-card>
-
-<mat-card class="categories">
-  <section class="form-section">
-    <label class="form-margin" name="category_lab" ngDefaultControl>Pick wanted categories:</label>
-  </section>
-  <mat-chip-list [aria-orientation]="horizontal">
-    <mat-chip *ngFor="let chip of availableColors" selected="true" name="category_list" [color]="chip.color" ngDefaultControl>
-      {{chip.name}}
-    </mat-chip>
-  </mat-chip-list>
-</mat-card>
-
-<mat-card class="search_radius">
-  <mat-card-content>
-    <section class="form-section">
-      <label class="form-margin" name="search_radius_lab">Book search radius : {{ value }}Km</label>
-    </section>
-    <section class="form-section">
-      <mat-slider
-          name="search_radius_slider"
-          class="form-margin"
-          [max]="max"
-          [min]="min"
-          [step]="step"
-          [thumb-label]="thumbLabel"
-          [(ngModel)]="value"
-          ngDefaultControl>
-      </mat-slider>
-    </section>
-  </mat-card-content>
-</mat-card>
-
-<mat-card class="buttons">
-  <mat-card-content>
-    <section class="form-section">
-      <button mat-button name="button_disable">Disable account</button>
-    </section>
-      
-    <section class="form-section" name="button_logout">
-      <button mat-button (click)="auth.logout()">Logout</button>
-    </section>
-  </mat-card-content>
-</mat-card>
-
-</div>
+</container-element>

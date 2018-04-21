@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/auth.service';
+import { Store } from '@ngrx/store';
+import * as fromStore from '../../../store';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-settings',
@@ -7,7 +10,8 @@ import { AuthService } from '../../../core/auth.service';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-
+  public which_page = 'settings'; /* options = {settings, categories, locations} */
+  public settingsOption$: Observable<string>;
   /* global */
   checked = false;
 
@@ -65,9 +69,22 @@ export class SettingsComponent implements OnInit {
     { name: 'Gay & Lesbian', color: 'grey' },
     { name: 'Other', color: 'grey' }];
 
-  constructor(public auth: AuthService) { }
+  /* Slide */
+  slide_color = 'blue';
+  slide_checked = false;
+
+  goToLocations(){
+    this.store.dispatch(new fromStore.ChooseSettingsLocations);
+  }
+
+  goToCategories(){
+    this.store.dispatch(new fromStore.ChooseSettingsCategories);
+  }
+
+  constructor(private store: Store<fromStore.MainState>, public auth: AuthService) { }
 
   ngOnInit() {
-  }
-  
+    this.settingsOption$ = this.store.select(fromStore.getContextSettingsOption);
+   this.store.select<any>(fromStore.getContextSettingsOption).subscribe(state=>{ this.which_page=state;})
+  }  
 }
