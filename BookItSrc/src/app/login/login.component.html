@@ -1,10 +1,37 @@
-<div>
-  <button (click)="auth.facebookLogin()">
-    <i class="fab fa-facebook-f"></i> Login With Facebook
-  </button>
-  <div *ngIf="this.userData">
-    <button (click)="googleLogin()">
-      <i class="fab fa-google"></i> Login With Google
-    </button>
+<div style="text-align: center;" class="container">
+  <div class="row align-items-center" style="margin-top: 20%;">
+    <div class="col">
+      <img src="assets/images/panda.png" />
+    </div>
+  </div>
+
+  <div class="row align-items-center" style="margin-top: 10px;">
+    <div class="col">
+      <img src="assets/images/app_name.png" />
+    </div>
+  </div>
+
+  <div class="row align-items-center" style="margin-top: 10px;">
+    <div class="col">
+      <img src="assets/images/login-seperator.png" />
+    </div>
+  </div>
+
+  <div class="row align-items-center" style="margin-top: 10px;">
+    <div class="col">
+      <div class="btn-group">
+        <button class="btn btn-primary disabled" (click)="auth.facebookLogin()"><i class="fab fa-facebook-f" style="width: 16px; height: 20px;"></i></button>
+        <button class="btn btn-primary" style="width: 12em;" (click)="auth.facebookLogin()">Login With Facebook</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="this.userData" class="row align-items-center" style="margin-top: 10px;">
+    <div class="col">
+      <div class="btn-group">
+        <button class="btn btn-danger disabled" (click)="googleLogin()"><i class="fab fa-google" style="width: 16px; height: 20px;"></i></button>
+        <button class="btn btn-danger" style="width: 12em;" (click)="googleLogin()">Login With Google</button>
+      </div>
+    </div>
   </div>
 </div>
