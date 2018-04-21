@@ -1,18 +1,21 @@
-<p>
-  locations locations locations locations locations locations locations
-</p>
-<p>
-    locations locations locations locations locations locations locations
-  </p>
-  <p>
-      locations locations locations locations locations locations locations
-    </p>
-    <p>
-        locations locations locations locations locations locations locations
-      </p>
-      <p>
-          locations locations locations locations locations locations locations
-        </p>
-        <p>
-            locations locations locations locations locations locations locations
-          </p>
+<container-element [ngSwitch]="this.which_page">
+    <div class="container" *ngSwitchCase="'locations'">
+      <mat-card class="location-categories">
+        <section class="form-section">
+          <label class="form-margin" name="category_lab" ngDefaultControl>Pick wanted locations:</label>
+        </section>
+        
+        <br><br>
+  
+        <button mat-button label class="button-switch-page" (click)="goToSettings()"> Back</button>
+      </mat-card>
+  
+    </div>
+  
+    <app-settings *ngSwitchCase="'settings'"></app-settings>
+  
+  
+    <app-locations *ngSwitchCase="'categories'"> </app-locations>
+  
+  
+  </container-element>

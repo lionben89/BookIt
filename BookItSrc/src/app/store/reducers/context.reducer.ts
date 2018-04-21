@@ -23,9 +23,6 @@ export function contextReducer(state:ContextState=initState,action:fromContext.C
         case fromContext.ActionsConsts.CHOOSE_SETTINGS:{
             return {...state,navbar:{...state.navbar,optionEnabled:"settings",settingsOption:"settings"}};
         }
-        case fromContext.ActionsConsts.CHOOSE_SETTINGS_MAIN:{
-            return {...state,navbar:{...state.navbar,settingsOption:"settings"}};
-        }
         case fromContext.ActionsConsts.CHOOSE_SETTINGS_LOCATIONS:{
             return {...state,navbar:{...state.navbar,settingsOption:"locations"}};
         }

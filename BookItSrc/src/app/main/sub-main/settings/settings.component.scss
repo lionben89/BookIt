@@ -30,7 +30,8 @@ hr{
 }
 
 .spacer{
-  flex:10;
+  flex:1;
+  width: 150px;
 }
 
 .container button{
@@ -46,11 +47,7 @@ hr{
     height: 60px;
     background: #fafafa;
   }*/
-  
-
-  mat-chip {
-    max-width: 135px;
-  }
+   
 
   /* search radius */
 
@@ -108,7 +105,7 @@ hr{
 
 .button-switch-page{
   flex:auto;
-  text-align: center;
+  text-align: right;
   font-weight: 600;
 }
 
