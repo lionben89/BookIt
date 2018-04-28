@@ -31,7 +31,7 @@ export class SettingsComponent implements OnInit {
 
   /* Slide */
   slide_color = 'blue';
-  slide_checked = false;
+  slide_checked = true;
 
   goToLocations(){
     this.store.dispatch(new fromStore.ChooseSettingsLocations);

@@ -1,7 +1,7 @@
 <container-element [ngSwitch]="this.which_page">
   <div class="switch_container_1" *ngSwitchCase="'settings'">
     <div class="container" *ngIf="auth.user | async as user">
-      <img [src]="user.photoURL" style="width:100px;" />
+      <img [src]="user.photoURL" />
       <h3> {{ user.displayName }}</h3>
       <br>
 
@@ -10,7 +10,7 @@
           <section class="form-section">
             <div class="container_location">
               <label class="form-margin-c1" name="location_lab_1"> Location</label>
-              <span class="spacer"></span>
+              <span class="spacer">~~~~~~~~@@--~~~~~~~~</span>
               <button mat-button label class="button-switch-page" (click)="goToLocations()" [style.color]="'#8a8a8a'"> ></button>
             </div>
           </section>
@@ -35,7 +35,7 @@
           <section class="form-section">
             <div class="container_categories">
               <label class="form-margin-c1" name="categories_lab_1"> Categories</label>
-              <span class="spacer"></span>
+              <span class="spacer">~~~~~~~~@@--~~~~~~~~</span>
               <button mat-button label class="button-switch-page" (click)="goToCategories()" [style.color]="'#8a8a8a'"> ></button>
             </div>
           </section>
@@ -49,7 +49,7 @@
           <section class="form-section">
             <div class="container_location">
               <label class="form-margin-c1" name="location_lab_1"> Share My Books</label>
-              <span class="spacer"></span>
+              <span class="spacer">~~~~~~~~@@--~~~~~~~~</span>
               <mat-slide-toggle class="slide-show-books" [color]="slide_color" [checked]="slide_checked">
               </mat-slide-toggle>
             </div>

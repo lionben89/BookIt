@@ -1,16 +1,17 @@
 <container-element [ngSwitch]="this.which_page">
   <div class="container" *ngSwitchCase="'categories'">
+
+    <section class="header">
+      <button mat-button label class="button-switch-page" (click)="goToSettings()"> < </button>
+      <label class="header-cat" name="category_lab" ngDefaultControl>Categories</label>
+    </section>
+
     <mat-card class="location-categories">
-      <section class="form-section">
-        <label class="form-margin" name="category_lab" ngDefaultControl>Pick wanted categories:</label>
-      </section>
       <mat-chip-list [aria-orientation]="horizontal">
         <mat-chip *ngFor="let chip of availableColors" selected="true" name="category_list" [color]="chip.color" ngDefaultControl>
           {{chip.name}}
         </mat-chip>
-      </mat-chip-list><br>
-
-      <button mat-button label class="button-switch-page" (click)="goToSettings()"> Back</button>
+      </mat-chip-list>
     </mat-card>
 
   </div>

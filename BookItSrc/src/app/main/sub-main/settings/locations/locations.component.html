@@ -1,15 +1,35 @@
 <container-element [ngSwitch]="this.which_page">
     <div class="container" *ngSwitchCase="'locations'">
-      <mat-card class="location-categories">
-        <section class="form-section">
-          <label class="form-margin" name="category_lab" ngDefaultControl>Pick wanted locations:</label>
+      
+        <section class="header">
+          <button mat-button label class="button-switch-page" (click)="goToSettings()"> < </button>
+          <label class="header-loc" name="category_lab" ngDefaultControl>Locations</label>
         </section>
         
-        <br><br>
-  
-        <button mat-button label class="button-switch-page" (click)="goToSettings()"> Back</button>
+        <mat-card class="locations">
+        <mat-card-content class="locations-list" *ngFor="let loc of userLocations" selected="true" name="loc_list" ngDefaultControl>
+            <button mat-icon-button (click)="setOption(loc.name)">
+              <div *ngIf="loc.enabled === 'true'; then leftEnableIcon; else leftDisableIcon"></div>
+            </button>
+            <section class="info-section">
+              <label class="label-loc">
+                {{loc.name}}
+              </label><br>
+              <label class="label-loc-city-street">
+                {{loc.street}},  {{loc.city}}
+              </label>
+            </section>
+            <button mat-icon-button (click)="setOption(loc.name)">
+              <div *ngIf="loc.enabled === 'true'; then rightEnableIcon; else rightDisableIcon"></div>
+            </button>
+        </mat-card-content>
       </mat-card>
+
+        <section class="add-loc">
+          <button mat-button label class="button-add-loc"> Add Location </button>
+        </section>
   
+          
     </div>
   
     <app-settings *ngSwitchCase="'settings'"></app-settings>
@@ -19,3 +39,19 @@
   
   
   </container-element>
+
+  <ng-template #leftEnableIcon>
+    <mat-icon  svgIcon='location_off-blue' class=gray-icon></mat-icon>
+  </ng-template>
+  
+  <ng-template #leftDisableIcon>
+    <mat-icon svgIcon='location_off' class=blue-icon></mat-icon>
+  </ng-template>
+
+  <ng-template #rightEnableIcon>
+    <mat-icon  svgIcon='done-blue' class=gray-icon></mat-icon>
+  </ng-template>
+  
+  <ng-template #rightDisableIcon>
+    <mat-icon svgIcon='done' class=blue-icon></mat-icon>
+  </ng-template>
