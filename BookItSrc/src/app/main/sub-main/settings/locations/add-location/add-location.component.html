@@ -1,0 +1,37 @@
+<container-element [ngSwitch]="this.which_page">
+    <div class="container" *ngSwitchCase="'add_locations'">
+  
+    <section class="header">
+      <button mat-button label class="button-switch-page" (click)="goToLocations()"> < </button>
+      <label class="header-add-loc" name="category_lab" ngDefaultControl>Add Location</label>
+    </section>
+    
+    <mat-card class="search-loc">
+        <section class="total-search-section">
+          <div *ngIf="1 === 1; then searchIcon"></div>
+          <mat-form-field class="add-address">
+             <input matInput value="Address" class="input-address">
+           </mat-form-field>
+          <button mat-icon-button class="button-add" (click)="addLocation()">
+            <div *ngIf="1 === 1; then addIcon"></div>
+          </button>
+        </section>
+    </mat-card>
+
+    <agm-map [latitude]="lat" [longitude]="lng" class="map">
+        <agm-marker [latitude]="lat" [longitude]="lng" [zoom]='30'></agm-marker>
+    </agm-map>
+
+  </div>
+
+
+  <app-locations *ngSwitchCase="'locations'">  </app-locations>
+  
+</container-element>
+  <ng-template #searchIcon>
+    <mat-icon  svgIcon='search' class="search-icon"></mat-icon>
+  </ng-template>
+  
+  <ng-template #addIcon>
+    <mat-icon svgIcon='add' class="add-icon"></mat-icon>
+  </ng-template>

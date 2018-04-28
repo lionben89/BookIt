@@ -26,6 +26,9 @@ export function contextReducer(state:ContextState=initState,action:fromContext.C
         case fromContext.ActionsConsts.CHOOSE_SETTINGS_LOCATIONS:{
             return {...state,navbar:{...state.navbar,settingsOption:"locations"}};
         }
+        case fromContext.ActionsConsts.CHOOSE_SETTINGS_ADD_LOCATIONS:{
+            return {...state,navbar:{...state.navbar,settingsOption:"add_locations"}};
+        }
         case fromContext.ActionsConsts.CHOOSE_SETTINGS_CATEGORIES:{
             return {...state,navbar:{...state.navbar,settingsOption:"categories"}};
         }

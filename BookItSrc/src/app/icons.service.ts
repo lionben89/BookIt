@@ -44,9 +44,17 @@ export class IconsService {
         'done',
         sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/done.svg"));
 
-        iconRegistry.addSvgIcon(
-          'done-blue',
-          sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/done-blue.svg"));
+      iconRegistry.addSvgIcon(
+      'done-blue',
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/done-blue.svg"));
+
+      iconRegistry.addSvgIcon(
+      'add',
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/add.svg"));
+
+      iconRegistry.addSvgIcon(
+      'search',
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/search.svg"));
 
   }
 

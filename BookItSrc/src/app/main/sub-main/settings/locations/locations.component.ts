@@ -12,16 +12,22 @@ import { IconsService } from './../../../../icons.service';
   providers: [IconsService]
 })
 export class LocationsComponent implements OnInit {
-  public which_page = 'locations'; /* options = {settings, categories, locations} */
+  public which_page = 'locations'; /* options = {settings, categories, locations, add_location} */
   public settingsOption$: Observable<string>;
 
   userLocations = [
     { name: 'My Currect Location', city: 'Tel Aviv', street: 'Namir', enabled: 'false' },
     { name: 'Home', city: 'Tel Aviv', street: 'Haim Levanon', enabled: 'false' },
-    { name: 'Work', city: 'Givaataim', street: 'Katznelson', enabled: 'false' }];
+    { name: 'Work', city: 'Givaataim', street: 'Katzanelson', enabled: 'false' },
+    { name: 'Good books area', city: 'Haifa', street: 'Hageffen', enabled: 'false' },
+    { name: 'Vacation north', city: 'Metula', street: 'Rimon', enabled: 'false' }];
 
   goToSettings(){
     this.store.dispatch(new fromStore.ChooseSettings);
+  }
+
+  goToAddLocation(){
+    this.store.dispatch(new fromStore.ChooseSettingsAddLocations);
   }
 
   constructor(private store: Store<fromStore.MainState>, iconService: IconsService) { }
@@ -30,7 +36,6 @@ export class LocationsComponent implements OnInit {
     for (var _i = 0; _i < this.userLocations.length; _i++) {
       if(this.userLocations[_i].name === name){
         this.userLocations[_i].enabled = 'true';
-        console.log('called on ' + name + ", which index? - " + _i);
       }
       else{
         this.userLocations[_i].enabled = 'false';

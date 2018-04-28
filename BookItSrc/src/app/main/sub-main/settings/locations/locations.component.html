@@ -26,7 +26,7 @@
       </mat-card>
 
         <section class="add-loc">
-          <button mat-button label class="button-add-loc"> Add Location </button>
+          <button mat-button label class="button-add-loc" (click)="goToAddLocation()"> Add Location </button>
         </section>
   
           
@@ -37,7 +37,8 @@
   
     <app-locations *ngSwitchCase="'categories'"> </app-locations>
   
-  
+    <app-locations *ngSwitchCase="'add_locations'"> </app-locations>
+
   </container-element>
 
   <ng-template #leftEnableIcon>

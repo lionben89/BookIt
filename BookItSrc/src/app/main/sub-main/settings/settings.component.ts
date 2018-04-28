@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-  public which_page = 'settings'; /* options = {settings, categories, locations} */
+  public which_page = 'settings'; /* options = {settings, categories, locations, add_location} */
   public settingsOption$: Observable<string>;
   
   /* global */

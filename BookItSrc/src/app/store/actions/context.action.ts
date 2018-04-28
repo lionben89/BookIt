@@ -6,6 +6,7 @@ export const ActionsConsts={
         CHOOSE_SETTINGS:"CHOOSE_SETTINGS",
         CHOOSE_MY_BOOKS:"CHOOSE_MY_BOOKS",
         CHOOSE_SETTINGS_LOCATIONS:"CHOOSE_SETTINGS_LOCATIONS",
+        CHOOSE_SETTINGS_ADD_LOCATIONS:"CHOOSE_SETTINGS_ADD_LOCATIONS",
         CHOOSE_SETTINGS_CATEGORIES:"CHOOSE_SETTINGS_CATEGORIES",
     
 }; 
@@ -30,8 +31,12 @@ export class ChooseSettingsLocations implements Action{
     readonly type =ActionsConsts.CHOOSE_SETTINGS_LOCATIONS;
 }
 
+export class ChooseSettingsAddLocations implements Action{
+    readonly type =ActionsConsts.CHOOSE_SETTINGS_ADD_LOCATIONS;
+}
+
 export class ChooseSettingsCategories implements Action{
     readonly type =ActionsConsts.CHOOSE_SETTINGS_CATEGORIES;
 }
 
-export type ContextActions = ChooseExplorer | ChooseSettings | ChooseMyBooks | ChooseSettingsCategories | ChooseSettingsLocations;
+export type ContextActions = ChooseExplorer | ChooseSettings | ChooseMyBooks | ChooseSettingsCategories | ChooseSettingsAddLocations | ChooseSettingsLocations;

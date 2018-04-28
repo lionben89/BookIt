@@ -31,8 +31,10 @@ import {StoreModule} from '@ngrx/store';
 import { reducers } from './store/reducers';
 import { CategoriesComponent } from './main/sub-main/settings/categories/categories.component';
 import { LocationsComponent } from './main/sub-main/settings/locations/locations.component';
+import { AddLocationComponent } from './main/sub-main/settings/locations/add-location/add-location.component';
 
-
+//google map
+import { AgmCoreModule } from '@agm/core';
 
 
 @NgModule({
@@ -47,6 +49,7 @@ import { LocationsComponent } from './main/sub-main/settings/locations/locations
     SettingsComponent,
     CategoriesComponent,
     LocationsComponent,
+    AddLocationComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,7 +77,10 @@ import { LocationsComponent } from './main/sub-main/settings/locations/locations
     ReactiveFormsModule,
     FormsModule,
     StoreModule.forRoot(reducers),
-    AngularFireModule.initializeApp(environment.firebase, 'BookIt')
+    AngularFireModule.initializeApp(environment.firebase, 'BookIt'),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4'
+    })
   ],
   providers: [AngularFirestore,MatIconRegistry],
   bootstrap: [AppComponent]
