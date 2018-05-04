@@ -11,46 +11,79 @@ import { Observable } from 'rxjs/Observable';
 export class CategoriesComponent implements OnInit {
   public which_page = 'categories'; /* options = {settings, categories, locations} */
   public settingsOption$: Observable<string>;
+  color: string;
+  public randNums = [0,0,0,0,0,0,0]; /* lucky number 7 */
 
   /* mat chips */
-  availableColors = [
-    { name: 'Love', color: 'red' },
-    { name: 'Food', color: 'blue' },
-    { name: 'Hate', color: 'green' },
-    { name: 'Arts', color: 'blue' },
-    { name: 'Music', color: 'green' },
-    { name: 'Biographies', color: 'blue' },
-    { name: 'Cooking', color: 'green' },
-    { name: 'Computers & Tech', color: 'blue' },
-    { name: 'Health & Fitness', color: 'green' },
-    { name: 'History', color: 'blue' },
-    { name: 'Business', color: 'green' },
-    { name: 'Kids', color: 'blue' },
-    { name: 'Comics', color: 'green' },
-    { name: 'Hobbies & Crafts', color: 'blue' },
-    { name: 'Edu & Reference', color: 'green' },
-    { name: 'Home & Garden', color: 'blue' },
-    { name: 'Horror', color: 'green' },
-    { name: 'Entertainment', color: 'blue' },
-    { name: 'Medical', color: 'green' },
-    { name: 'Social Sciences', color: 'blue' },
-    { name: 'Religion', color: 'blue' },
-    { name: 'Self-Help', color: 'blue' },
-    { name: 'Sports', color: 'blue' },
-    { name: 'Teen', color: 'blue' },
-    { name: 'Romance', color: 'blue' },
-    { name: 'Mysteries', color: 'blue' },
-    { name: 'Parenting', color: 'blue' },
-    { name: 'Travel', color: 'blue' },
-    { name: 'Sci-Fi & Fantasy', color: 'blue' },
-    { name: 'True Crime', color: 'blue' },
-    { name: 'Special Edition', color: 'blue' },
-    { name: 'Westerns', color: 'blue' },
-    { name: 'Gay & Lesbian', color: 'grey' },
-    { name: 'Other', color: 'grey' }];
+  bookCategories = [
+    { name: 'Love', clicked: false, color: '' },
+    { name: 'Food', clicked: false, color: '' },
+    { name: 'Hate', clicked: false, color: '' },
+    { name: 'Computers & Tech', clicked: false, color: '' },
+    { name: 'History', clicked: false, color: '' },
+    { name: 'Music', clicked: false, color: '' },
+    { name: 'Biographies', clicked: false, color: '' },
+    { name: 'Cooking', clicked: false, color: '' },
+    { name: 'Health & Fitness', clicked: false, color: '' },
+    { name: 'Arts', clicked: false, color: '' },
+    { name: 'Business', clicked: false, color: '' },
+    { name: 'Kids', clicked: false, color: '' },
+    { name: 'Comics', clicked: false, color: '' },
+    { name: 'Hobbies & Crafts', clicked: false, color: '' },
+    { name: 'Edu & Reference', clicked: false, color: '' },
+    { name: 'Home', clicked: false, color: '' },
+    { name: 'Garden', clicked: false, color: '' },
+    { name: 'Horror', clicked: false, color: '' },
+    { name: 'Entertainment', clicked: false, color: '' },
+    { name: 'Medical', clicked: false, color: '' },
+    { name: 'Social Sciences', clicked: false, color: '' },
+    { name: 'Religion', clicked: false, color: '' },
+    { name: 'Teen', clicked: false, color: '' },
+    { name: 'Self-Help', clicked: false, color: '' },
+    { name: 'Sports', clicked: false, color: '' },
+    { name: 'Romance', clicked: false, color: '' },
+    { name: 'Mysteries', clicked: false, color: '' },
+    { name: 'Parenting', clicked: false, color: '' },
+    { name: 'Travel', clicked: false, color: '' },
+    { name: 'Fantasy', clicked: false, color: '' },
+    { name: 'True Crime', clicked: false, color: '' },
+    { name: 'Special Edition', clicked: false, color: '' },
+    { name: 'Westerns', clicked: false, color: '' },
+    { name: 'Other', clicked: false, color: '' }];
 
     goToSettings(){
       this.store.dispatch(new fromStore.ChooseSettings);
+    }
+
+    chipedClicked(name){
+      for (var _i = 0; _i < this.bookCategories.length; _i++) {
+        if(this.bookCategories[_i].name === name)
+        {
+          this.bookCategories[_i].clicked = !this.bookCategories[_i].clicked;
+          if(this.bookCategories[_i].clicked)
+              this.bookCategories[_i].color = 'accent';
+          else
+            this.bookCategories[_i].color = '';
+        }
+      }
+    }
+
+    pickForUser(){
+      var max = this.bookCategories.length - 1;
+      var min = 0;
+
+      for (var _i = 0; _i < this.bookCategories.length; _i++) {
+          this.bookCategories[_i].clicked = false;
+          this.bookCategories[_i].color = '';
+      }
+      for (var _i = 0; _i < 7;) {
+        var rand = Math.floor(Math.random() * (max - min + 1)) + min;;
+        if(!this.bookCategories[rand].clicked){
+          this.bookCategories[rand].clicked = true;
+          this.bookCategories[rand].color = 'accent';
+          _i++;
+        }
+      }
     }
   
     constructor(private store: Store<fromStore.MainState>) { }

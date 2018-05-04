@@ -12,16 +12,24 @@ import { IconsService } from './../../../../../icons.service';
   providers: [IconsService]
 })
 export class AddLocationComponent implements OnInit {
-  lat: number = 32.1133141;
-  lng: number = 34.80438770000001;
+  /* Tel Aviv University langtitude and latitude */
+  lat: number = 32.1133141; 
+  lng: number = 34.80438770000001; 
 
-  public which_page = 'settings'; /* options = {settings, categories, locations, add_location} */
+  zoom_lvl: number = 15;
+  val_add_addrr = 'Address';
+
+  public which_page = 'add_locations'; /* options = {settings, categories, locations, add_location} */
   public settingsOption$: Observable<string>;
 
   constructor(private store: Store<fromStore.MainState>, iconService: IconsService) { }
 
   goToLocations(){
     this.store.dispatch(new fromStore.ChooseSettingsLocations);
+  }
+
+  addLocation(){
+    console.log('called, val_add_addrr = ' + this.val_add_addrr);
   }
 
   ngOnInit() {

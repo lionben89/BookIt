@@ -10,7 +10,10 @@
         <section class="total-search-section">
           <div *ngIf="1 === 1; then searchIcon"></div>
           <mat-form-field class="add-address">
-             <input matInput value="Address" class="input-address">
+             <input matInput class="input-address" [(ngModel)]="val_add_addrr">
+             <button mat-button *ngIf="val_add_addrr" matSuffix mat-icon-button aria-label="Clear" (click)="val_add_addrr=''">
+                <mat-icon>close</mat-icon>
+              </button>
            </mat-form-field>
           <button mat-icon-button class="button-add" (click)="addLocation()">
             <div *ngIf="1 === 1; then addIcon"></div>
@@ -18,14 +21,18 @@
         </section>
     </mat-card>
 
-    <agm-map [latitude]="lat" [longitude]="lng" class="map">
-        <agm-marker [latitude]="lat" [longitude]="lng" [zoom]='30'></agm-marker>
+    <agm-map [latitude]="lat" [longitude]="lng" class="map" [zoom]="zoom_lvl">
+        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
     </agm-map>
 
   </div>
 
 
   <app-locations *ngSwitchCase="'locations'">  </app-locations>
+
+  <app-settings *ngSwitchCase="'settings'"></app-settings>
+
+  <app-categories *ngSwitchCase="'categories'"></app-categories>
   
 </container-element>
   <ng-template #searchIcon>

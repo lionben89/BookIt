@@ -18,12 +18,27 @@
   padding-top: 25px;
 }
 
-mat-chip {
-  max-width: 135px;
+location-categories{
+  width: 85%;
 }
+
+mat-chip{
+  max-width: 135px;
+  margin: 0 0 0 8px;
+}
+
 
 button-switch-page {
   flex: auto;
   text-align: center;
   font-weight: 600;
 }
+
+.button-add-cat{
+  width: 100%;
+  background-color: #64B5F6;
+  color: white;
+  height: 50px;
+}
+
+  

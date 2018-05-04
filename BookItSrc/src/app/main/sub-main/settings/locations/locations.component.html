@@ -9,7 +9,7 @@
         <mat-card class="locations">
         <mat-card-content class="locations-list" *ngFor="let loc of userLocations" selected="true" name="loc_list" ngDefaultControl>
             <button mat-icon-button (click)="setOption(loc.name)">
-              <div *ngIf="loc.enabled === 'true'; then leftEnableIcon; else leftDisableIcon"></div>
+              <div *ngIf="loc.enabled; then leftEnableIcon; else leftDisableIcon"></div>
             </button>
             <section class="info-section">
               <label class="label-loc">
@@ -20,7 +20,7 @@
               </label>
             </section>
             <button mat-icon-button (click)="setOption(loc.name)">
-              <div *ngIf="loc.enabled === 'true'; then rightEnableIcon; else rightDisableIcon"></div>
+              <div *ngIf="loc.enabled; then rightEnableIcon; else rightDisableIcon"></div>
             </button>
         </mat-card-content>
       </mat-card>
@@ -34,10 +34,9 @@
   
     <app-settings *ngSwitchCase="'settings'"></app-settings>
   
+    <app-categories *ngSwitchCase="'categories'"> </app-categories>
   
-    <app-locations *ngSwitchCase="'categories'"> </app-locations>
-  
-    <app-locations *ngSwitchCase="'add_locations'"> </app-locations>
+    <app-add-location *ngSwitchCase="'add_locations'"> </app-add-location>
 
   </container-element>
 
