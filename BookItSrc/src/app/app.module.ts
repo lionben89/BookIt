@@ -12,6 +12,7 @@ import { SubMainComponent } from './main/sub-main/sub-main.component';
 import { SettingsComponent } from './main/sub-main/settings/settings.component';
 import { ExploreComponent } from './main/sub-main/explore/explore.component';
 import { MyBooksComponent } from './main/sub-main/my-books/my-books.component';
+import { AddBookComponent } from './main/sub-main/my-books/add-book/add-book.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatMenuModule, MatButtonModule, MatIconModule,MatCardModule,MatToolbarModule, MatIconRegistry, MatInputModule,MatAutocomplete} from '@angular/material' ;
@@ -54,6 +55,7 @@ import { AgmCoreModule } from '@agm/core';
     AddLocationComponent,
     ExploreComponent,
     MyBooksComponent,
+    AddBookComponent,
   ],
   imports: [
     BrowserModule,
