@@ -1,7 +1,7 @@
 <container-element [ngSwitch]="this.which_page">
   <div class="switch_container_1" *ngSwitchCase="'settings'">
     <div class="container" *ngIf="userData">
-      <img [src]="userData.info.photoURL" />
+      <img [src]="userData.info.photoURL + '?type=large'" />
       <h3> {{ userData.info.displayName }}</h3>
 
       <mat-card class="RightLeftStyle">
