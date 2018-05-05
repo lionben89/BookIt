@@ -2,8 +2,10 @@
     <div class="container" *ngSwitchCase="'add_locations'">
   
     <section class="header">
-      <button mat-button label class="button-switch-page" (click)="goToLocations()"> < </button>
-      <label class="header-add-loc" name="category_lab" ngDefaultControl>Add Location</label>
+      <button mat-button label class="button-switch-page" (click)="goToLocations()"> 
+          <div *ngIf="1 === 1; then leftArrowIcon"></div>
+         </button>
+      <label class="header-add-loc" ngDefaultControl>Add Location</label>
     </section>
     
     <mat-card class="search-loc">
@@ -35,6 +37,7 @@
   <app-categories *ngSwitchCase="'categories'"></app-categories>
   
 </container-element>
+
   <ng-template #searchIcon>
     <mat-icon  svgIcon='search' class="search-icon"></mat-icon>
   </ng-template>
@@ -42,3 +45,7 @@
   <ng-template #addIcon>
     <mat-icon svgIcon='add' class="add-icon"></mat-icon>
   </ng-template>
+
+  <ng-template #leftArrowIcon>
+      <mat-icon  svgIcon='left-arrow' class="left-arrow-icon"></mat-icon>
+    </ng-template>

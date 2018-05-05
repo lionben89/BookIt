@@ -85,6 +85,20 @@ export class CategoriesComponent implements OnInit {
         }
       }
     }
+
+    pickAll(){
+      for (var _i = 0; _i < this.bookCategories.length; _i++) {
+        this.bookCategories[_i].clicked = true;
+        this.bookCategories[_i].color = 'accent';
+      }
+    }
+
+    unpickAll(){
+      for (var _i = 0; _i < this.bookCategories.length; _i++) {
+        this.bookCategories[_i].clicked = false;
+        this.bookCategories[_i].color = '';
+      }
+    }
   
     constructor(private store: Store<fromStore.MainState>) { }
 

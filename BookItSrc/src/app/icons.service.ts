@@ -56,6 +56,14 @@ export class IconsService {
       'search',
       sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/search.svg"));
 
+      iconRegistry.addSvgIcon(
+        'left-arrow',
+        sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/left_arrow.svg"));
+
+        iconRegistry.addSvgIcon(
+          'right-arrow',
+          sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/right_arrow.svg"));
+
   }
 
 

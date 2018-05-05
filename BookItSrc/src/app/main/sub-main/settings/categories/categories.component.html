@@ -1,9 +1,11 @@
 <container-element [ngSwitch]="this.which_page">
   <div class="container" *ngSwitchCase="'categories'">
 
-    <section class="header">
-      <button mat-button label class="button-switch-page" (click)="goToSettings()"> < </button>
-      <label class="header-cat" name="category_lab" ngDefaultControl>Categories</label>
+    <section class="header">         
+      <button mat-button label class="button-switch-page" (click)="goToSettings()">
+        <div *ngIf="1 === 1; then leftArrowIcon"></div>
+      </button>
+      <label class="header-cat" ngDefaultControl>Categories</label>
     </section>
 
     <mat-card class="location-categories">
@@ -19,10 +21,11 @@
       </mat-chip-list>
     </mat-card>
     
-
-    <mat-card class="im-feeling-lucky-categories">
-        <button mat-button label class="button-add-cat" (click)="pickForUser()"> I'm Feeling Lucky </button>
-      </mat-card>
+    <mat-card class="pick-buttons" [aria-orientation]="horizontal">
+      <button mat-button label class="button-add" (click)="pickAll()"> Pick All Categories </button>
+        <button mat-button label class="button-add" (click)="pickForUser()"> I'm Feeling Lucky </button>
+        <button mat-button label class="button-add" (click)="unpickAll()"> Clear Selection </button><br>
+    </mat-card>
 
   </div>
 
@@ -33,3 +36,6 @@
 
 </container-element>
 
+<ng-template #leftArrowIcon>
+    <mat-icon  svgIcon='left-arrow' class="left-arrow-icon"></mat-icon>
+  </ng-template>

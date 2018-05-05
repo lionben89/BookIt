@@ -4,7 +4,7 @@
   background: #fafafa;
   padding-top: 15px;
   padding-right: 0px;
-  padding-left: 0px;
+  padding-left: 4px;
 }
 
 .RightLeftStyle, .search_radius, .buttons{
@@ -36,6 +36,13 @@ hr{
   border-style: inset;
   border-width: 1px;
   border-color: #6495ED;
+}
+
+
+right-arrow-icon{
+  align-items: flex-start;
+  width: 65px;
+  height: 65px;
 }
 
 .spacer{
@@ -82,6 +89,22 @@ hr{
   flex:auto;
   padding-right: 14px;
   text-align: right;
+}
+
+div.container_search_radius{
+  display: flex;
+}
+
+div.container_location{
+  display: flex;
+}
+
+div.container_categories{
+  display: flex;
+}
+
+.mat-card .mat-card-content{
+  width: 100%;
 }
 
 .mat-slider-horizontal {
