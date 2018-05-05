@@ -1,1 +1,11 @@
-<app-settings></app-settings>
+<div *ngIf="(_optionEnabled$ | async) ==='settings'">
+	<app-settings></app-settings>
+</div>
+
+<div *ngIf="(_optionEnabled$ | async) ==='explorer'">
+	<app-explore></app-explore>
+</div>
+
+<div *ngIf="(_optionEnabled$ | async) ==='my books'">
+	<app-my-books></app-my-books>
+</div>
