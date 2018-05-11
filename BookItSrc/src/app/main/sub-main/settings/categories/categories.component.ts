@@ -23,10 +23,23 @@ export class CategoriesComponent implements OnInit {
     this.store.dispatch(new fromStore.ChooseSettings);
   }
 
+<<<<<<< HEAD
   chipedClicked(name) {
     for (var _i = 0; _i < this.bookCategories.length; _i++) {
       if (this.bookCategories[_i].name === name) {
         this.bookCategories[_i].active = !this.bookCategories[_i].active;
+=======
+    chipClicked(name){
+      for (var _i = 0; _i < this.bookCategories.length; _i++) {
+        if(this.bookCategories[_i].name === name)
+        {
+          this.bookCategories[_i].clicked = !this.bookCategories[_i].clicked;
+          if(this.bookCategories[_i].clicked)
+              this.bookCategories[_i].color = 'accent';
+          else
+            this.bookCategories[_i].color = '';
+        }
+>>>>>>> settings improve
       }
     }
   }

@@ -10,6 +10,9 @@
         
         <mat-card class="locations">
         <mat-card-content class="locations-list" *ngFor="let loc of userLocations" selected="true" name="loc_list" ngDefaultControl>
+            <button mat-icon-button (click)="removeLocation(loc.name)">
+                <div *ngIf="1 === 1; then deleteForeverIcon"></div>
+            </button>
             <button mat-icon-button (click)="setOption(loc.name)">
               <div *ngIf="loc.enabled; then leftEnableIcon; else leftDisableIcon"></div>
             </button>
@@ -61,3 +64,7 @@
   <ng-template #leftArrowIcon>
       <mat-icon  svgIcon='left-arrow' class="left-arrow-icon"></mat-icon>
     </ng-template>
+
+    <ng-template #deleteForeverIcon>
+        <mat-icon  svgIcon='delete-forever' class="delete-forever-icon"></mat-icon>
+      </ng-template>
