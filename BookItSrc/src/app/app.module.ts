@@ -38,6 +38,7 @@ import { AddLocationComponent } from './main/sub-main/settings/locations/add-loc
 
 //google map
 import { AgmCoreModule } from '@agm/core';
+import { BookComponent } from './main/sub-main/my-books/add-book/book/book.component';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { AgmCoreModule } from '@agm/core';
     ExploreComponent,
     MyBooksComponent,
     AddBookComponent,
+    BookComponent,
   ],
   imports: [
     BrowserModule,

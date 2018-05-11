@@ -1,3 +1,8 @@
-<p>
-  add-book works!
-</p>
+<input type="search"
+       class="form-control"
+       placeholder="title, author, isbn..." [formControl]="searchField">
+<hr/>
+<button class="btn btn-primary" (click)="doSearch()">Search</button>
+<ul>
+  <li *ngFor="let search of searches" [innerHTML]="search">{{ search }}</li>
+</ul>
