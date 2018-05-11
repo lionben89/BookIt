@@ -1,8 +1,14 @@
 <input type="search"
        class="form-control"
        placeholder="title, author, isbn..." [formControl]="searchField">
-<hr/>
+
 <button class="btn btn-primary" (click)="doSearch()">Search</button>
+<hr/>
 <ul>
-  <li *ngFor="let search of searches" [innerHTML]="search">{{ search }}</li>
+  <li *ngFor="let search of searches"><div>
+      <img [attr.src]="search.imagePath"><br> 
+      <span class='title' >{{search.title}}</span><br>
+      <span class='author'>by {{search.author}}</span><br>
+      <span class='category'>{{search.category}}</span><br>
+    </div></li>
 </ul>

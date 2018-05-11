@@ -25,8 +25,8 @@ export class AddBookComponent implements OnInit {
     let category=item.volumeInfo.categories;
     let author=item.volumeInfo.authors[0];
     let imagePath=item.volumeInfo.imageLinks.thumbnail;
-    //let book = new BookComponent(title, author,category, imagePath);
-    this.searches.push("<div class='book'><img src='"+imagePath+"'></img><br><span class='title'>"+title+"<br></span><span class='author'>by "+author+"</span><br><span class='category'>"+category+"</span><br></div>")
+    let book = new BookComponent(title, author,category, imagePath);
+    this.searches.push(book)
   }});
   };
 
