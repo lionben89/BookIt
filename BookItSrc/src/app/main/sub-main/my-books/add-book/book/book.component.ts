@@ -10,5 +10,6 @@ export class BookComponent implements OnInit {
   constructor(public title:string,public author: string,public category: string, public imagePath: string) { }
   ngOnInit() {
   }
+  
 
 }
