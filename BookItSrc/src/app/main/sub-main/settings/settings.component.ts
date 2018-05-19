@@ -30,9 +30,6 @@ export class SettingsComponent implements OnInit {
 
 
 
-  /* Slide */
-  //slide_color = 'blue';
-  //slide_checked = true;
   logout(){
     this.store.dispatch(new fromStore.Logout());
   }

@@ -54,6 +54,7 @@ export class UserDataEffects {
                 data.info.rating = 5.0;
                 data.info.numRates = 0;
                 data.info.maxAllowedOpenBorrows = 1;
+                data.info.shareMyBooks=true;
                 data.locationSettings = {
                     useCurrentLocation: true,
                     locations: [],
