@@ -58,6 +58,7 @@ export class AuthService {
         displayName: authUser.displayName,
         photoURL: authUser.photoURL,
         accountDeleted: false,
+        shareMyBooks:true,
       }
     };
 

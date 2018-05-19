@@ -14,15 +14,16 @@ export interface Loadable {
 }
 
 export interface ExtendedUserInfo extends Loadable {
-    uid: string,
-    email: string;
-    photoURL: string;
-    displayName: string,
-    accountDeleted: boolean,
+    uid?: string,
+    email?: string;
+    photoURL?: string;
+    displayName?: string,
+    accountDeleted?: boolean,
     rating?: number;
     numRates?: number;
     borrowRestricted?: boolean,
     maxAllowedOpenBorrows?: number,
+    shareMyBooks?:boolean,
 }
 
 export interface Location {
@@ -34,9 +35,9 @@ export interface Location {
 }
 
 export interface LocationSettings extends Loadable {
-    useCurrentLocation: boolean,
-    locations: Location[],
-    searchRadiusKm: number,
+    useCurrentLocation?: boolean,
+    locations?: Location[],
+    searchRadiusKm?: number,
 }
 
 export interface Category {
@@ -49,7 +50,12 @@ export interface FavoriteCategories extends Loadable {
 }
 
 export interface UserDataState {
-    info: ExtendedUserInfo,
+    info?: ExtendedUserInfo,
     locationSettings?: LocationSettings,
     favoriteCategories?: FavoriteCategories,
+}
+
+export enum UserUpdateType {
+    SEARCH_RADIUS_KM,
+    SHARE_MY_BOOKS,
 }

@@ -1,4 +1,3 @@
-import { getUserDataCategoriesState } from './../../../../store/reducers/index';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../../../store';
@@ -12,7 +11,8 @@ import { Observable } from 'rxjs/Observable';
 export class CategoriesComponent implements OnInit {
   //public which_page = 'categories'; /* options = {settings, categories, locations} */
   public which_page$:Observable<string>;
-  public categoriesSubscription;
+  public userDataSubscription;
+  public userData;
   color: string;
   public randNums = [0, 0, 0, 0, 0, 0, 0]; /* lucky number 7 */
 
@@ -72,14 +72,13 @@ export class CategoriesComponent implements OnInit {
 
   ngOnInit() {
     this.which_page$=this.store.select<any>(fromStore.getContextSettingsOption);
-    this. categoriesSubscription=this.store.select<any>(fromStore.getUserDataCategoriesState).subscribe(state => console.log(state));
-    this.store.dispatch(new fromStore.LoadFavoriteCategories());
+    this.userDataSubscription=this.store.select<any>(fromStore.getUserData).subscribe(state => { this.userData = state; })
   }
   ngOnChanges() {
     console.log("categories changed");
   }
   ngOnDestroy(){
-    this.categoriesSubscription.unsubscribe();
+    this.userDataSubscription.unsubscribe();
   }
 
 }

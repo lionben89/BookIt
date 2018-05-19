@@ -25,7 +25,6 @@ export const getContextSettingsOption=createSelector(getContextState,fromContext
 
 //userData selectors
 export const getUserDataState = createFeatureSelector<UserDataState>('userData');
-export const getUserDataCategoriesState=createSelector(getUserDataState,fromUserData.getUserDataCategories);
-
-export const getUserDataInfo=createSelector(getUserDataState,fromUserData.getUserDataInfo);
-export const getUserDataID=createSelector(getUserDataState,fromUserData.getUserDataID);
+//export const getUserDataCategoriesState=createSelector(getUserDataState,fromUserData.getUserDataCategories);
+//export const getUserDataInfo=createSelector(getUserDataState,fromUserData.getUserDataInfo);
+export const getUserData=createSelector(getUserDataState,fromUserData.getUserData);

@@ -1,6 +1,7 @@
+import { getUserData } from './../reducers/userData.reducer';
 import { MainState } from './../reducers/index';
-import { LoadFavoriteCategories, LoadUserInfoSuccess, Logout } from './../actions/userData.action';
-import { UserDataState, ExtendedUserInfo, Category } from './../../data_types/states.model';
+import { LoadUserInfoSuccess, Logout } from './../actions/userData.action';
+import { UserDataState, ExtendedUserInfo, Category, UserUpdateType, LocationSettings } from './../../data_types/states.model';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 
@@ -21,11 +22,21 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 
 import * as fromUserDataActions from '../actions/userData.action';
-import { UserInfo } from '@firebase/auth-types';
 
 @Injectable()
 export class UserDataEffects {
+    // members
+    private userDoc: AngularFirestoreDocument<UserDataState>;
 
+    constructor(
+        private actions: Actions,
+        private afAuth: AngularFireAuth,
+        private router: Router,
+        private afs: AngularFirestore,
+        private store: Store<MainState>) {
+    }
+
+    // methods
     private googleLogin() {
         const provider = new firebase.auth.GoogleAuthProvider();
         return this.afAuth.auth.signInWithPopup(provider);
@@ -49,22 +60,11 @@ export class UserDataEffects {
                     searchRadiusKm: 3.0,
                     //displayMetric: true,
                 };
-                userRef.set(data);
+                return userRef.set(data);
             });
     }
-    private user: string
-    constructor(
-        private actions: Actions,
-        private afAuth: AngularFireAuth,
-        private router: Router,
-        private afs: AngularFirestore,
-        private store: Store<MainState>) {
-        store.select<any>(fromStore.getUserDataID).subscribe(state => {
-            console.log(state);
-            this.user = state;
-        });
-    }
 
+    // effects
     @Effect()
     login: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.LOGIN)
         .map((action: fromUserDataActions.Login) => action.payload)
@@ -73,7 +73,7 @@ export class UserDataEffects {
         })
         .map(credential => {
             this.router.navigate(['']);
-            let userInfo : ExtendedUserInfo = {
+            let userInfo: ExtendedUserInfo = {
                 uid: credential.user.uid,
                 email: credential.user.email,
                 photoURL: credential.user.photoURL,
@@ -120,17 +120,17 @@ export class UserDataEffects {
             map((action: fromUserDataActions.LoadUserInfo) => action.payload),
             switchMap(payload => this.afAuth.authState),
             switchMap(authData => {
-                if (authData) {
-                    return this.afs.doc<UserDataState>(`Users/${authData.uid}`).valueChanges();
-                }
-                else {
+                if (!authData) {
                     this.store.dispatch(new fromUserDataActions.LoadUserInfoFail());
                     return Observable.of(null);
                 }
+                this.userDoc = this.afs.doc<UserDataState>(`Users/${authData.uid}`);
+                return this.userDoc.valueChanges();
             }),
             map(userInfo => {
+                console.log(userInfo);
                 if (!userInfo) {
-                    return new fromUserDataActions.Logout();
+                    //return new fromUserDataActions.Logout();
                 }
                 return new fromUserDataActions.LoadUserInfoSuccess(userInfo);
             })
@@ -138,24 +138,37 @@ export class UserDataEffects {
         )
 
     @Effect()
-    LoadFavoriteCategories$: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.LOAD_FAVORITE_CATEGORIES)
+    UpdateUserInfo: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.UPDATE_USER_INFO)
         .pipe(
-            switchMap(action => {
-                console.log(action);
-                return this.afs.collection('Users', ref => {
-                    console.log(ref);
-                    return ref;
-                }).stateChanges()
-            }),
-            mergeMap(actions => actions),
-            map(action => {
-                return {
-                    type: fromUserDataActions.ActionsUserDataConsts.LOAD_FAVORITE_CATEGORIES_SUCCESS,
-                    payload: {
-                        ...action.payload.doc.data(),
-                    }
+            switchMap((action: fromUserDataActions.UpdateUserInfo) => {
+                let updatedFields: UserDataState = {};
+                switch (action.updateType) {
+                    case UserUpdateType.SEARCH_RADIUS_KM:
+                        if (!updatedFields.locationSettings) updatedFields.locationSettings = {};
+                        updatedFields.locationSettings.searchRadiusKm = action.payload;
+                        break;
+                    case UserUpdateType.SHARE_MY_BOOKS:
+                    if (!updatedFields.info) updatedFields.info = {};
+                        updatedFields.info.shareMyBooks = action.payload;
+                        break;
+                    default:
+                        // TODO: ERROR
+                        console.error(action.updateType);
+                        return Observable.of(null);
                 }
+
+                if (!this.userDoc) {
+                    console.error("No userDoc");
+                    this.store.dispatch(new fromUserDataActions.UpdateUserInfoFail());
+                    return Observable.of(null);
+                }
+                return this.userDoc.set(updatedFields, { merge: true });
+            }),
+            map(() => {
+                // TODO: change to success
+                return new fromUserDataActions.UpdateUserInfoFail();
             })
+            //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
         );
 
 

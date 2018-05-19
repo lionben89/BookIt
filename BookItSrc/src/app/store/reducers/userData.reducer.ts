@@ -13,6 +13,7 @@ let initState: UserDataState = {
         accountDeleted: false,
         borrowRestricted: false,
         maxAllowedOpenBorrows: 0,
+        shareMyBooks:true,
         loading: false,
         loaded: false,
     },
@@ -52,21 +53,11 @@ export function userDataReducer(state: UserDataState = initState, action: fromUs
         case fromUserData.ActionsUserDataConsts.LOAD_USER_INFO_FAIL: {
             return { ...state,  loading: false, loaded: false };
         }
-        case fromUserData.ActionsUserDataConsts.LOAD_FAVORITE_CATEGORIES: {
-            return { ...state, favoriteCategories: { ...state.favoriteCategories, loading: true } };
-        }
-        case fromUserData.ActionsUserDataConsts.LOAD_FAVORITE_CATEGORIES_SUCCESS: {
-            return { ...state, favoriteCategories: { ...state.favoriteCategories, loading: false, loaded: true, data: action.payload } };
-        }
-        case fromUserData.ActionsUserDataConsts.LOAD_FAVORITE_CATEGORIES_FAIL: {
-            return { ...state, favoriteCategories: { ...state.favoriteCategories, loading: false, loaded: false } };
-        }
         default: return state;
     }
 }
 
 //selectors
 //export const getContetxtNavbarOptionEnabled=(state:ContextState)=>{return state.navbar.optionEnabled;}
-export const getUserDataCategories = (state: UserDataState) => { return state.favoriteCategories; }
-export const getUserDataInfo = (state: UserDataState) => { return state.info; }
-export const getUserDataID = (state: UserDataState) => { return state.info.uid; }
+//export const getUserDataCategories = (state: UserDataState) => { return state.favoriteCategories; }
+export const getUserData = (state: UserDataState) => { return state }

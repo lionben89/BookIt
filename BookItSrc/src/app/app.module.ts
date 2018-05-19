@@ -21,7 +21,7 @@ import { MatCheckboxModule, MatChipsModule, MatSliderModule, MatSlideToggleModul
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 import { AngularFireModule } from 'angularfire2';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreModule } from 'angularfire2/firestore';
 import { environment } from '../environments/environment';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -89,6 +89,7 @@ import { UserDataEffects } from './store/effects/userData.effect';
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([UserDataEffects]),
     AngularFireModule.initializeApp(environment.firebase, 'BookIt'),
+    //AngularFirestoreModule.enablePersistence(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4'
     }),
