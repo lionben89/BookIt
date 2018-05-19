@@ -1,3 +1,4 @@
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -36,8 +37,11 @@ import { CategoriesComponent } from './main/sub-main/settings/categories/categor
 import { LocationsComponent } from './main/sub-main/settings/locations/locations.component';
 import { AddLocationComponent } from './main/sub-main/settings/locations/add-location/add-location.component';
 
+
 //google map
 import { AgmCoreModule } from '@agm/core';
+import { EffectsModule } from '@ngrx/effects';
+import { UserDataEffects } from './store/effects/userData.effect';
 
 
 @NgModule({
@@ -83,10 +87,12 @@ import { AgmCoreModule } from '@agm/core';
     ReactiveFormsModule,
     FormsModule,
     StoreModule.forRoot(reducers),
+    EffectsModule.forRoot([UserDataEffects]),
     AngularFireModule.initializeApp(environment.firebase, 'BookIt'),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4'
-    })
+    }),
+    
   ],
   providers: [AngularFirestore,MatIconRegistry],
   bootstrap: [AppComponent]

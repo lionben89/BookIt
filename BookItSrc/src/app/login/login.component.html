@@ -2,7 +2,9 @@
   <button (click)="auth.facebookLogin()">
     <i class="fab fa-facebook-f"></i> Login With Facebook
   </button>
-  <button (click)="auth.googleLogin()">
-    <i class="fab fa-google"></i> Login With Google
-  </button>
+  <div *ngIf="user$ | async as user">
+    <button (click)="googleLogin()">
+      <i class="fab fa-google"></i> Login With Google
+    </button>
+  </div>
 </div>
