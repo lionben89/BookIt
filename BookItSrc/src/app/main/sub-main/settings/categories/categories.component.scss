@@ -5,23 +5,23 @@
   padding-left: 0px;
 }
 
-location-categories{
+location-categories {
   width: 85%;
 }
 
-mat-chip{
+mat-chip {
   max-width: 135px;
   margin: 0 0 0 8px;
 }
 
-pick-buttons{
+pick-buttons {
   width: 100%;
   padding-left: 0px;
   padding-right: 0px;
 }
 
-.button-add{
-  background-color: #64B5F6;
+.button-add {
+  background-color: #03a9f4;
   color: white;
   height: 50px;
   border: 1px;
@@ -32,11 +32,11 @@ pick-buttons{
   padding-right: 4px;
 }
 
-pick-buttons{
+pick-buttons {
   flex: auto;
 }
 
-.header{
+.header {
   background-color: black;
   color: white;
   width: 100%;
@@ -47,14 +47,14 @@ pick-buttons{
 
 button-switch-page {
   flex: start;
-  float:left;
+  float: left;
 }
 
 label.header-cat {
- flex-grow: 2;
- position: relative;
- right: 44px;
- margin: 0;
+  flex-grow: 2;
+  position: relative;
+  right: 44px;
+  margin: 0;
 }
 
 section {
@@ -63,16 +63,18 @@ section {
   justify-content: stretch;
 }
 
+// /deep/ = force (to override mat design settings)
 /deep/ .mat-chip-list-wrapper {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
 }
 
 .mat-chip {
-  margin: 2px 4px;
-  }
-
-
-  
+  margin: 3px 0 0 0 !important;
+  padding: 8px !important;
+  justify-content: center;
+  width: 110px;
+}

@@ -1,91 +1,100 @@
-
-.container{
-    padding: 0px;
+.container {
+  padding: 0px;
 }
 
-
-.header{
-    background-color: black;
-    color: white;
-    width: 100%;
-    height: 80px;
-    align-items: left;
+.header {
+  background-color: black;
+  color: white;
+  width: 100%;
+  height: 80px;
+  align-items: left;
 }
 
-
-.map{
-    height: 480px;
-    width: 100%;
-    padding: 0px;
-	margin: 0px;
+agm-map {
+  height: 480px;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
 }
 
-.search-loc{
-    width: 100%;
-    padding-bottom: 0px;
-    padding-top: 0px;
-    min-height: 15%;
+.search-loc {
+  width: 100%;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  padding-left: 3px;
+  padding-right: 3px;
+  min-height: 15%;
 }
 
-.total-search-section{
-    width: 100%;
+.total-search-section {
+  width: 100%;
 }
 
-.total-search-section{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.total-search-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.button-add{
-    align-items: flex-end;
+.button-add {
+  align-items: flex-end;
 }
 
-.search-icon{
-    align-items: flex-start;
-    width: 50px;
-    height: 50px;
+.search-icon {
+  align-items: flex-start;
+  width: 50px;
+  height: 50px;
 }
 
-.add-icon{
-    width: 40px;
-    height: 40px;
+.add-icon {
+  width: 40px;
+  height: 40px;
 }
 
-.input-address{
-    font-size: 20px;
-    color: #737373;
-    min-width: 180px;
+.input-address {
+  font-size: 20px;
+  color: #737373;
+  
 }
 
+/deep/ .mat-form-field-infix {
+    min-width: 250px;
+}
 
-left-arrow-icon{
-    align-items: flex-start;
-    width: 65px;
-    height: 65px;
-  }
+left-arrow-icon {
+  align-items: flex-start;
+  width: 65px;
+  height: 65px;
+}
 
 label.header-add-loc {
-flex-grow: 2;
-position: relative;
-right: 44px;
-margin: 0;
+  flex-grow: 2;
+  position: relative;
+  right: 44px;
+  margin: 0;
 }
 
 section {
-display: flex;
-align-items: center;
-justify-content: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
 }
-    
+
+
 
 /* http://stackoverflow.com/questions/12499886/how-to-hide-or-disable-the-google-logo-footer-copyright-on-google-maps-javascr */
-a[href^="http://maps.google.com/maps"]{display:none !important}
-a[href^="https://maps.google.com/maps"]{display:none !important}
+a[href^="http://maps.google.com/maps"] {
+  display: none !important;
+}
+a[href^="https://maps.google.com/maps"] {
+  display: none !important;
+}
 
-.gmnoprint a, .gmnoprint span, .gm-style-cc {
-    display:none;
+.gmnoprint a,
+.gmnoprint span,
+.gm-style-cc {
+  display: none;
 }
 .gmnoprint div {
-    background:none;
+  background: none;
 }

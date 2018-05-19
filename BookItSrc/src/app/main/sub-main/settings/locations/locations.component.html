@@ -1,70 +1,74 @@
 <container-element [ngSwitch]="this.which_page">
-    <div class="container" *ngSwitchCase="'locations'">
-      
-        <section class="header">
-          <button mat-button label class="button-switch-page" (click)="goToSettings()"> 
-              <div *ngIf="1 === 1; then leftArrowIcon"></div>
-             </button>
-          <label class="header-loc" ngDefaultControl>Locations</label>
-        </section>
-        
-        <mat-card class="locations">
-        <mat-card-content class="locations-list" *ngFor="let loc of userLocations" selected="true" name="loc_list" ngDefaultControl>
-            <button mat-icon-button (click)="removeLocation(loc.name)">
-                <div *ngIf="1 === 1; then deleteForeverIcon"></div>
-            </button>
-            <button mat-icon-button (click)="setOption(loc.name)">
-              <div *ngIf="loc.enabled; then leftEnableIcon; else leftDisableIcon"></div>
-            </button>
-            <section class="info-section">
-              <label class="label-loc">
-                {{loc.name}}
-              </label><br>
-              <label class="label-loc-city-street">
-                {{loc.street}},  {{loc.city}}
-              </label>
-            </section>
-            <button mat-icon-button (click)="setOption(loc.name)">
-              <div *ngIf="loc.enabled; then rightEnableIcon; else rightDisableIcon"></div>
-            </button>
-        </mat-card-content>
-      </mat-card>
+  <div class="container" *ngSwitchCase="'locations'">
 
-        <section class="add-loc">
-          <button mat-button label class="button-add-loc" (click)="goToAddLocation()"> Add Location </button>
-        </section>
-  
-          
-    </div>
-  
-    <app-settings *ngSwitchCase="'settings'"></app-settings>
-  
-    <app-categories *ngSwitchCase="'categories'"> </app-categories>
-  
-    <app-add-location *ngSwitchCase="'add_locations'"> </app-add-location>
+    <section class="header">
+      <button mat-button label class="button-switch-page" (click)="goToSettings()">
+        <div *ngIf="1 === 1; then leftArrowIcon"></div>
+      </button>
+      <label class="header-loc" ngDefaultControl>Locations</label>
+    </section>
 
-  </container-element>
+    <mat-card class="locations">
+      <mat-card-content class="locations-list" *ngFor="let loc of userLocations" selected="true" name="loc_list" ngDefaultControl>
+        <button mat-icon-button (click)="removeLocation(loc.name)">
+          <div *ngIf="1 === 1; then deleteForeverIcon"></div>
+        </button>
+        <div class="loc-div">
+          <button mat-icon-button (click)="setOption(loc.name)">
+            <div *ngIf="loc.enabled; then leftEnableIcon; else leftDisableIcon"></div>
+          </button>
+          <section class="info-section">
+            <label class="label-loc">
+              {{loc.name}}
+            </label>
+            <br>
+            <label class="label-loc-city-street">
+              {{loc.street}}, {{loc.city}}
+            </label>
+          </section>
+          <button mat-icon-button (click)="setOption(loc.name)">
+            <div *ngIf="loc.enabled; then rightEnableIcon; else rightDisableIcon"></div>
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    
 
-  <ng-template #leftEnableIcon>
-    <mat-icon  svgIcon='location_off-blue' class=gray-icon></mat-icon>
-  </ng-template>
-  
-  <ng-template #leftDisableIcon>
-    <mat-icon svgIcon='location_off' class=blue-icon></mat-icon>
-  </ng-template>
+    <section class="add-loc">
+      <button mat-button label class="button-add-loc" (click)="goToAddLocation()"> Add Location </button>
+    </section>
 
-  <ng-template #rightEnableIcon>
-    <mat-icon  svgIcon='done-blue' class=gray-icon></mat-icon>
-  </ng-template>
-  
-  <ng-template #rightDisableIcon>
-    <mat-icon svgIcon='done' class=blue-icon></mat-icon>
-  </ng-template>
 
-  <ng-template #leftArrowIcon>
-      <mat-icon  svgIcon='left-arrow' class="left-arrow-icon"></mat-icon>
-    </ng-template>
+  </div>
 
-    <ng-template #deleteForeverIcon>
-        <mat-icon  svgIcon='delete-forever' class="delete-forever-icon"></mat-icon>
-      </ng-template>
+  <app-settings *ngSwitchCase="'settings'"></app-settings>
+
+  <app-categories *ngSwitchCase="'categories'"> </app-categories>
+
+  <app-add-location *ngSwitchCase="'add_locations'"> </app-add-location>
+
+</container-element>
+
+<ng-template #leftEnableIcon>
+  <mat-icon svgIcon='location_off-blue' class=gray-icon></mat-icon>
+</ng-template>
+
+<ng-template #leftDisableIcon>
+  <mat-icon svgIcon='location_off' class=blue-icon></mat-icon>
+</ng-template>
+
+<ng-template #rightEnableIcon>
+  <mat-icon svgIcon='done-blue' class=gray-icon></mat-icon>
+</ng-template>
+
+<ng-template #rightDisableIcon>
+  <mat-icon svgIcon='done' class=blue-icon></mat-icon>
+</ng-template>
+
+<ng-template #leftArrowIcon>
+  <mat-icon svgIcon='left-arrow' class="left-arrow-icon"></mat-icon>
+</ng-template>
+
+<ng-template #deleteForeverIcon>
+  <mat-icon svgIcon='delete-forever' class="delete-forever-icon"></mat-icon>
+</ng-template>

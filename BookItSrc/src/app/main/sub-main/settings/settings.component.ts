@@ -5,21 +5,24 @@ import { AuthService } from '../../../core/auth.service';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../../store';
 import { Observable } from 'rxjs/Observable';
+import { DialogTwoButtonComponent } from "./dialog-two-button/dialog-two-button.component";
+import { DialogOneButtonComponent } from "./dialog-one-button/dialog-one-button.component";
+import { MatDialog } from "@angular/material";
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  selector: "app-settings",
+  templateUrl: "./settings.component.html",
+  styleUrls: ["./settings.component.scss"]
 })
 export class SettingsComponent implements OnInit {
-  public which_page = 'settings'; /* options = {settings, categories, locations, add_location} */
+  public which_page = "settings"; /* options = {settings, categories, locations, add_location} */
   public settingsOption$: Observable<string>;
   public userData:UserDataState;
   /* global */
   checked = false;
 
   indeterminate = false;
-  align = 'start';
+  align = "start";
   disabled = false;
 
   /* search radius */

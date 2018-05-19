@@ -1,51 +1,52 @@
 <container-element [ngSwitch]="this.which_page">
-    <div class="container" *ngSwitchCase="'add_locations'">
-  
+  <div class="container" *ngSwitchCase="'add_locations'">
+
     <section class="header">
-      <button mat-button label class="button-switch-page" (click)="goToLocations()"> 
-          <div *ngIf="1 === 1; then leftArrowIcon"></div>
-         </button>
+      <button mat-button label class="button-switch-page" (click)="goToLocations()">
+        <div *ngIf="1 === 1; then leftArrowIcon"></div>
+      </button>
       <label class="header-add-loc" ngDefaultControl>Add Location</label>
     </section>
-    
+
     <mat-card class="search-loc">
-        <section class="total-search-section">
-          <div *ngIf="1 === 1; then searchIcon"></div>
-          <mat-form-field class="add-address">
-             <input matInput class="input-address" [(ngModel)]="val_add_addrr">
-             <button mat-button *ngIf="val_add_addrr" matSuffix mat-icon-button aria-label="Clear" (click)="val_add_addrr=''">
-                <mat-icon>close</mat-icon>
-              </button>
-           </mat-form-field>
-          <button mat-icon-button class="button-add" (click)="addLocation()">
-            <div *ngIf="1 === 1; then addIcon"></div>
+      <section class="total-search-section">
+        <div *ngIf="1 === 1; then searchIcon"></div>
+        <mat-form-field class="add-address">
+          <input matInput class="input-address" placeholder="{{place_holder}}" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search [formControl]="searchControl">
+          <button mat-button *ngIf="place_holder" matSuffix mat-icon-button aria-label="Clear" (click)="place_holder=''">
+            <mat-icon>close</mat-icon>
           </button>
-        </section>
+        </mat-form-field>
+        <button mat-icon-button class="button-add" (click)="addLocation()">
+          <div *ngIf="1 === 1; then addIcon"></div>
+        </button>
+      </section>
     </mat-card>
 
-    <agm-map [latitude]="lat" [longitude]="lng" class="map" [zoom]="zoom_lvl">
-        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+    
+    <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [minZoom]="10" [gestureHandling]='greedy'>
+      <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
     </agm-map>
 
   </div>
 
 
-  <app-locations *ngSwitchCase="'locations'">  </app-locations>
+  <app-locations *ngSwitchCase="'locations'"> </app-locations>
 
   <app-settings *ngSwitchCase="'settings'"></app-settings>
 
   <app-categories *ngSwitchCase="'categories'"></app-categories>
-  
+
 </container-element>
 
-  <ng-template #searchIcon>
-    <mat-icon  svgIcon='search' class="search-icon"></mat-icon>
-  </ng-template>
-  
-  <ng-template #addIcon>
-    <mat-icon svgIcon='add' class="add-icon"></mat-icon>
-  </ng-template>
+<ng-template #searchIcon>
+  <mat-icon svgIcon='search' class="search-icon"></mat-icon>
+</ng-template>
 
-  <ng-template #leftArrowIcon>
-      <mat-icon  svgIcon='left-arrow' class="left-arrow-icon"></mat-icon>
-    </ng-template>
+<ng-template #addIcon>
+  <mat-icon svgIcon='add' class="add-icon"></mat-icon>
+</ng-template>
+
+<ng-template #leftArrowIcon>
+  <mat-icon svgIcon='left-arrow' class="left-arrow-icon"></mat-icon>
+</ng-template>

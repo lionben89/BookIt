@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import * as fromStore from '../../../../store';
-import { Observable } from 'rxjs/Observable';
+import { Component, OnInit } from "@angular/core";
+import { Store } from "@ngrx/store";
+import * as fromStore from "../../../../store";
+import { Observable } from "rxjs/Observable";
+import { MatDialog } from "@angular/material";
+import { DialogOneButtonComponent } from "../dialog-one-button/dialog-one-button.component";
 
 @Component({
-  selector: 'app-categories',
-  templateUrl: './categories.component.html',
-  styleUrls: ['./categories.component.scss']
+  selector: "app-categories",
+  templateUrl: "./categories.component.html",
+  styleUrls: ["./categories.component.scss"]
 })
 export class CategoriesComponent implements OnInit {
   //public which_page = 'categories'; /* options = {settings, categories, locations} */
-  public which_page$:Observable<string>;
+  public which_page$: Observable<string>;
   public userDataSubscription;
   public userData;
   color: string;
@@ -20,26 +22,17 @@ export class CategoriesComponent implements OnInit {
   bookCategories = [];
 
   goToSettings() {
-    this.store.dispatch(new fromStore.ChooseSettings);
+    this.store.dispatch(new fromStore.ChooseSettings());
   }
 
-<<<<<<< HEAD
-  chipedClicked(name) {
+  chipClicked(name) {
     for (var _i = 0; _i < this.bookCategories.length; _i++) {
       if (this.bookCategories[_i].name === name) {
-        this.bookCategories[_i].active = !this.bookCategories[_i].active;
-=======
-    chipClicked(name){
-      for (var _i = 0; _i < this.bookCategories.length; _i++) {
-        if(this.bookCategories[_i].name === name)
-        {
-          this.bookCategories[_i].clicked = !this.bookCategories[_i].clicked;
-          if(this.bookCategories[_i].clicked)
-              this.bookCategories[_i].color = 'accent';
-          else
-            this.bookCategories[_i].color = '';
-        }
->>>>>>> settings improve
+        this.bookCategories[_i].clicked = !this.bookCategories[_i].clicked;
+        if (this.bookCategories[_i].clicked)
+          this.bookCategories[_i].color = "accent";
+        else 
+        this.bookCategories[_i].color = "";
       }
     }
   }
@@ -51,8 +44,8 @@ export class CategoriesComponent implements OnInit {
     for (var _i = 0; _i < this.bookCategories.length; _i++) {
       this.bookCategories[_i].active = false;
     }
-    for (var _i = 0; _i < 7;) {
-      var rand = Math.floor(Math.random() * (max - min + 1)) + min;;
+    for (var _i = 0; _i < 7; ) {
+      var rand = Math.floor(Math.random() * (max - min + 1)) + min;
       if (!this.bookCategories[rand].clicked) {
         this.bookCategories[rand].active = true;
         //this.bookCategories[rand].color = 'accent';
@@ -75,23 +68,27 @@ export class CategoriesComponent implements OnInit {
 
   chipColor(active: boolean) {
     if (active) {
-      return 'accent';
+      return "accent";
     }
-    return 'primary';
+    return "primary";
   }
 
-  constructor(private store: Store<fromStore.MainState>) { }
-
+  constructor(private store: Store<fromStore.MainState>) {}
 
   ngOnInit() {
-    this.which_page$=this.store.select<any>(fromStore.getContextSettingsOption);
-    this.userDataSubscription=this.store.select<any>(fromStore.getUserData).subscribe(state => { this.userData = state; })
+    this.which_page$ = this.store.select<any>(
+      fromStore.getContextSettingsOption
+    );
+    this.userDataSubscription = this.store
+      .select<any>(fromStore.getUserData)
+      .subscribe(state => {
+        this.userData = state;
+      });
   }
   ngOnChanges() {
     console.log("categories changed");
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.userDataSubscription.unsubscribe();
   }
-
 }

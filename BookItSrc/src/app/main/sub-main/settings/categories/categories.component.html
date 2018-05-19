@@ -1,7 +1,7 @@
 <container-element [ngSwitch]="this.which_page$ | async">
   <div class="container" *ngSwitchCase="'categories'">
 
-    <section class="header">         
+    <section class="header">
       <button mat-button label class="button-switch-page" (click)="goToSettings()">
         <div *ngIf="1 === 1; then leftArrowIcon"></div>
       </button>
@@ -20,11 +20,12 @@
         </mat-chip>
       </mat-chip-list>
     </mat-card>
-    
+
     <mat-card class="pick-buttons" [aria-orientation]="horizontal">
       <button mat-button label class="button-add" (click)="pickAll()"> Pick All Categories </button>
-        <button mat-button label class="button-add" (click)="pickForUser()"> I'm Feeling Lucky </button>
-        <button mat-button label class="button-add" (click)="unpickAll()"> Clear Selection </button><br>
+      <button mat-button label class="button-add" (click)="pickForUser()"> I'm Feeling Lucky </button>
+      <button mat-button label class="button-add" (click)="unpickAll()"> Clear Selection </button>
+      <br>
     </mat-card>
 
   </div>
@@ -37,5 +38,5 @@
 </container-element>
 
 <ng-template #leftArrowIcon>
-    <mat-icon  svgIcon='left-arrow' class="left-arrow-icon"></mat-icon>
-  </ng-template>
+  <mat-icon svgIcon='left-arrow' class="left-arrow-icon"></mat-icon>
+</ng-template>
