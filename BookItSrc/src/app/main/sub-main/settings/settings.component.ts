@@ -1,3 +1,4 @@
+import { UserDataState } from './../../../data_types/states.model';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/auth.service';
 import { Store } from '@ngrx/store';
@@ -12,7 +13,7 @@ import { Observable } from 'rxjs/Observable';
 export class SettingsComponent implements OnInit {
   public which_page = 'settings'; /* options = {settings, categories, locations, add_location} */
   public settingsOption$: Observable<string>;
-  
+  public userData:UserDataState;
   /* global */
   checked = false;
 
@@ -27,17 +28,17 @@ export class SettingsComponent implements OnInit {
   value = 3;
   thumbLabel = true;
 
-  
+
 
   /* Slide */
   slide_color = 'blue';
   slide_checked = true;
 
-  goToLocations(){
+  goToLocations() {
     this.store.dispatch(new fromStore.ChooseSettingsLocations);
   }
 
-  goToCategories(){
+  goToCategories() {
     this.store.dispatch(new fromStore.ChooseSettingsCategories);
   }
 
@@ -45,6 +46,11 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     this.settingsOption$ = this.store.select(fromStore.getContextSettingsOption);
-   this.store.select<any>(fromStore.getContextSettingsOption).subscribe(state=>{ this.which_page=state;})
-  }  
+    this.store.select<any>(fromStore.getContextSettingsOption).subscribe(state => { this.which_page = state; })
+    this.store.select<any>(fromStore.getUserData).subscribe(state => { this.userData = state; })
+  }
+
+  ngOnDestroy(){
+    
+  }
 }

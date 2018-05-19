@@ -1,8 +1,8 @@
 <container-element [ngSwitch]="this.which_page">
   <div class="switch_container_1" *ngSwitchCase="'settings'">
-    <div class="container" *ngIf="auth.user | async as user">
-      <img [src]="user.photoURL" />
-      <h3> {{ user.displayName }}</h3>
+    <div class="container" *ngIf="userData">
+      <img [src]="userData.info.photoURL" />
+      <h3> {{ userData.info.displayName }}</h3>
 
       <mat-card class="RightLeftStyle">
         <mat-card-content>

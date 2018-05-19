@@ -21,7 +21,6 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 
 import * as fromUserDataActions from '../actions/userData.action';
-import { UserInfo } from '@firebase/auth-types';
 
 @Injectable()
 export class UserDataEffects {
@@ -59,10 +58,6 @@ export class UserDataEffects {
         private router: Router,
         private afs: AngularFirestore,
         private store: Store<MainState>) {
-        store.select<any>(fromStore.getUserDataID).subscribe(state => {
-            console.log(state);
-            this.user = state;
-        });
     }
 
     @Effect()

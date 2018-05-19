@@ -67,6 +67,5 @@ export function userDataReducer(state: UserDataState = initState, action: fromUs
 
 //selectors
 //export const getContetxtNavbarOptionEnabled=(state:ContextState)=>{return state.navbar.optionEnabled;}
-export const getUserDataCategories = (state: UserDataState) => { return state.favoriteCategories; }
-export const getUserDataInfo = (state: UserDataState) => { return state.info; }
-export const getUserDataID = (state: UserDataState) => { return state.info.uid; }
+//export const getUserDataCategories = (state: UserDataState) => { return state.favoriteCategories; }
+export const getUserData = (state: UserDataState) => { return state }
