@@ -64,6 +64,20 @@ export class UserDataEffects {
                 return userRef.set(data);
             });
     }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+    private user: string
+    constructor(
+        private actions: Actions,
+        private afAuth: AngularFireAuth,
+        private router: Router,
+        private afs: AngularFirestore,
+        private store: Store<MainState>) {
+    }
+>>>>>>> 529d2ed1f6fb15ccd4a85355590dee5fb65c9460
+>>>>>>> 01f119519cfbef4f51c10257da1a5878f6be291b
 
     // effects
     @Effect()
