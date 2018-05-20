@@ -1,0 +1,90 @@
+<container-element [ngSwitch]="this.which_page">
+  <div class="switch_container_1" *ngSwitchCase="'settings'">
+    <div class="container" *ngIf="userData">
+      <img [src]="userData.info.photoURL" />
+      <h3> {{ userData.info.displayName }}</h3>
+
+      <mat-card class="RightLeftStyle">
+        <mat-card-content>
+          <section class="form-section">
+            <div class="container_location">
+              <label class="form-margin-c1" name="location_lab_1"> Location</label>
+              <span class="spacer"></span>
+              <button mat-button label class="button-switch-page" (click)="goToLocations()">
+                <div *ngIf="1 === 1; then rightArrowIcon"></div>
+              </button>
+            </div>
+          </section>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="search_radius">
+        <mat-card-content>
+          <div class="container_search_radius">
+            <label class="form-margin-sr1" name="search_radius_lab_1"> Search Radius</label>
+            <span class="spacer"></span>
+            <label class="form-margin-sr2" name="search_radius_lab_2" [style.color]="'#8a8a8a'"> {{ this.userData.locationSettings.searchRadiusKm }}Km.</label>
+          </div>
+          <mat-slider name="search_radius_slider" class="form-margin" [max]="max" [min]="min" [step]="step" [thumb-label]="thumbLabel"
+            [(ngModel)]="this.userData.locationSettings.searchRadiusKm"
+            (change)="this.updateSearchRadiusKm()">
+          </mat-slider>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="RightLeftStyle">
+        <mat-card-content>
+          <section class="form-section">
+            <div class="container_categories">
+              <label class="form-margin-c1" name="categories_lab_1"> Categories</label>
+              <span class="spacer"></span>
+              <button mat-button label class="button-switch-page" (click)="goToCategories()">
+                <div *ngIf="1 === 1; then rightArrowIcon"></div>
+              </button>
+            </div>
+          </section>
+        </mat-card-content>
+      </mat-card>
+
+
+
+      <mat-card class="RightLeftStyle">
+        <mat-card-content>
+          <section class="form-section">
+            <div class="container_location">
+              <label class="form-margin-c1" name="location_lab_1"> Share My Books</label>
+              <span class="spacer"></span>
+              <mat-slide-toggle class="slide-show-books"  [(ngModel)]="this.userData.info.shareMyBooks"
+              (change)="this.updateShareMyBooks()">
+              </mat-slide-toggle>
+            </div>
+          </section>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="buttons">
+        <mat-card-content>
+          <div class="container_logout">
+            <button mat-button (click)="logout()" id="button_logout">Logout</button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+  </div>
+
+  <!--###############  END OF SETTINGS  ###################-->
+
+  <app-categories *ngSwitchCase="'categories'"></app-categories>
+
+  <app-locations *ngSwitchCase="'locations'"> </app-locations>
+
+  <app-add-location *ngSwitchCase="'add_locations'"> </app-add-location>
+
+
+</container-element>
+
+
+<ng-template #rightArrowIcon>
+  <mat-icon svgIcon='right-arrow' class="right-arrow-icon"></mat-icon>
+</ng-template>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MatIconRegistry } from '@angular/material';
+import { MatIconRegistry } from '@angular/material/icon';
 
 
 @Injectable()
@@ -32,6 +32,37 @@ export class IconsService {
         'person-gray',
         sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/person-gray.svg"));
 
+      iconRegistry.addSvgIcon(
+        'location_off',
+        sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/location_off.svg"));
+
+      iconRegistry.addSvgIcon(
+        'location_off-blue',
+        sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/location_off-blue.svg"));
+
+      iconRegistry.addSvgIcon(
+        'done',
+        sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/done.svg"));
+
+      iconRegistry.addSvgIcon(
+      'done-blue',
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/done-blue.svg"));
+
+      iconRegistry.addSvgIcon(
+      'add',
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/add.svg"));
+
+      iconRegistry.addSvgIcon(
+      'search',
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/search.svg"));
+
+      iconRegistry.addSvgIcon(
+        'left-arrow',
+        sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/left_arrow.svg"));
+
+        iconRegistry.addSvgIcon(
+          'right-arrow',
+          sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/right_arrow.svg"));
 
   }
 

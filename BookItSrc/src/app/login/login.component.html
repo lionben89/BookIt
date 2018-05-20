@@ -1,0 +1,10 @@
+<div>
+  <button (click)="auth.facebookLogin()">
+    <i class="fab fa-facebook-f"></i> Login With Facebook
+  </button>
+  <div *ngIf="this.userData">
+    <button (click)="googleLogin()">
+      <i class="fab fa-google"></i> Login With Google
+    </button>
+  </div>
+</div>

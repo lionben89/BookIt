@@ -1,3 +1,4 @@
+import { UserDataState } from './../data_types/states.model';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -8,38 +9,21 @@ import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firesto
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
 
-interface LocationSettings {
-  useCurrentLocation: boolean;
-  searchRadiusKm: number;
-  displayMetric: boolean;
-}
 
-interface User {
-  uid: string;
-  email: string;
-  photoURL: string;
-  displayName: string;
-  accountDeleted: boolean;
 
-  borrowRestricted?: boolean;
-  rating?: number;
-  numRates?: number;
-  maxAllowedOpenBorrows?: number;
-  locationSettings?: LocationSettings;
-}
 
 @Injectable()
 export class AuthService {
 
-  user: Observable<User>;
+  user: Observable<UserDataState>;
 
   constructor(private afAuth: AngularFireAuth,
-              private afStore: AngularFirestore,
-              private router: Router) {
+    private afStore: AngularFirestore,
+    private router: Router) {
     this.user = this.afAuth.authState
       .switchMap(user => {
         if (user) {
-          return this.afStore.doc<User>(`Users/${user.uid}`).valueChanges();
+          return this.afStore.doc<UserDataState>(`Users/${user.uid}`).valueChanges();
         } else {
           return Observable.of(null);
         }
@@ -59,38 +43,46 @@ export class AuthService {
   private oAuthLogin(provider) {
     return this.afAuth.auth.signInWithPopup(provider)
       .then((credential) => {
-        this.updateUserData(credential.user)
+        this.updateUserData(credential.user);
+        this.router.navigate(['']);
       });
   }
 
   private updateUserData(authUser) {
-    const userRef: AngularFirestoreDocument<User> = this.afStore.doc(`Users/${authUser.uid}`);
+    const userRef: AngularFirestoreDocument<UserDataState> = this.afStore.doc(`Users/${authUser.uid}`);
 
-    const data: User = {
-      uid: authUser.uid,
-      email: authUser.email,
-      displayName: authUser.displayName,
-      photoURL: authUser.photoURL,
-      accountDeleted: false,
+    const data: UserDataState = {
+      info: {
+        uid: authUser.uid,
+        email: authUser.email,
+        displayName: authUser.displayName,
+        photoURL: authUser.photoURL,
+        accountDeleted: false,
+        shareMyBooks:true,
+      }
     };
 
     return userRef.update(data)
       .catch((error) => {
-        data.borrowRestricted = false;
-        data.rating = 5.0;
-        data.numRates = 0;
-        data.maxAllowedOpenBorrows = 1;
-        data.locationSettings = {
-          useCurrentLocation: true,
-          searchRadiusKm: 3.0,
-          displayMetric: true
-        };
-        userRef.set(data);
+        /* data.borrowRestricted = false;
+         data.rating = 5.0;
+         data.numRates = 0;
+         data.maxAllowedOpenBorrows = 1;
+         data.locationSettings = {
+           useCurrentLocation: true,
+           searchRadiusKm: 3.0,
+           displayMetric: true
+         };
+         userRef.set(data);*/
+        console.log(error);
       });
   }
 
   logout() {
-    this.afAuth.auth.signOut();
+    this.afAuth.auth.signOut()
+      .then(() => {
+        this.router.navigate(['/login']);
+      });
   }
 
 }

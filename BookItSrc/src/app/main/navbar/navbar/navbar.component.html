@@ -1,21 +1,27 @@
-<mat-toolbar class="mat-toolbar" color="primary">
-  <mat-toolbar-row class="mat-toolbar-row" color="primary">
-    <button mat-icon-button (click)="setSetting()">
-      <div *ngIf="(_optionEnabled$ | async) === 'settings'; then settingsEnableIcon; else settingsDisableIcon"></div>
-    </button>
+<div *ngIf="(navbar.show); then primary; else secondry"></div>
 
-    <button mat-icon-button (click)="setExplorer()">
-      <div *ngIf="(_optionEnabled$ | async) ==='explorer'; then explorerEnableIcon; else explorerDisableIcon"></div>
-    </button>
+<ng-template #primary>
+  <mat-toolbar class="mat-toolbar" color="primary">
+    <mat-toolbar-row class="mat-toolbar-row" color="primary">
+      <button mat-icon-button (click)="setSetting()">
+        <div *ngIf="navbar.optionEnabled === 'settings'; then settingsEnableIcon; else settingsDisableIcon"></div>
+      </button>
 
-    <button mat-icon-button (click)="setMyBooks()">
-      <div *ngIf="(_optionEnabled$ | async) ==='my books'; then myBooksEnableIcon; else myBooksDisableIcon"></div>
-    </button>
-  </mat-toolbar-row>
+      <button mat-icon-button (click)="setExplorer()">
+        <div *ngIf="navbar.optionEnabled ==='explorer'; then explorerEnableIcon; else explorerDisableIcon"></div>
+      </button>
 
-  <div *ngIf="(_optionEnabled$ | async) ==='explorer'; then autoComplete;"></div>
+      <button mat-icon-button (click)="setMyBooks()">
+        <div *ngIf="navbar.optionEnabled ==='my books'; then myBooksEnableIcon; else myBooksDisableIcon"></div>
+      </button>
+    </mat-toolbar-row>
 
-</mat-toolbar>
+    <div *ngIf="navbar.optionEnabled ==='explorer'; then autoComplete;"></div>
+
+  </mat-toolbar>
+</ng-template>
+
+<ng-template #secondry></ng-template>
 
 
 
