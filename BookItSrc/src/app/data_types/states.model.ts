@@ -1,6 +1,7 @@
 export interface NavbarState {
     optionEnabled: string,
-    settingsOption: string
+    settingsOption: string,
+    show:boolean,
 }
 
 export interface ContextState {

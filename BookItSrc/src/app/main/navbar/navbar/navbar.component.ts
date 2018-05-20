@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { getContextNavbar } from './../../../store/reducers/context.reducer';
+import { NavbarState } from './../../../data_types/states.model';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { MatIconRegistry } from '@angular/material/icon';
@@ -14,8 +16,9 @@ import * as fromStore from '../../../store';
   providers: [IconsService]
 
 })
-export class NavbarComponent implements OnInit {
-  public _optionEnabled$: Observable<string>;
+export class NavbarComponent implements OnInit,OnDestroy {
+  public navbar: NavbarState;
+  public navbarSubscription;
 
   constructor(private store: Store<fromStore.MainState>, iconService: IconsService) {
   }
@@ -32,7 +35,10 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._optionEnabled$ = this.store.select(fromStore.getContextNavbarOptionEnabled);
+    this.navbarSubscription = this.store.select<any>(fromStore.getContextNavbar).subscribe(state=>this.navbar=state);
+  }
+  ngOnDestroy(){
+    this.navbarSubscription.unsubscribe();
   }
 
 }
