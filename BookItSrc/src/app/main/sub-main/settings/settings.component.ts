@@ -1,12 +1,5 @@
-<<<<<<< HEAD
+
 import { UserDataState,UserUpdateType } from './../../../data_types/states.model';
-=======
-<<<<<<< HEAD
-import { UserDataState,UserUpdateType } from './../../../data_types/states.model';
-=======
-import { UserDataState } from './../../../data_types/states.model';
->>>>>>> 529d2ed1f6fb15ccd4a85355590dee5fb65c9460
->>>>>>> 01f119519cfbef4f51c10257da1a5878f6be291b
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/auth.service';
 import { Store } from '@ngrx/store';
@@ -33,32 +26,12 @@ export class SettingsComponent implements OnInit {
   max = 30;
   min = 0.5;
   step = 0.5;
-  //value = 3;
   thumbLabel = true;
 
-<<<<<<< HEAD
-
-
   logout(){
     this.store.dispatch(new fromStore.Logout());
   }
-=======
-<<<<<<< HEAD
-=======
 
->>>>>>> 529d2ed1f6fb15ccd4a85355590dee5fb65c9460
-
-
-<<<<<<< HEAD
-  /* Slide */
-  //slide_color = 'blue';
-  //slide_checked = true;
-  logout(){
-    this.store.dispatch(new fromStore.Logout());
-  }
-=======
->>>>>>> 529d2ed1f6fb15ccd4a85355590dee5fb65c9460
->>>>>>> 01f119519cfbef4f51c10257da1a5878f6be291b
   goToLocations() {
     this.store.dispatch(new fromStore.ChooseSettingsLocations);
   }
