@@ -73,7 +73,20 @@ export class CategoriesComponent implements OnInit {
     return "primary";
   }
 
-  constructor(private store: Store<fromStore.MainState>) {}
+  constructor(private store: Store<fromStore.MainState>, public dialog: MatDialog) {}
+
+  openDialog(): void {
+    let dialogRef = this.dialog.open(DialogOneButtonComponent, {
+      width: '250px',
+      data: "You didnt pick any category! please pick one before you leave page."
+    });
+
+    dialogRef.disableClose = true;//disable default close operation
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed'); //nothing else to do
+    });
+  }
 
   ngOnInit() {
     this.which_page$ = this.store.select<any>(

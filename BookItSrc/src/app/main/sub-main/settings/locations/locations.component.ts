@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { Store } from "@ngrx/store";
 import * as fromStore from "../../../../store";
 import { Observable } from "rxjs/Observable";
@@ -7,6 +7,7 @@ import { IconsService } from "./../../../../icons.service";
 import { MatDialog } from "@angular/material";
 import { DialogOneButtonComponent } from "../dialog-one-button/dialog-one-button.component";
 import { DialogTwoButtonComponent } from "../dialog-two-button/dialog-two-button.component";
+import {location} from "../settings.component";
 
 @Component({
   selector: "app-locations",
@@ -21,23 +22,8 @@ export class LocationsComponent implements OnInit {
   public rc = 0;
   public no_remove = "My Currect Location";
 
-  userLocations = [
-    {
-      name: "My Currect Location",
-      city: "Tel Aviv",
-      street: "Namir",
-      enabled: true
-    },
-    { name: "Home", city: "Tel Aviv", street: "Haim Levanon", enabled: false },
-    { name: "Work", city: "Givaataim", street: "Katzanelson", enabled: false },
-    {
-      name: "Good books area",
-      city: "Haifa",
-      street: "Hageffen",
-      enabled: false
-    },
-    { name: "Vacation north", city: "Metula", street: "Rimon", enabled: false }
-  ];
+  @Input() locations : location[]; //get locations array from settings
+  @Output() changed : EventEmitter<location[]> = new EventEmitter<location[]>();
 
   goToSettings() {
     if (this.cntEnabled === 0) this.openDialog_1();
@@ -55,6 +41,8 @@ export class LocationsComponent implements OnInit {
         "You didnt pick any location! please pick one before you leave page."
     });
 
+    dialogRef.disableClose = true;//disable default close operation
+
     dialogRef.afterClosed().subscribe(result => {
       console.log("The dialog was closed"); //nothing else to do
     });
@@ -65,6 +53,8 @@ export class LocationsComponent implements OnInit {
       width: "250px",
       data: "You can't remove current location!"
     });
+
+    dialogRef.disableClose = true;//disable default close operation
 
     dialogRef.afterClosed().subscribe(result => {
       console.log("The dialog was closed"); //nothing else to do
@@ -78,14 +68,26 @@ export class LocationsComponent implements OnInit {
   ) {}
 
   setOption(name) {
-    for (var _i = 0; _i < this.userLocations.length; _i++) {
-      if (this.userLocations[_i].name === name) {
-        this.userLocations[_i].enabled = !this.userLocations[_i].enabled;
+    let _locations = this.locations.slice(0);
 
-        if (this.userLocations[_i].enabled) this.cntEnabled++;
+    for (var _i = 0; _i < _locations.length; _i++) {
+      if (_locations[_i].name === name) {
+        _locations[_i].enabled = !_locations[_i].enabled;
+
+        if (_locations[_i].enabled) this.cntEnabled++;
         else this.cntEnabled--;
       }
     }
+
+    this.changed.emit(_locations);
+  }
+
+  addLocation(loc:location) {
+    let _locations = this.locations.slice(0);
+
+    _locations.push(loc);
+
+    this.changed.emit(_locations);
   }
 
   removeLocation(name) {
@@ -104,13 +106,17 @@ export class LocationsComponent implements OnInit {
       console.log("The dialog was closed -" + result);
       if(result === "confirm"){
         console.log("remove location - " + name);
+
+        let _locations = this.locations.slice(0);
         
-        for (var _i = 0; _i < this.userLocations.length; _i++) {
-          if (this.userLocations[_i].name === name) {
-            if (this.userLocations[_i].enabled) this.cntEnabled--;
-            this.userLocations.splice(_i, 1);
+        for (var _i = 0; _i < _locations.length; _i++) {
+          if (_locations[_i].name === name) {
+            if (_locations[_i].enabled) this.cntEnabled--;
+            _locations.splice(_i, 1);
           }
         }
+
+        this.changed.emit(_locations);
       }
       else{
         console.log("cancel, do nothing");

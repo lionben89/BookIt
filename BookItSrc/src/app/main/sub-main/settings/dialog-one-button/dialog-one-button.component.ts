@@ -20,7 +20,6 @@ export class DialogOneButtonComponent implements OnInit {
   }
 
   clickedConfirm(){
-    console.log("called clickedConfirm!");
     this.dialogRef.close();
   }
 

@@ -12,8 +12,8 @@
       <section class="total-search-section">
         <div *ngIf="1 === 1; then searchIcon"></div>
         <mat-form-field class="add-address">
-          <input matInput class="input-address" placeholder="{{place_holder}}" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search [formControl]="searchControl">
-          <button mat-button *ngIf="place_holder" matSuffix mat-icon-button aria-label="Clear" (click)="place_holder=''">
+          <input matInput class="input-address" placeholder="{{place_holder}}" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search [(ngModel)]="searchValue" [formControl]="searchControl">
+          <button mat-button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="searchValue=''">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
@@ -31,7 +31,7 @@
   </div>
 
 
-  <app-locations *ngSwitchCase="'locations'"> </app-locations>
+  <app-locations *ngSwitchCase="'locations'" [locations]="locations"> </app-locations>
 
   <app-settings *ngSwitchCase="'settings'"></app-settings>
 

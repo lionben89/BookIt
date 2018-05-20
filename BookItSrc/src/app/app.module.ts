@@ -45,6 +45,7 @@ import { UserDataEffects } from './store/effects/userData.effect';
 import { BookComponent } from './main/sub-main/my-books/add-book/book/book.component';
 import { DialogOneButtonComponent } from './main/sub-main/settings/dialog-one-button/dialog-one-button.component';
 import { DialogTwoButtonComponent } from './main/sub-main/settings/dialog-two-button/dialog-two-button.component';
+import { DialogAddLocationTitleComponent } from './main/sub-main/settings/dialog-add-location-title/dialog-add-location-title.component';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import { DialogTwoButtonComponent } from './main/sub-main/settings/dialog-two-bu
     BookComponent,
     DialogOneButtonComponent,
     DialogTwoButtonComponent,
+    DialogAddLocationTitleComponent,
   ],
   imports: [
     BrowserModule,
@@ -105,6 +107,7 @@ import { DialogTwoButtonComponent } from './main/sub-main/settings/dialog-two-bu
   entryComponents: [
     DialogOneButtonComponent,
     DialogTwoButtonComponent,
+    DialogAddLocationTitleComponent,
   ],
   providers: [AngularFirestore,MatIconRegistry],
   bootstrap: [AppComponent]

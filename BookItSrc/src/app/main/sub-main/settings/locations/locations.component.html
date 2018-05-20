@@ -9,7 +9,7 @@
     </section>
 
     <mat-card class="locations">
-      <mat-card-content class="locations-list" *ngFor="let loc of userLocations" selected="true" name="loc_list" ngDefaultControl>
+      <mat-card-content class="locations-list" *ngFor="let loc of locations" selected="true" name="loc_list" ngDefaultControl>
         <button mat-icon-button (click)="removeLocation(loc.name)">
           <div *ngIf="1 === 1; then deleteForeverIcon"></div>
         </button>
@@ -22,8 +22,11 @@
               {{loc.name}}
             </label>
             <br>
+            <label class="label-loc-city-street" *ngIf="loc.street">
+              {{loc.street}},
+            </label>
             <label class="label-loc-city-street">
-              {{loc.street}}, {{loc.city}}
+              {{loc.city}}
             </label>
           </section>
           <button mat-icon-button (click)="setOption(loc.name)">
@@ -45,7 +48,7 @@
 
   <app-categories *ngSwitchCase="'categories'"> </app-categories>
 
-  <app-add-location *ngSwitchCase="'add_locations'"> </app-add-location>
+  <app-add-location *ngSwitchCase="'add_locations'" [locations]="locations" (add)="addLocation($event);"> </app-add-location>
 
 </container-element>
 

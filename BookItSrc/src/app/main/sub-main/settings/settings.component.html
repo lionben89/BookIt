@@ -77,9 +77,9 @@
 
   <app-categories *ngSwitchCase="'categories'"></app-categories>
 
-  <app-locations *ngSwitchCase="'locations'"> </app-locations>
+  <app-locations *ngSwitchCase="'locations'" [locations]="locations" (changed)="locations=$event;"> </app-locations>
 
-  <app-add-location *ngSwitchCase="'add_locations'"> </app-add-location>
+  <app-add-location *ngSwitchCase="'add_locations'" [locations]="locations" (add)="locations.push($event);"> </app-add-location>
 
 
 </container-element>

@@ -18,6 +18,19 @@ export class SettingsComponent implements OnInit {
   public which_page = "settings"; /* options = {settings, categories, locations, add_location} */
   public settingsOption$: Observable<string>;
   public userData:UserDataState;
+
+  categories : string[];
+
+  x1 : location = new location("My Currect Location", "Tel Aviv", "namir", true);
+  x2 : location = new location("Home", "Tel Aviv", "Haim Levanon", false);
+  x3 : location = new location("Work", "Givaataim", "Katzanelson", false);
+
+  locations = [
+    this.x1,
+    this.x2, 
+    this.x3
+    ];
+
   /* global */
   checked = false;
 
@@ -33,6 +46,50 @@ export class SettingsComponent implements OnInit {
 
   logout(){
     this.store.dispatch(new fromStore.Logout());
+  }
+
+  /* Slide */
+  slide_checked = true;
+  share_enabled = true;
+
+  slideClicked() {
+    console.log("1 slide_checked = " + this.slide_checked);
+    this.slide_checked = !this.slide_checked;
+    if (this.share_enabled === true) {
+      //this.slide_checked = false; //prevent slide from going to unchecked
+      console.log("2 slide_checked = " + this.slide_checked);
+      //check if user is sure he wish to not share his books
+      let dialogRef = this.dialog.open(DialogTwoButtonComponent, {
+        width: "250px",
+        data: "We're sorry to see you chose not to share your books! We hope to see you book sharing very soon."
+      });
+      
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === "confirm") {
+          console.log("confirm -> set stop sharing");
+          this.share_enabled = false;
+          this.slide_checked = true;
+        } else {
+          console.log("cancel -> set share");
+          this.share_enabled = true;
+          this.slide_checked = false;
+        }
+      });;
+    }
+    else{
+      console.log("3 slide_checked = " + this.slide_checked);
+      let dialogRef = this.dialog.open(DialogOneButtonComponent, {
+        width: "250px",
+        data:
+          "We're glad to see you chose to share your books again!"
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        console.log("The start sharing dialog was closed"); 
+        this.share_enabled = true;
+        this.slide_checked = true;
+      });
+    }
   }
 
   goToLocations() {
@@ -53,7 +110,7 @@ export class SettingsComponent implements OnInit {
     this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.SHARE_MY_BOOKS,newValue ));
   }
 
-  constructor(private store: Store<fromStore.MainState>, public auth: AuthService) { }
+  constructor(private store: Store<fromStore.MainState>, public auth: AuthService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.settingsOption$ = this.store.select(fromStore.getContextSettingsOption);
@@ -63,5 +120,19 @@ export class SettingsComponent implements OnInit {
 
   ngOnDestroy(){
     
+  }
+}
+
+export class location{
+  name: string;
+  city: string;
+  street: string;
+  enabled: boolean;
+
+  constructor(_name, _city, _street, _enabled){
+    this.name = _name;
+    this.city = _city;
+    this.street = _street;
+    this.enabled = _enabled;
   }
 }
