@@ -42,6 +42,7 @@ import { AddLocationComponent } from './main/sub-main/settings/locations/add-loc
 import { AgmCoreModule } from '@agm/core';
 import { EffectsModule } from '@ngrx/effects';
 import { UserDataEffects } from './store/effects/userData.effect';
+import { BookComponent } from './main/sub-main/my-books/add-book/book/book.component';
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import { UserDataEffects } from './store/effects/userData.effect';
     ExploreComponent,
     MyBooksComponent,
     AddBookComponent,
+    BookComponent,
   ],
   imports: [
     BrowserModule,

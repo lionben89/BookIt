@@ -1,0 +1,51 @@
+ul {
+  
+  list-style-type: none;
+  padding: 0;
+
+}
+.book-left{
+  vertical-align: middle;
+  overflow-wrap: normal;
+  display: inline-block;
+  text-align: center;
+  width: 50%;
+  height: 100%;
+}
+.book-right{
+  vertical-align: middle;
+  text-align: center;
+  display: inline-block;
+  width: 40%;
+  height: 100%;
+}
+.fa-plus{
+  vertical-align: middle;
+  color: #3A95D7;
+  font-size: 50px;
+}
+
+.fa-search{
+  font-size: 28px;
+  vertical-align: middle;
+  color:#8A8A8A;
+}
+.title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.author {
+  font-size: 16px;
+}
+.category {
+  font-size: 14px;
+}
+
+.form-control {
+  margin-right: 2.5%;
+  display: inline-block;
+  width: 80%;
+  vertical-align: middle;
+  background-color: #fafafa;
+}

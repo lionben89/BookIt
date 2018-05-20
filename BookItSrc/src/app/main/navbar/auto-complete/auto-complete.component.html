@@ -5,7 +5,7 @@
       <mat-option *ngFor="let book of filteredBooks | async" [value]="book.name">
         <img style="vertical-align:middle;" aria-hidden src="{{book.pic}}" height="25" />
         <span>{{ book.name }}</span> |
-        <small>Autor: {{book.autor}}</small>
+        <small>Author: {{book.author}}</small>
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>

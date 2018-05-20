@@ -1,3 +1,19 @@
-<p>
-  add-book works!
-</p>
+<div style="margin-top: 10pt;">
+  <input type="search" class="form-control" placeholder="title, author, isbn..." [formControl]="searchField">
+  <i class="fas fa-search"></i>
+</div>
+
+<hr />
+
+<ul>
+  <li *ngFor="let result of results">
+    <div class='book-left'><img class='cover' [attr.src]="result.imagePath"><br>
+      <span class='title' >{{result.title}}</span><br>
+      <span class='author'>by {{result.author}}</span>
+    </div>
+    <div class='book-right'><i class="fas fa-plus"></i></div>
+      <!-- <span class='category'>{{result.category}}</span> -->
+    <hr />
+  </li>
+  
+</ul>

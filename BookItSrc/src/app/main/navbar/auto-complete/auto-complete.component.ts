@@ -8,7 +8,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 
 export class Book {
-  constructor(public name: string, public autor: string, public pic: string) { }
+  constructor(public name: string, public author: string, public pic: string) { }
 }
 
 @Component({
@@ -23,18 +23,18 @@ export class AutoCompleteComponent implements OnInit {
     books: Book[] = [
       {
         name: 'Love',
-        autor: 'Dodi Levi',
+        author: 'Dodi Levi',
         pic: 'https://upload.wikimedia.org/wikipedia/commons/9/9d/Flag_of_Arkansas.svg'
       },
       {
         name: 'Hate',
-        autor: 'Dodi Levi',
+        author: 'Dodi Levi',
         // https://commons.wikimedia.org/wiki/File:Flag_of_California.svg
         pic: 'https://upload.wikimedia.org/wikipedia/commons/0/01/Flag_of_California.svg'
       },
       {
         name: 'Food',
-        autor: 'Haim Choen',
+        author: 'Haim Choen',
         // https://commons.wikimedia.org/wiki/File:Flag_of_Florida.svg
         pic: 'https://upload.wikimedia.org/wikipedia/commons/f/f7/Flag_of_Florida.svg'
       },
