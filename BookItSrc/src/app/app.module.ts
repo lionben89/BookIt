@@ -91,7 +91,7 @@ import { BookComponent } from './main/sub-main/my-books/add-book/book/book.compo
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([UserDataEffects]),
     AngularFireModule.initializeApp(environment.firebase, 'BookIt'),
-    //AngularFirestoreModule.enablePersistence(),
+    AngularFirestoreModule.enablePersistence(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4'
     }),
