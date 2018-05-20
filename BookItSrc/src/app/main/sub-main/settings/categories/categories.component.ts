@@ -19,7 +19,40 @@ export class CategoriesComponent implements OnInit {
   public randNums = [0, 0, 0, 0, 0, 0, 0]; /* lucky number 7 */
 
   /* mat chips */
-  bookCategories = [];
+  bookCategories = [
+    { name: 'Love', active: false},
+    { name: 'Food', active: false},
+    { name: 'Hate', active: false},
+    { name: 'Computers', active: false},
+    { name: 'History', active: false},
+    { name: 'Music', active: false},
+    { name: 'Biographies', active: false},
+    { name: 'Cooking', active: false },
+    { name: 'Health', active: false},
+    { name: 'Arts', active: false },
+    { name: 'Business', active: false},
+    { name: 'Kids', active: false},
+    { name: 'Comics', active: false},
+    { name: 'Hobbies', active: false },
+    { name: 'Reference', active: false}, 
+    { name: 'Home', active: false},
+    { name: 'Garden', active: false },
+    { name: 'Horror', active: false},
+    { name: 'Entertainment', active: false},
+    { name: 'Medical', active: false},
+    { name: 'Social Sciences', active: false },
+    { name: 'Religion', active: false },
+    { name: 'Teen', active: false },
+    { name: 'Self-Help', active: false },
+    { name: 'Sports', active: false },
+    { name: 'Romance', active: false },
+    { name: 'Mysteries', active: false },
+    { name: 'Parenting', active: false },
+    { name: 'Travel', active: false },
+    { name: 'Fantasy', active: false },
+    { name: 'True Crime', active: false },
+    { name: 'Westerns', active: false },
+    { name: 'Other', active: false }];
 
   goToSettings() {
     this.store.dispatch(new fromStore.ChooseSettings());
@@ -28,11 +61,7 @@ export class CategoriesComponent implements OnInit {
   chipClicked(name) {
     for (var _i = 0; _i < this.bookCategories.length; _i++) {
       if (this.bookCategories[_i].name === name) {
-        this.bookCategories[_i].clicked = !this.bookCategories[_i].clicked;
-        if (this.bookCategories[_i].clicked)
-          this.bookCategories[_i].color = "accent";
-        else 
-        this.bookCategories[_i].color = "";
+        this.bookCategories[_i].active = !this.bookCategories[_i].active;
       }
     }
   }
@@ -46,9 +75,8 @@ export class CategoriesComponent implements OnInit {
     }
     for (var _i = 0; _i < 7; ) {
       var rand = Math.floor(Math.random() * (max - min + 1)) + min;
-      if (!this.bookCategories[rand].clicked) {
+      if (!this.bookCategories[rand].active) {
         this.bookCategories[rand].active = true;
-        //this.bookCategories[rand].color = 'accent';
         _i++;
       }
     }

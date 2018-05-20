@@ -12,9 +12,9 @@
       <mat-chip-list [aria-orientation]="horizontal">
         <mat-chip 
           *ngFor="let chip of bookCategories"
-          (click)="chipClicked(chip.name)"
+          (click)="this.chipClicked(chip.name)"
           selected="true"
-          [color]="chipColor(chip.active)()"
+          [color]="this.chipColor(chip.active)"
           class="mat-chip">
           {{chip.name}}
         </mat-chip>
