@@ -96,7 +96,7 @@ export class AddLocation implements Action{
 
 export class AddLocationSuccess implements Action{
     readonly type=ActionsUserDataConsts.ADD_LOCATION_SUCCESS;
-    constructor(public payload?:any){}
+    constructor(public payload?:Location){}
 }
 
 export class LoadLocations implements Action{
@@ -116,7 +116,7 @@ export class UpdateLocation implements Action{
 
 export class UpdateLocationSuccess implements Action{
     readonly type=ActionsUserDataConsts.UPDATE_LOCATION_SUCCESS;
-    constructor(public payload?:any){}
+    constructor(public payload?:Location){}
 }
 
 export class RemoveLocation implements Action{
@@ -126,7 +126,7 @@ export class RemoveLocation implements Action{
 
 export class RemoveLocationSuccess implements Action{
     readonly type=ActionsUserDataConsts.REMOVE_LOCATION_SUCCESS;
-    constructor(public payload?:any){}
+    constructor(public payload?:Location){}
 }
 
 export class LoadMyBooks implements Action{
