@@ -22,11 +22,11 @@ export class AddBookComponent implements OnInit {
   searchTerm: string;
   public mybooksOption$: Observable<string>;
   constructor(private httpClient: HttpClient,private store: Store<fromStore.MainState>) { }
-  addBook(_result : BookComponent){
+  addBook(result:BookComponent){
     console.log('book added');
     //TODO need to add book to DB
     //TODO add dialog book added
-    this.masterBooksArray.push(_result);//change to specific
+    this.masterBooksArray.push(result);//change to specific
     this.results = [];
     this.store.dispatch(new fromStore.ChooseMyBooksMain);
   }
@@ -54,11 +54,8 @@ export class AddBookComponent implements OnInit {
 
     //send book search request to Book API
     this.results = [];
-    let url = `${this.apiRoot}/?q=` + final_search_term + '&filter=partial';
-    console.log(url);
 
-    let cnt = 0;
-
+    let url = this.apiRoot+'/?q=' + encodeURIComponent(this.searchTerm)+'&maxResults=15&printType=books&fields=items(volumeInfo(authors%2Ccategories%2Cdescription%2CimageLinks%2CmainCategory%2CratingsCount%2Ctitle))%2Ckind%2CtotalItems&key=AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4';
     this.httpClient.get(url).subscribe(res => {
       if (res['items'] === undefined){
         this.results = [];
@@ -78,15 +75,10 @@ export class AddBookComponent implements OnInit {
         let imagePath = item.volumeInfo.imageLinks.thumbnail;
         let book = new BookComponent(title, author,category, imagePath);
         this.results.push(book);
-
-       // console.log(title + ", " + category + ", " + cnt);
-
-        if(cnt++ > 1000)
-         break;
       }
     });
   }
-   
+
   ngOnInit() {
     {
       this.searchField = new FormControl();
