@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Category, ExtendedUserInfo, UserUpdateType } from '../../data_types/states.model';
+import {location } from "../../main/sub-main/settings/settings.component"
 
 export const ActionsUserDataConsts={
 
@@ -68,7 +69,18 @@ export class UpdateUserInfoFail implements Action{
     constructor(public payload?:any){}
 }
 
+export class UpdateUserLocations implements Action{
+    readonly type=ActionsUserDataConsts.UPDATE_USER_INFO;
+    constructor(public updateType:UserUpdateType, public payload?:location[]){}
+}
+
+export class UpdateUserLocationsFail implements Action{
+    readonly type=ActionsUserDataConsts.UPDATE_USER_INFO_FAIL;
+    constructor(public payload?:location[]){}
+}
+
 export type UserDataActions =// LoadFavoriteCategories | LoadFavoriteCategoriesFail | LoadFavoriteCategoriesSuccess|
 LoadUserInfo | LoadUserInfoFail | LoadUserInfoSuccess
 |Login |Logout| ErrorHandler| LoginSuccess|
-UpdateUserInfo|UpdateUserInfoFail;
+UpdateUserInfo|UpdateUserInfoFail|
+UpdateUserLocations|UpdateUserLocationsFail;

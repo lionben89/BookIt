@@ -1,14 +1,15 @@
 <div>
-  <strong>Please pick name for the added location : </strong>
-  <label class="label-loc-city-street" *ngIf="data.street">
-    {{data.street}},
+  <strong>Please pick a name for the added location <span *ngIf="data.example_info!=''">
+      ({{data.example_info}})
+  </span>: </strong><br>
+
+  <label class="label-address">
+    {{data.address}}
   </label>
-  <label class="label-loc-city-street">
-    {{data.city}}
-  </label>
+  
   <mat-form-field>
-    <input matInput [(ngModel)]="name" type="text" [formControl]="nameInputControl">
-    <button mat-button *ngIf="name" matSuffix mat-icon-button aria-label="Clear" (click)="name=''">
+    <input matInput [(ngModel)]="this.name" type="text" [formControl]="nameInputControl">
+    <button mat-button *ngIf="this.name" matSuffix mat-icon-button aria-label="Clear" (click)="this.name=''">
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>

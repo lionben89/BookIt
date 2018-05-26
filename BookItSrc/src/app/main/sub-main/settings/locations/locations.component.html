@@ -22,11 +22,8 @@
               {{loc.name}}
             </label>
             <br>
-            <label class="label-loc-city-street" *ngIf="loc.street">
-              {{loc.street}},
-            </label>
             <label class="label-loc-city-street">
-              {{loc.city}}
+              {{loc.address}}
             </label>
           </section>
           <button mat-icon-button (click)="setOption(loc.name)">

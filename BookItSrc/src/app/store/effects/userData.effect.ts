@@ -1,3 +1,4 @@
+import { location } from './../../main/sub-main/settings/settings.component';
 import { getUserData } from './../reducers/userData.reducer';
 import { MainState } from './../reducers/index';
 import { LoadUserInfoSuccess, Logout } from './../actions/userData.action';
@@ -175,9 +176,7 @@ export class UserDataEffects {
             })
             //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
         );
-
-
-
+ 
 }
 
 

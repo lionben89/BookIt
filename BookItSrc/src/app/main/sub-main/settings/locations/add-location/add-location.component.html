@@ -13,11 +13,11 @@
         <div *ngIf="1 === 1; then searchIcon"></div>
         <mat-form-field class="add-address">
           <input matInput class="input-address" placeholder="{{place_holder}}" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search [(ngModel)]="searchValue" [formControl]="searchControl">
-          <button mat-button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="searchValue=''">
+          <button mat-button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="emptyLocText()">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
-        <button mat-icon-button class="button-add" (click)="addLocation()">
+        <button mat-icon-button class="button-add" (click)="addLocationName()">
           <div *ngIf="1 === 1; then addIcon"></div>
         </button>
       </section>

@@ -21,9 +21,9 @@ export class SettingsComponent implements OnInit {
 
   categories : string[];
 
-  x1 : location = new location("My Currect Location", "Tel Aviv", "namir", true);
-  x2 : location = new location("Home", "Tel Aviv", "Haim Levanon", false);
-  x3 : location = new location("Work", "Givaataim", "Katzanelson", false);
+  x1 : location = new location("Current Location", "Tel Aviv, namir", 0, 0, true);
+  x2 : location = new location("Home", "Tel Aviv, Haim Levanon", 0, 0, false);
+  x3 : location = new location("Work", "Givaataim, Katzanelson", 0, 0, false);
 
   locations = [
     this.x1,
@@ -33,26 +33,25 @@ export class SettingsComponent implements OnInit {
 
   /* global */
   checked = false;
-
   indeterminate = false;
   align = "start";
   disabled = false;
 
-  /* search radius */
+  /* search radius parameters */
   max = 30;
   min = 0.5;
   step = 0.5;
   thumbLabel = true;
+  
+  /* Slide */
+  slide_checked = true;
+  share_enabled = true;
 
   logout(){
     this.store.dispatch(new fromStore.Logout());
   }
 
-  /* Slide */
-  slide_checked = true;
-  share_enabled = true;
-
-  slideClicked() {
+  /*slideClicked() {
     console.log("1 slide_checked = " + this.slide_checked);
     this.slide_checked = !this.slide_checked;
     if (this.share_enabled === true) {
@@ -90,7 +89,7 @@ export class SettingsComponent implements OnInit {
         this.slide_checked = true;
       });
     }
-  }
+  }*/
 
   goToLocations() {
     this.store.dispatch(new fromStore.ChooseSettingsLocations);
@@ -125,14 +124,16 @@ export class SettingsComponent implements OnInit {
 
 export class location{
   name: string;
-  city: string;
-  street: string;
+  address: string;
   enabled: boolean;
+  latitude: number;
+  longitude: number;
 
-  constructor(_name, _city, _street, _enabled){
+  constructor(_name, _address, _latitude, _longitude, _enabled){
     this.name = _name;
-    this.city = _city;
-    this.street = _street;
+    this.address = _address;
     this.enabled = _enabled;
+    this.latitude = _latitude;
+    this.longitude = _longitude;
   }
 }

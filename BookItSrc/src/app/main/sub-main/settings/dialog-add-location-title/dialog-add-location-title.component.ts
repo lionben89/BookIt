@@ -8,33 +8,31 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./dialog-add-location-title.component.scss']
 })
 export class DialogAddLocationTitleComponent implements OnInit {
-  public added_name: string = " - "; //default value
-  public name;
+  public def_val: string = "A location has no name";
+  public name: string = "";
   public nameInputControl: FormControl = new FormControl();
 
   ngOnInit() {
-    {
       
-      this.nameInputControl.valueChanges
-          .subscribe(term => {
-            this.name = term;
-          });
-    }
+    this.nameInputControl.valueChanges
+        .subscribe(term => {
+          this.name = term;
+        });
+    
   }
 
   constructor(
     public dialogRef: MatDialogRef<DialogAddLocationTitleComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  onNoClick(): void {
-    this.dialogRef.close(this.added_name);
-  }
-
   addName(): void {
-    console.log("added_name = " + this.added_name);
-    this.added_name = name;
-    console.log("name = " + name);
-    console.log("added_name = " + this.added_name);
-    this.dialogRef.close(this.added_name);
+    console.log("name = " + this.name);
+
+    if(this.name === ""){
+      //send default value
+      this.dialogRef.close(this.def_val);
+    }
+    else
+      this.dialogRef.close(this.name);
   }
 }
