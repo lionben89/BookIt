@@ -4,14 +4,19 @@
 </div>
 
 <hr />
-
+<button (click)="goToMyBooks()">go to my books</button>
 <ul>
   <li *ngFor="let result of results">
     <div class='book-left'><img class='cover' [attr.src]="result.imagePath"><br>
       <span class='title' >{{result.title}}</span><br>
       <span class='author'>by {{result.author}}</span>
     </div>
-    <div class='book-right'><i class="fas fa-plus"></i></div>
+    <div class='book-right'>
+      <button class="addbook" (click)="addBook()">
+          <i class="fas fa-plus"></i>
+      </button>
+  
+    </div>
       <!-- <span class='category'>{{result.category}}</span> -->
     <hr />
   </li>

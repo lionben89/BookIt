@@ -28,3 +28,4 @@ export const getUserDataState = createFeatureSelector<UserDataState>('userData')
 //export const getUserDataCategoriesState=createSelector(getUserDataState,fromUserData.getUserDataCategories);
 //export const getUserDataInfo=createSelector(getUserDataState,fromUserData.getUserDataInfo);
 export const getUserData=createSelector(getUserDataState,fromUserData.getUserData);
+export const getContextmybooksOption=createSelector(getContextState,fromContext.getContextmybooksOption);

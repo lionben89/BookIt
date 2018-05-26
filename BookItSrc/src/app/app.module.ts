@@ -16,7 +16,8 @@ import { MyBooksComponent } from './main/sub-main/my-books/my-books.component';
 import { AddBookComponent } from './main/sub-main/my-books/add-book/add-book.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatMenuModule, MatButtonModule, MatIconModule,MatCardModule,MatToolbarModule, MatIconRegistry, MatInputModule,MatAutocomplete} from '@angular/material' ;
+import { MatMenuModule, MatButtonModule, MatIconModule,MatCardModule,MatToolbarModule, MatIconRegistry, MatInputModule,MatAutocomplete} from '@angular/material' ;
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCheckboxModule, MatChipsModule, MatSliderModule, MatSlideToggleModule, MatDialogModule } from '@angular/material';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
@@ -36,16 +37,16 @@ import { reducers } from './store/reducers';
 import { CategoriesComponent } from './main/sub-main/settings/categories/categories.component';
 import { LocationsComponent } from './main/sub-main/settings/locations/locations.component';
 import { AddLocationComponent } from './main/sub-main/settings/locations/add-location/add-location.component';
-
+import { CategoryComponent } from './main/sub-main/explore/category/category.component';
+import { BookComponent } from './main/sub-main/my-books/add-book/book/book.component';
+import { DialogOneButtonComponent } from './main/sub-main/settings/dialog-one-button/dialog-one-button.component';
+import { DialogTwoButtonComponent } from './main/sub-main/settings/dialog-two-button/dialog-two-button.component';
+import { DialogAddLocationTitleComponent } from './main/sub-main/settings/dialog-add-location-title/dialog-add-location-title.component';
 
 //google map
 import { AgmCoreModule } from '@agm/core';
 import { EffectsModule } from '@ngrx/effects';
 import { UserDataEffects } from './store/effects/userData.effect';
-import { BookComponent } from './main/sub-main/my-books/add-book/book/book.component';
-import { DialogOneButtonComponent } from './main/sub-main/settings/dialog-one-button/dialog-one-button.component';
-import { DialogTwoButtonComponent } from './main/sub-main/settings/dialog-two-button/dialog-two-button.component';
-import { DialogAddLocationTitleComponent } from './main/sub-main/settings/dialog-add-location-title/dialog-add-location-title.component';
 
 
 @NgModule({
@@ -68,6 +69,7 @@ import { DialogAddLocationTitleComponent } from './main/sub-main/settings/dialog
     DialogOneButtonComponent,
     DialogTwoButtonComponent,
     DialogAddLocationTitleComponent,
+    CategoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -89,6 +91,7 @@ import { DialogAddLocationTitleComponent } from './main/sub-main/settings/dialog
     MatChipsModule,
     MatSliderModule,
     MatDialogModule,
+    MatGridListModule,
     FlexLayoutModule,
     HttpClientModule,
     BrowserAnimationsModule,
