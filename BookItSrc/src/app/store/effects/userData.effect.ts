@@ -1,7 +1,7 @@
 import { getUserData } from './../reducers/userData.reducer';
 import { MainState } from './../reducers/index';
-import { LoadUserInfoSuccess, Logout } from './../actions/userData.action';
-import { UserState, UserSettingsState, ExtendedUserInfo, Category, UserUpdateType, LocationSettings, Location } from './../../data_types/states.model';
+import { LoadUserInfoSuccess, Logout, LoadMyBooksSuccess } from './../actions/userData.action';
+import { UserState, UserSettingsState, ExtendedUserInfo, Category, UserUpdateType, LocationSettings, Location, Book } from './../../data_types/states.model';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 
@@ -53,7 +53,7 @@ export class UserDataEffects {
         };
 
         //return userRef.set(data, { merge: true })
-        
+
         return userRef.update(data)
             .catch((error) => {
                 data.info.borrowRestricted = false;
@@ -67,7 +67,7 @@ export class UserDataEffects {
                     //displayMetric: true,
                 };
                 return userRef.set(data, { merge: true });
-                
+
             });
     }
 
@@ -92,7 +92,7 @@ export class UserDataEffects {
         .catch(err => {
             return Observable.of(new fromUserDataActions.ErrorHandler({ error: err.message }));
         })
-        
+
     @Effect()
     loginFacebook: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.LOGIN_FACEBOOK)
         .map((action: fromUserDataActions.LoginFacebook) => action.payload)
@@ -259,4 +259,43 @@ export class UserDataEffects {
                 })
             );
 
+        @Effect()
+        AddBook: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.ADD_BOOK)
+        .pipe(
+            map((action: fromUserDataActions.AddBook) => action.payload),
+            switchMap((book: Book) => {
+                console.log(book);
+                let userPath=this.userDoc.ref.path;
+                let bookID=this.afs.createId();
+                let bookDocRef=this.afs.collection(userPath+'/Books').doc(bookID);
+                if (!this.userDoc || !bookDocRef) {
+                    console.error("No userDoc");
+                    this.store.dispatch(new fromUserDataActions.AddBookFail());
+                    return Observable.of(null);
+                }
+                return bookDocRef.set(book, { merge: true });
+            }),
+            map(() => {
+                return new fromUserDataActions.AddBookSuccess();
+            })
+        );
+
+        @Effect()
+        LoadMyBooks: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.LOAD_MY_BOOKS)
+            .pipe(
+                map((action: fromUserDataActions.LoadMyBooks) => action.payload),
+                switchMap(payload => this.afAuth.authState),
+                switchMap(authData => {
+                    if (!authData) {
+                        this.store.dispatch(new fromUserDataActions.LoadMyBooksFail());
+                        return Observable.of(null);
+                    }
+                    let userPath = this.userDoc.ref.path;
+                    return this.afs.collection(userPath+'/Books').valueChanges();
+                }),
+                map((books) => {            
+                    return new fromUserDataActions.LoadMyBooksSuccess(books);
+                })
+                //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
+            );
 }

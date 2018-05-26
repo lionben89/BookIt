@@ -4,7 +4,7 @@
             
 <div class="mybooks">
         <mat-grid-list cols="3" gutterSize="10" rowHeight="5:8">
-                <mat-grid-tile *ngFor="let book of books">
+                <mat-grid-tile *ngFor="let book of userBooks">
                    <img class='cover' [attr.src]="book.imagePath" />
                 </mat-grid-tile>
                 <mat-grid-tile>
@@ -20,7 +20,7 @@
 
          
     </div>
-      <app-add-book  *ngSwitchCase="'add_book'" [masterBooksArray]="books"></app-add-book>
+      <app-add-book  *ngSwitchCase="'add_book'" [masterBooksArray]="userBooks"></app-add-book>
 
 
 

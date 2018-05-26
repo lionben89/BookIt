@@ -38,7 +38,6 @@ import { CategoriesComponent } from './main/sub-main/settings/categories/categor
 import { LocationsComponent } from './main/sub-main/settings/locations/locations.component';
 import { AddLocationComponent } from './main/sub-main/settings/locations/add-location/add-location.component';
 import { CategoryComponent } from './main/sub-main/explore/category/category.component';
-import { BookComponent } from './main/sub-main/my-books/add-book/book/book.component';
 import { DialogOneButtonComponent } from './main/sub-main/settings/dialog-one-button/dialog-one-button.component';
 import { DialogTwoButtonComponent } from './main/sub-main/settings/dialog-two-button/dialog-two-button.component';
 import { DialogAddLocationTitleComponent } from './main/sub-main/settings/dialog-add-location-title/dialog-add-location-title.component';
@@ -65,7 +64,6 @@ import { UserDataEffects } from './store/effects/userData.effect';
     ExploreComponent,
     MyBooksComponent,
     AddBookComponent,
-    BookComponent,
     DialogOneButtonComponent,
     DialogTwoButtonComponent,
     DialogAddLocationTitleComponent,

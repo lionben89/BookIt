@@ -31,5 +31,5 @@ export const getUserDataState = createFeatureSelector<UserState>('userData');
 export const getUserData=createSelector(getUserDataState,fromUserData.getUserData);
 export const getUserSettings=createSelector(getUserDataState,fromUserData.getUserSettings);
 export const getUserLocations=createSelector(getUserDataState,fromUserData.getUserLocations);
-
+export const getUserBooks=createSelector(getUserDataState,fromUserData.getUserBooks);
 export const getContextmybooksOption=createSelector(getContextState,fromContext.getContextmybooksOption);
