@@ -23,6 +23,7 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestore, AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireDatabase, AngularFireDatabaseModule } from 'angularfire2/database'
 import { environment } from '../environments/environment';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -96,11 +97,12 @@ import { UserDataEffects } from './store/effects/userData.effect';
     MatInputModule,
     ReactiveFormsModule,
     FormsModule,
-MatCheckboxModule,
+    MatCheckboxModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([UserDataEffects]),
     AngularFireModule.initializeApp(environment.firebase, 'BookIt'),
     AngularFirestoreModule.enablePersistence(),
+    AngularFireDatabaseModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4',
       libraries: ['places']
@@ -111,7 +113,7 @@ MatCheckboxModule,
     DialogTwoButtonComponent,
     DialogAddLocationTitleComponent,
   ],
-  providers: [AngularFirestore,MatIconRegistry],
+  providers: [AngularFirestore, AngularFireDatabase, MatIconRegistry],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

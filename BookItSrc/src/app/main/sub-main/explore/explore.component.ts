@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import * as fromStore from '../../../store';
+
 
 @Component({
   selector: 'app-explore',
@@ -7,9 +10,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExploreComponent implements OnInit {
 
-  constructor() { }
+  constructor(private store: Store<fromStore.MainState>) { }
 
   ngOnInit() {
+    this.store.dispatch(new fromStore.LoadLocations());
   }
 
 }

@@ -20,12 +20,18 @@ import * as firebase from 'firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+import * as GeoFire from 'geofire';
 
 import * as fromUserDataActions from '../actions/userData.action';
+import { getLocaleFirstDayOfWeek } from '@angular/common';
 
 @Injectable()
 export class UserDataEffects {
     // members
+    private dbRef: any;
+    private geoFire: any;
+    private geoQueries = new Array<any>();
+
     private userDoc: AngularFirestoreDocument<UserSettingsState>;
 
     constructor(
@@ -33,7 +39,10 @@ export class UserDataEffects {
         private afAuth: AngularFireAuth,
         private router: Router,
         private afs: AngularFirestore,
+        private afdb: AngularFireDatabase,
         private store: Store<MainState>) {
+            this.dbRef = this.afdb.database.ref('locations/');
+            this.geoFire = new GeoFire(this.dbRef);
     }
 
     // methods
@@ -69,6 +78,22 @@ export class UserDataEffects {
                 return userRef.set(data, { merge: true });
 
             });
+    }
+
+    private updateRealtimeDBLocations(location: Location) {
+        if (location.active) {
+            let userID = this.userDoc.ref.id;
+
+            let latLong = [location.lat, location.long];
+            return this.geoFire.set(location.id, latLong).then(function(dbRef, location, userID) {
+                    return function() {
+                        dbRef.child(location.id).update({'userID': userID});
+                    }
+                }(this.dbRef, location, userID)
+              );
+        } else {
+            return this.geoFire.remove(location.id);
+        }
     }
 
     // effects
@@ -206,13 +231,49 @@ export class UserDataEffects {
                     let userPath = this.userDoc.ref.path;
                     location.id = this.afs.createId();
                     let locDocRef = this.afs.collection(`${userPath}/Locations`).doc(location.id);
-                    return locDocRef.set(location);
+                    return locDocRef.set(location).then(() => {
+                        return location;
+                    });
                 }),
-                map(() => {
-                    return new fromUserDataActions.AddLocationSuccess();
+                map((location: Location) => {
+                    return new fromUserDataActions.AddLocationSuccess(location);
                 })
             );
 
+        @Effect({dispatch: false})
+        AddLocationSuccess: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.ADD_LOCATION_SUCCESS)
+            .pipe(
+                map((action: fromUserDataActions.AddLocationSuccess) => action.payload),
+                switchMap((location: Location) => {
+                    return this.updateRealtimeDBLocations(location);
+                })
+            );
+
+        @Effect()
+        UpdateLocation: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.UPDATE_LOCATION)
+            .pipe(
+                map((action: fromUserDataActions.UpdateLocation) => action.payload),
+                switchMap((location: Location) => {
+                    let userPath = this.userDoc.ref.path;
+                    let locDocRef = this.afs.doc(`${userPath}/Locations/${location.id}`);
+                    return locDocRef.update(location).then(() => {
+                        return location;
+                    });
+                }),
+                map((location: Location) => {
+                    return new fromUserDataActions.UpdateLocationSuccess(location);
+                })
+            );
+
+        @Effect({dispatch: false})
+        UpdateLocationSuccess: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.UPDATE_LOCATION_SUCCESS)
+            .pipe(
+                map((action: fromUserDataActions.UpdateLocationSuccess) => action.payload),
+                switchMap((location: Location) => {
+                    return this.updateRealtimeDBLocations(location);
+                })
+            );    
+        
         @Effect()
         LoadLocations: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.LOAD_LOCATIONS)
             .pipe(
@@ -232,30 +293,79 @@ export class UserDataEffects {
                 //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
             );
 
-        @Effect()
-        UpdateLocation: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.UPDATE_LOCATION)
+        @Effect({dispatch: false})
+        LoadLocationsSuccess: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.LOAD_LOCATIONS_SUCCESS)
             .pipe(
-                map((action: fromUserDataActions.UpdateLocation) => action.payload),
-                switchMap((location: Location) => {
-                    let userPath = this.userDoc.ref.path;
-                    let locDocRef = this.afs.doc(`${userPath}/Locations/${location.id}`);
-                    return locDocRef.update(location);
-                }),
-                map(() => {
-                    return new fromUserDataActions.UpdateLocationSuccess();
+                map((action: fromUserDataActions.LoadLocationsSuccess) => action.payload),
+                switchMap((locations: Location[]) => {
+
+                    for (let oldQuery of this.geoQueries) {
+                        oldQuery.cancel();
+                    }
+                    this.geoQueries = new Array<any>();
+
+                    for (let location of locations) {
+                        let geoQuery = this.geoFire.query({
+                            center: [location.lat, location.long],
+                            radius: 10 // TODO: get from user settings
+                        });
+
+                        let loggedUserID = this.userDoc.ref.id;
+                        geoQuery.on("key_entered", function(dbRef, loggedUserID) {
+                                return function(key, location) {
+                                    dbRef.child(key).once('value').then(snapshot => {
+                                            if (snapshot.val().userID !== loggedUserID) {
+                                                console.log(snapshot.val().userID + " entered!");
+                                            }
+                                        });
+                                    };
+                                } (this.dbRef, loggedUserID)
+                            );
+
+                        geoQuery.on("key_exited", function(dbRef, loggedUserID) {
+                            return function(key, location) {
+                                dbRef.child(key).once('value').then(snapshot => {
+                                        if (snapshot.val().userID !== loggedUserID) {
+                                            console.log(snapshot.val().userID + " exited!");
+                                        }
+                                    });
+                                };
+                            } (this.dbRef, loggedUserID)
+                        );
+                        
+                        this.geoQueries.push(geoQuery);
+                    
+                        /*var onReadyRegistration = geoQuery.on("ready", function() {
+                        console.log("*** 'ready' event fired - cancelling query ***");
+                        geoQuery.cancel();
+                        })*/
+                    }
+                    return Observable.of(null);
                 })
             );
 
         @Effect()
         RemoveLocation: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.REMOVE_LOCATION)
             .pipe(
-                map((action: fromUserDataActions.UpdateLocation) => action.payload),
+                map((action: fromUserDataActions.RemoveLocation) => action.payload),
                 switchMap((location: Location) => {
                     let userPath = this.userDoc.ref.path;
-                   return this.afs.doc(`${userPath}/Locations/${location.id}`).delete();
+                    return this.afs.doc(`${userPath}/Locations/${location.id}`).delete().then(() => {
+                            return location;
+                        });
                 }),
-                map(() => {
-                    return new fromUserDataActions.RemoveLocationSuccess();
+                map((location: Location) => {
+                    return new fromUserDataActions.RemoveLocationSuccess(location);
+                })
+            );
+
+        @Effect({dispatch: false})
+        RemoveLocationSuccess: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.REMOVE_LOCATION_SUCCESS)
+            .pipe(
+                map((action: fromUserDataActions.RemoveLocationSuccess) => action.payload),
+                switchMap((location: Location) => {
+                    location.active = false;
+                    return this.updateRealtimeDBLocations(location);
                 })
             );
 
