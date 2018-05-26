@@ -23,6 +23,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import * as GeoFire from 'geofire';
 
 import * as fromUserDataActions from '../actions/userData.action';
+import * as fromExploreActions from '../actions/explore.action';
 import { getLocaleFirstDayOfWeek } from '@angular/common';
 
 @Injectable()
@@ -311,27 +312,21 @@ export class UserDataEffects {
                         });
 
                         let loggedUserID = this.userDoc.ref.id;
-                        geoQuery.on("key_entered", function(dbRef, loggedUserID) {
+                        geoQuery.on("key_entered", function(dbRef, loggedUserID, store) {
                                 return function(key, location) {
-                                    dbRef.child(key).once('value').then(snapshot => {
-                                            if (snapshot.val().userID !== loggedUserID) {
-                                                console.log(snapshot.val().userID + " entered!");
+                                    dbRef.child(key).once('value').then(function(store) {
+                                            return function(snapshot) {
+                                                if (snapshot.val().userID !== loggedUserID) {
+                                                    console.log(snapshot.val().userID + " entered!");
+                                                    store.dispatch(new fromExploreActions.AddUserNearby(snapshot.val().userID));
+                                                };
                                             }
-                                        });
+                                        } (store));
                                     };
-                                } (this.dbRef, loggedUserID)
+                                } (this.dbRef, loggedUserID, this.store)
                             );
 
-                        geoQuery.on("key_exited", function(dbRef, loggedUserID) {
-                            return function(key, location) {
-                                dbRef.child(key).once('value').then(snapshot => {
-                                        if (snapshot.val().userID !== loggedUserID) {
-                                            console.log(snapshot.val().userID + " exited!");
-                                        }
-                                    });
-                                };
-                            } (this.dbRef, loggedUserID)
-                        );
+                        // TODO: remove users somehow (maybe set counter for keys of user and if 0 then remove)
                         
                         this.geoQueries.push(geoQuery);
                     

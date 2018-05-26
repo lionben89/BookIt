@@ -35,16 +35,9 @@ export class ExploreEffects {
         private afs: AngularFirestore,
         private store: Store<MainState>) {
     }
-
-    // methods
-    private googleLogin() {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        return this.afAuth.auth.signInWithPopup(provider);
-    }
    
     // effects
     @Effect()
-    
     LoadUsersNearBy: Observable<Action> = this.actions.ofType(fromExploreActions.ActionsExploreConsts.LOAD_USERS_NEAR_BY)
         .pipe(
             map((action: fromExploreActions.LoadUsersNearBy) => action.payload),
@@ -61,44 +54,9 @@ export class ExploreEffects {
                 if (!usersInfo) {
                     //return new fromUserDataActions.Logout();
                 }
-                return new fromExploreActions.LoadUsersNearBySuccess(usersInfo);
+                return new fromExploreActions.LoadUsersNearBySuccess("B");
             })
             //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
         )
-
-   /*@Effect()
-    UpdateUserInfo: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.UPDATE_USER_INFO)
-        .pipe(
-            switchMap((action: fromUserDataActions.UpdateUserInfo) => {
-                let updatedFields: UserSettingsState = {};
-                switch (action.updateType) {
-                    case UserUpdateType.SEARCH_RADIUS_KM:
-                        if (!updatedFields.locationSettings) updatedFields.locationSettings = {};
-                        updatedFields.locationSettings.searchRadiusKm = action.payload;
-                        break;
-                    case UserUpdateType.SHARE_MY_BOOKS:
-                        if (!updatedFields.info) updatedFields.info = {};
-                        updatedFields.info.shareMyBooks = action.payload;
-                        break;
-                    default:
-                        // TODO: ERROR
-                        console.error(action.updateType);
-                        return Observable.of(null);
-                }
-
-                if (!this.userDoc) {
-                    console.error("No userDoc");
-                    this.store.dispatch(new fromUserDataActions.UpdateUserInfoFail());
-                    return Observable.of(null);
-                }
-                return this.userDoc.set(updatedFields, { merge: true });
-            }),
-            map(() => {
-                // TODO: change to success
-                return new fromUserDataActions.UpdateUserInfoFail();
-            })
-            //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
-        );*/
-
        
 }

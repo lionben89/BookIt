@@ -2,13 +2,22 @@ import { Action } from '@ngrx/store';
 import { Category, ExtendedUserInfo, UserUpdateType, Location, Book } from '../../data_types/states.model';
 
 export const ActionsExploreConsts={
-
+        ADD_USER_NEARBY:"ADD_USER_NEARBY",
+        REMOVE_USER_NEARBY:"REMOVE_USER_NEARBY",
         LOAD_USERS_NEAR_BY:"LOAD_USERS_NEAR_BY",
         LOAD_USERS_NEAR_BY_SUCCESS:"LOAD_USERS_NEAR_BY_SUCCESS",
         LOAD_USERS_NEAR_BY_FAIL:"LOAD_USERS_NEAR_BY_FAIL",
+};
 
+export class AddUserNearby implements Action {
+    readonly type=ActionsExploreConsts.ADD_USER_NEARBY;
+    constructor(public payload?:any){}
+}
 
-}; 
+export class RemoveUserNearby implements Action {
+    readonly type=ActionsExploreConsts.REMOVE_USER_NEARBY;
+    constructor(public payload?:any){}
+}
 
 export class LoadUsersNearBy implements Action{
     readonly type=ActionsExploreConsts.LOAD_USERS_NEAR_BY;
@@ -26,5 +35,6 @@ export class LoadUsersNearByFail implements Action{
 }
 
 
-export type ExploreActions =LoadUsersNearBy|LoadUsersNearBySuccess|LoadUsersNearByFail;
+export type ExploreActions = AddUserNearby | RemoveUserNearby |
+    LoadUsersNearBy | LoadUsersNearBySuccess | LoadUsersNearByFail;
 
