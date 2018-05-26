@@ -1,7 +1,7 @@
 import { location } from './../../main/sub-main/settings/settings.component';
 import { getUserData } from './../reducers/userData.reducer';
 import { MainState } from './../reducers/index';
-import { LoadUserInfoSuccess, Logout } from './../actions/userData.action';
+import { LoadUserInfoSuccess, Logout, LoginFacebook ,LoginGoogle} from './../actions/userData.action';
 import { UserDataState, ExtendedUserInfo, Category, UserUpdateType, LocationSettings } from './../../data_types/states.model';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
@@ -42,6 +42,10 @@ export class UserDataEffects {
         const provider = new firebase.auth.GoogleAuthProvider();
         return this.afAuth.auth.signInWithPopup(provider);
     }
+    private facebookLogin() {
+        const provider = new firebase.auth.FacebookAuthProvider();
+        return this.afAuth.auth.signInWithPopup(provider);
+    }
     private updateUserData(userData: ExtendedUserInfo) {
         const userRef: AngularFirestoreDocument<UserDataState> = this.afs.doc(`Users/${userData.uid}`);
 
@@ -49,33 +53,53 @@ export class UserDataEffects {
             info: userData,
         };
 
-        return userRef.set(data,{merge:true})
+        //return userRef.set(data, { merge: true })
+        
+        return userRef.update(data)
             .catch((error) => {
                 data.info.borrowRestricted = false;
                 data.info.rating = 5.0;
                 data.info.numRates = 0;
                 data.info.maxAllowedOpenBorrows = 1;
-                data.info.shareMyBooks=true;
+                data.info.shareMyBooks = true;
                 data.locationSettings = {
                     useCurrentLocation: true,
                     locations: [],
                     searchRadiusKm: 3.0,
                     //displayMetric: true,
                 };
-                return userRef.set(data,{merge:true});
+                return userRef.set(data, { merge: true });
+                
             });
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> 4a216149f15d29e477d1421aee8f36fca12aee32
 
     // effects
     @Effect()
-    login: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.LOGIN)
-        .map((action: fromUserDataActions.Login) => action.payload)
+    loginGoogle: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.LOGIN_GOOGLE)
+        .map((action: fromUserDataActions.LoginGoogle) => action.payload)
         .switchMap(payload => {
             return Observable.fromPromise(this.googleLogin());
+        })
+        .map(credential => {
+            this.router.navigate(['']);
+            let userInfo: ExtendedUserInfo = {
+                uid: credential.user.uid,
+                email: credential.user.email,
+                photoURL: credential.user.photoURL,
+                displayName: credential.user.displayName,
+                accountDeleted: false,
+            };
+            return new fromUserDataActions.LoginSuccess(userInfo);
+        })
+        .catch(err => {
+            return Observable.of(new fromUserDataActions.ErrorHandler({ error: err.message }));
+        })
+        
+    @Effect()
+    loginFacebook: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.LOGIN_FACEBOOK)
+        .map((action: fromUserDataActions.LoginFacebook) => action.payload)
+        .switchMap(payload => {
+            return Observable.fromPromise(this.facebookLogin());
         })
         .map(credential => {
             this.router.navigate(['']);
@@ -95,7 +119,7 @@ export class UserDataEffects {
 
     @Effect()
     loginSuccess: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.LOGIN_SUCCESS)
-        .map((action: fromUserDataActions.Login) => action.payload)
+        .map((action: fromUserDataActions.LoginGoogle) => action.payload)
         .switchMap((payload: ExtendedUserInfo) => {
             return this.updateUserData(payload);
         })
@@ -154,7 +178,7 @@ export class UserDataEffects {
                         updatedFields.locationSettings.searchRadiusKm = action.payload;
                         break;
                     case UserUpdateType.SHARE_MY_BOOKS:
-                    if (!updatedFields.info) updatedFields.info = {};
+                        if (!updatedFields.info) updatedFields.info = {};
                         updatedFields.info.shareMyBooks = action.payload;
                         break;
                     default:
@@ -176,7 +200,7 @@ export class UserDataEffects {
             })
             //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
         );
- 
+
 }
 
 

@@ -1,3 +1,4 @@
+import { LoginGoogle } from './../store/actions/userData.action';
 import { UserDataState } from './../data_types/states.model';
 import { Observable } from 'rxjs/Observable';
 import { MainState } from './../store/reducers/index';
@@ -20,9 +21,9 @@ export class LoginComponent {
     this.store.dispatch(new fromStore.LoadUserInfo());
   }
   googleLogin(){
-    this.store.dispatch(new fromStore.Login());
+    this.store.dispatch(new fromStore.LoginGoogle());
   }
-  googleLogout(){
-    this.store.dispatch(new fromStore.Logout());
+  facebookLogin(){
+    this.store.dispatch(new fromStore.LoginFacebook());
   }
 }

@@ -35,7 +35,10 @@ export function userDataReducer(state: UserDataState = initState, action: fromUs
     switch (action.type) {
 
 
-        case fromUserData.ActionsUserDataConsts.LOGIN: {
+        case fromUserData.ActionsUserDataConsts.LOGIN_GOOGLE: {
+            return { ...state, info: { ...state.info, loading: true } };
+        }
+        case fromUserData.ActionsUserDataConsts.LOGIN_FACEBOOK: {
             return { ...state, info: { ...state.info, loading: true } };
         }
         //case fromUserData.ActionsUserDataConsts.LOGIN_SUCCESS:{

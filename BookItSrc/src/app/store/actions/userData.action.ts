@@ -17,15 +17,21 @@ export const ActionsUserDataConsts={
         LOAD_USER_INFO:"LOAD_USER_INFO", //get user data from DB
         LOAD_USER_INFO_SUCCESS:"LOAD_USER_INFO_SUCCESS",//put user data in store
         LOAD_USER_INFO_FAIL:"LOAD_USER_INFO_FAIL",//user data from DB failed
-        LOGIN:"LOGIN", //get Auth data 
+        LOGIN_GOOGLE:"LOGIN_GOOGLE", //get Auth data 
+        LOGIN_FACEBOOK:"LOGIN_FACEBOOK", //get Auth data 
         LOGIN_SUCCESS:"LOGIN_SUCCESS", //push user data from Auth to DB
         LOGOUT:"LOGOUT", //log out from Auth
         ERROR:"ERROR"
 
 }; 
 
-export class Login implements Action{
-    readonly type=ActionsUserDataConsts.LOGIN;
+export class LoginGoogle implements Action{
+    readonly type=ActionsUserDataConsts.LOGIN_GOOGLE;
+    constructor(public payload?:any){}
+}
+
+export class LoginFacebook implements Action{
+    readonly type=ActionsUserDataConsts.LOGIN_FACEBOOK;
     constructor(public payload?:any){}
 }
 
@@ -81,6 +87,6 @@ export class UpdateUserLocationsFail implements Action{
 
 export type UserDataActions =// LoadFavoriteCategories | LoadFavoriteCategoriesFail | LoadFavoriteCategoriesSuccess|
 LoadUserInfo | LoadUserInfoFail | LoadUserInfoSuccess
-|Login |Logout| ErrorHandler| LoginSuccess|
+|LoginGoogle |LoginFacebook |Logout| ErrorHandler| LoginSuccess|
 UpdateUserInfo|UpdateUserInfoFail|
 UpdateUserLocations|UpdateUserLocationsFail;
