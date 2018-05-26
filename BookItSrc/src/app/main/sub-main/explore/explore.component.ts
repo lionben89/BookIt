@@ -11,7 +11,7 @@ export class ExploreComponent implements OnInit {
 
   constructor(private store: Store<fromStore.MainState>) { }
 
-  ngOnInit() {
+  ngOnInit() {//
     this.store.dispatch(new fromStore.LoadUsersNearBy());
   }
 
