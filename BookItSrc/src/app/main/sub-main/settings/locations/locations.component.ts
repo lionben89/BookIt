@@ -20,7 +20,7 @@ export class LocationsComponent implements OnInit {
   public settingsOption$: Observable<string>;
   public cntEnabled = 1;
   public rc = 0;
-  public no_remove = "My Currect Location";
+  public no_remove = "Current Location";
 
   @Input() locations : location[]; //get locations array from settings
   @Output() changed : EventEmitter<location[]> = new EventEmitter<location[]>();
@@ -87,7 +87,7 @@ export class LocationsComponent implements OnInit {
 
     _locations.push(loc);
 
-    this.changed.emit(_locations);
+    this.changed.emit(_locations);    
   }
 
   removeLocation(name) {
@@ -111,7 +111,12 @@ export class LocationsComponent implements OnInit {
         
         for (var _i = 0; _i < _locations.length; _i++) {
           if (_locations[_i].name === name) {
-            if (_locations[_i].enabled) this.cntEnabled--;
+            if (_locations[_i].enabled) 
+              this.cntEnabled--;
+            
+            //YUVAL
+            //this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.REMOVE_LOCATION, _locations[_i]));
+
             _locations.splice(_i, 1);
           }
         }
@@ -132,6 +137,15 @@ export class LocationsComponent implements OnInit {
       .select<any>(fromStore.getContextSettingsOption)
       .subscribe(state => {
         this.which_page = state;
+
+        //YUVAL
+        /*.select<any>(fromStore.getContextLocations)
+        .subscribe(state => {
+          this.locations = state;*/
       });
+  }
+
+  ngOnDestroy(){
+    
   }
 }

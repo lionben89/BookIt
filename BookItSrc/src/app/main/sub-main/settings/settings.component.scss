@@ -118,6 +118,8 @@ div.container_categories {
   width: 140px;
   text-align: left;
   font-weight: 600;
+  margin-bottom: 0px;
+  padding-top: 8px;
 }
 
 .form-margin-c2 {
@@ -139,8 +141,9 @@ div.container_categories {
   flex: auto;
 }
 
-#button_logout {
+/deep/ #button_logout {
   font-weight: 600;
-  align-content: center;
-  align-items: center;
+  min-height: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

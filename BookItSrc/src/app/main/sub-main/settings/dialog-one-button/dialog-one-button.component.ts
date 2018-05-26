@@ -15,10 +15,6 @@ export class DialogOneButtonComponent implements OnInit {
     public dialogRef: MatDialogRef<DialogOneButtonComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
   clickedConfirm(){
     this.dialogRef.close();
   }
