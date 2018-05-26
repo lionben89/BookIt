@@ -1,4 +1,4 @@
-.container{
+.container {
   padding-top: 15px;
   padding-right: 0px;
   padding-left: 4px;
@@ -45,7 +45,6 @@ right-arrow-icon {
 
 .spacer {
   flex: 1;
-  min-width: 200px;
   color: #fafafa;
 }
 
@@ -69,17 +68,19 @@ right-arrow-icon {
 }
 
 .form-margin-sr1 {
-  flex: auto;
+  align-items: flex-start;
   padding-left: 12px;
+  width: 140px;
   text-align: left;
   font-weight: 600;
-  min-width: 120px;
+  margin-bottom: 0px;
 }
 
 .form-margin-sr2 {
-  flex: auto;
-  padding-right: 14px;
+  align-items: flex-end;
+  padding-right: 22px;
   text-align: right;
+  font-weight: 300;
 }
 
 div.container_search_radius {
@@ -91,6 +92,10 @@ div.container_location {
 }
 
 div.container_categories {
+  display: flex;
+}
+
+.container_share_books {
   display: flex;
 }
 
@@ -122,6 +127,15 @@ div.container_categories {
   padding-top: 8px;
 }
 
+.form-margin-c1-share-books {
+  align-items: flex-start;
+  padding-left: 12px;
+  min-width: 140px;
+  text-align: left;
+  font-weight: 600;
+  margin-bottom: 0px;
+}
+
 .form-margin-c2 {
   align-items: flex-end;
   padding-right: 22px;
@@ -139,6 +153,7 @@ div.container_categories {
 
 .slide-show-books {
   flex: auto;
+  max-width: 50px;
 }
 
 /deep/ #button_logout {
@@ -146,4 +161,10 @@ div.container_categories {
   min-height: 30px;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+@media (max-width: 200px) {
+  .container {
+    display: none;
+  }
 }

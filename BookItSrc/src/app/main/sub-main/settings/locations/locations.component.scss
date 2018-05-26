@@ -84,3 +84,9 @@ section.header {
 .label-loc-city-street {
   font: 8px;
 }
+
+@media (max-width: 235px) {
+  .container {
+    display: none;
+  }
+}

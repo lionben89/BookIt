@@ -1,5 +1,5 @@
 <div style="margin-top: 10pt;">
-  <input type="search" class="form-control" placeholder="title, author, isbn..." [formControl]="searchField">
+  <input id="book-search" type="search" class="form-control" placeholder="title, author, isbn..." [formControl]="searchField">
   <i class="fas fa-search"></i>
 </div>
 
@@ -12,7 +12,7 @@
       <span class='author'>by {{result.author}}</span>
     </div>
     <div class='book-right'>
-      <button class="addbook" (click)="addBook()">
+      <button class="addbook" (click)="addBook(result)">
           <i class="fas fa-plus"></i>
       </button>
   

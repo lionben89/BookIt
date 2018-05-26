@@ -26,8 +26,6 @@ export class DialogAddLocationTitleComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   addName(): void {
-    console.log("name = " + this.name);
-
     if(this.name === ""){
       //send default value
       this.dialogRef.close(this.def_val);

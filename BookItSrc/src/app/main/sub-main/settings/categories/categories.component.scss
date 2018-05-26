@@ -1,6 +1,5 @@
 .container {
   background: #fafafa;
-  padding-top: 30px;
   padding-right: 0px;
   padding-left: 0px;
 }
@@ -15,12 +14,12 @@ mat-chip {
 }
 
 pick-buttons {
-  width: 100%;
+  width: 90%;
   padding-left: 0px;
   padding-right: 0px;
 }
 
-.button-add {
+.button-right {
   background-color: #03a9f4;
   color: white;
   height: 50px;
@@ -30,10 +29,37 @@ pick-buttons {
   font-size: 14px;
   padding-left: 4px;
   padding-right: 4px;
+  flex: flex-end;
+}
+
+.button-left {
+  background-color: #03a9f4;
+  color: white;
+  height: 50px;
+  border: 1px;
+  border-color: black;
+  align-content: center;
+  font-size: 14px;
+  padding-left: 4px;
+  padding-right: 4px;
+  flex: flex-start;
+}
+
+.button-mid {
+  background-color: #03a9f4;
+  color: white;
+  height: 50px;
+  border: 1px;
+  border-color: black;
+  align-content: center;
+  font-size: 14px;
+  padding-left: 4px;
+  padding-right: 4px;
+  flex: 1;
 }
 
 pick-buttons {
-  flex: auto;
+  display: flex;
 }
 
 .header {
@@ -77,4 +103,11 @@ section {
   padding: 8px !important;
   justify-content: center;
   width: 110px;
+}
+
+
+@media (max-width: 200px) {
+  .container {
+    display: none;
+  }
 }

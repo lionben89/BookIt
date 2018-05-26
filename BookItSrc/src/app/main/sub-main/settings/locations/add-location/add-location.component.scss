@@ -1,5 +1,6 @@
 .container {
   padding: 0px;
+  width: 100%;
 }
 
 .header {
@@ -27,14 +28,13 @@ agm-map {
 }
 
 .total-search-section {
-  width: 100%;
-}
-
-.total-search-section {
+  padding-right: 8px;
+  padding-left: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 
 .button-add {
   align-items: flex-end;
@@ -42,8 +42,8 @@ agm-map {
 
 .search-icon {
   align-items: flex-start;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
 }
 
 .add-icon {
@@ -54,11 +54,6 @@ agm-map {
 .input-address {
   font-size: 20px;
   color: #737373;
-  
-}
-
-/deep/ .mat-form-field-infix {
-    min-width: 250px;
 }
 
 left-arrow-icon {
@@ -81,6 +76,15 @@ section {
 }
 
 
+@media (max-width: 230px) {
+  .container {
+    display: none;
+  }
+}
+
+.header{
+  display: flex;
+}
 
 /* http://stackoverflow.com/questions/12499886/how-to-hide-or-disable-the-google-logo-footer-copyright-on-google-maps-javascr */
 a[href^="http://maps.google.com/maps"] {

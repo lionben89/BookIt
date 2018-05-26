@@ -52,13 +52,7 @@ export class AddLocationComponent implements OnInit {
   ) {}
 
   openDialog_add_title(): void {
-    var _example_info = "";
-
-    if (this.first_diag) {
-      //give examples only on first dialog
-      _example_info = "i.e Home, Work etc";
-      this.first_diag = false;
-    }
+    var _example_info = "i.e Home, Work etc";
 
     let dialogRef = this.dialog.open(DialogAddLocationTitleComponent, {
       width: "250px",
@@ -83,10 +77,10 @@ export class AddLocationComponent implements OnInit {
         result = temp.concat(rand.toString());
       }
 
-      console.log("The dialog was closed, picked name - ", result);
       this.new_location_name = result;
 
       this.addLocation(); //now add location
+      this.goToLocations();
     });
   }
 
@@ -105,14 +99,10 @@ export class AddLocationComponent implements OnInit {
 
   addLocation() {
     console.log(
-      "called! name = " +
+      "Add new location : name = " +
         this.new_location_name +
         " address = " +
-        this.new_location_address +
-        ", lat = " +
-        this.new_location_lat +
-        ", long = " +
-        this.new_location_long
+        this.new_location_address
     );
 
     this.new_location = {

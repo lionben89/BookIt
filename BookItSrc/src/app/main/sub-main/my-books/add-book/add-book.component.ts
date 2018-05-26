@@ -1,3 +1,4 @@
+import { Book } from './../../../navbar/auto-complete/auto-complete.component';
 import { Component, OnInit,Input } from '@angular/core';
 import {ReactiveFormsModule,FormControl} from '@angular/forms';
 import  'rxjs/Rx';//TODO import only debouncetime
@@ -21,12 +22,13 @@ export class AddBookComponent implements OnInit {
   searchTerm: string;
   public mybooksOption$: Observable<string>;
   constructor(private httpClient: HttpClient,private store: Store<fromStore.MainState>) { }
-  addBook(){
+  addBook(_result : BookComponent){
     console.log('book added');
     //TODO need to add book to DB
     //TODO add dialog book added
-    this.masterBooksArray.push(this.results[0]);//change to specific
+    this.masterBooksArray.push(_result);//change to specific
     this.results = [];
+    this.store.dispatch(new fromStore.ChooseMyBooksMain);
   }
   goToMyBooks(){
     this.store.dispatch(new fromStore.ChooseMyBooksMain);
@@ -36,10 +38,27 @@ export class AddBookComponent implements OnInit {
       this.results = [];
       return;
     }
+    
+    let splited = this.searchTerm.split(" ");
+    let final_search_term : string = "";
+
+    for(let i = 0; i < splited.length; i++){
+      if(splited[i] == "")
+        return;
+
+      if(i!= 0 && i != splited.length - 1){
+        final_search_term = final_search_term.concat("+");
+      }
+      final_search_term = final_search_term.concat(splited[i]);
+    }    
 
     //send book search request to Book API
     this.results = [];
-    let url = `${this.apiRoot}/?q=` + this.searchTerm;
+    let url = `${this.apiRoot}/?q=` + final_search_term + '&filter=partial';
+    console.log(url);
+
+    let cnt = 0;
+
     this.httpClient.get(url).subscribe(res => {
       if (res['items'] === undefined){
         this.results = [];
@@ -59,10 +78,15 @@ export class AddBookComponent implements OnInit {
         let imagePath = item.volumeInfo.imageLinks.thumbnail;
         let book = new BookComponent(title, author,category, imagePath);
         this.results.push(book);
+
+       // console.log(title + ", " + category + ", " + cnt);
+
+        if(cnt++ > 1000)
+         break;
       }
     });
   }
-
+   
   ngOnInit() {
     {
       this.searchField = new FormControl();
