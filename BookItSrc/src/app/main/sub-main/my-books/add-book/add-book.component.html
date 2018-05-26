@@ -11,23 +11,24 @@
 
 <hr />
 
-<ul>
-  <li *ngFor="let result of results">
-    <div class='book-left'><img class='cover' [attr.src]="result.imagePath"><br>
-      <span class='title' >{{result.title}}</span><br>
-      <span class='author'>by {{result.author}}</span>
+<mat-grid-list [cols]="numCols" rowHeight="5:10" gutterSize="10" (window:resize)="onResize()">
+  <mat-grid-tile *ngFor="let result of results">
+    <div class='book-bottom'>
+      <span class='addbook_title' >{{result.title}}</span><br>
+      <span class='addbook_author'>by {{result.author}}</span>
     </div>
-    <div class='book-right'>
+    <div class='book-top'>
+      <img class='cover' [attr.src]="result.imagePath">
       <button class="addbook" (click)="addBook(result)">
           <i class="fas fa-plus"></i>
       </button>
   
     </div>
-      <!-- <span class='category'>{{result.category}}</span> -->
+      
     <hr />
-  </li>
-  
-</ul>
+  </mat-grid-tile>
+</mat-grid-list>
 <ng-template #leftArrowIcon>
     <mat-icon svgIcon='left-arrow' class="left-arrow-icon"></mat-icon>
   </ng-template>
+  

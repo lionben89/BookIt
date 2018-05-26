@@ -16,24 +16,13 @@ export class MyBooksComponent implements OnInit {
   userBooks: Book[];
   userBooksSubscription;
   numCols;
-
+  bookNavBarEnabled:boolean;
+  bookSelected:Book;
   goToAddbook() {
     this.store.dispatch(new fromStore.ChooseMyBooksAddBook);
   }
 
-  onResize(event) {
-    if (event.target.innerWidth <= 400){
-      this.numCols=3;
-    }
-    else if (event.target.innerWidth > 400 &&  event.target.innerWidth<800){
-      this.numCols=4;
-    }
-    else{
-      this.numCols=6;
-    }
-  }
-
-  ngOnInit() {
+  onResize() {
     if (window.innerWidth <= 400){
       this.numCols=3;
     }
@@ -43,6 +32,24 @@ export class MyBooksComponent implements OnInit {
     else{
       this.numCols=6;
     }
+  }
+  showBookNavbar(book:Book){
+    this.bookNavBarEnabled=true;
+    this.bookSelected=book;
+    // for(let userBook of this.userBooks){
+    //   if(book!=userBook){
+
+    //   }
+    // }
+  }
+  removeBook(book:Book){
+    this.userBooks.splice(this.userBooks.indexOf(book)-1,1);
+    this.bookNavBarEnabled=false;
+    this.bookSelected=undefined;
+  }
+  ngOnInit() {
+    this.bookNavBarEnabled=false;
+    this.onResize();
     this.mybooksOption$ = this.store.select(fromStore.getContextmybooksOption);
     this.store.select<any>(fromStore.getContextmybooksOption).subscribe(state => { this.which_page = state; });
     this.store.dispatch(new fromStore.LoadMyBooks());

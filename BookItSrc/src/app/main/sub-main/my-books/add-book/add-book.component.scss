@@ -1,9 +1,4 @@
-ul {
-  
-  list-style-type: none;
-  padding: 0;
 
-}
 .header {
   background-color: #2B2727; 
   color: white;
@@ -32,47 +27,13 @@ section {
   align-items: center;
   justify-content: stretch;
 }
-.cover{
-  border-radius: 0px;
-  filter: drop-shadow(rgb(43, 39, 39) 1px 1px 2px);
-}
-.book-left{
-  vertical-align: middle;
-  overflow-wrap: normal;
-  display: inline-block;
-  text-align: center;
-  width: 50%;
-  height: 100%;
-}
-.book-right{
-  vertical-align: middle;
-  text-align: center;
-  display: inline-block;
-  width: 40%;
-  height: 100%;
-}
-.fa-plus{
-  vertical-align: middle;
-  color: #3A95D7;
-  font-size: 50px;
-}
 
 .fa-search{
   font-size: 28px;
   vertical-align: middle;
   color:#8A8A8A;
 }
-.title {
-  font-size: 20px;
-  font-weight: bold;
-}
 
-.author {
-  font-size: 16px;
-}
-.category {
-  font-size: 14px;
-}
 
 .form-control {
   margin-right: 2.5%;
@@ -84,8 +45,63 @@ section {
 *{
   outline: none;
 }
+.mat-grid-list{
+  margin-top: 5%;
+  margin-left:  5%;
+  margin-right: 5%;
+}
 
+.cover{
+  border-radius: 0px;
+  top:50%;
+  left:50%;
+  max-width: 97%;
+  max-height: 97%;
+  min-width: 97%;
+  min-height: 97%;
+  transform:translate(-50%,-50%);
+  position: absolute;
+  filter: drop-shadow(rgb(43, 39, 39) 1px 1px 2px);
+}
+.book-top{
+  position: absolute;
+  text-align: center;
+  max-width: 100%;
+  min-width: 100%;
+  min-height: 80%;
+  max-height: 80%;
+  top:0%;
+}
 .addbook{
   border: none !important;
   background-color: transparent;
 }
+
+.fa-plus{
+  vertical-align: middle;
+  color: #3A95D7;
+  font-size: 50px;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  position: absolute;
+  filter: drop-shadow(0 0 3px rgba(0,0,0,0.7));
+}
+.book-bottom{
+  position: absolute;
+  overflow: hidden;
+  text-align: center;
+  max-width: 100%;
+  max-height: 20%;
+  top:80%;
+}
+.addbook_title {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.addbook_author {
+  font-size: 10px;
+}
+
+

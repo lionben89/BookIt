@@ -20,7 +20,20 @@ export class AddBookComponent implements OnInit {
   apiRoot: string = "https://www.googleapis.com/books/v1/volumes";
   searchTerm: string;
   public mybooksOption$: Observable<string>;
+  numCols;
   constructor(private httpClient: HttpClient, private store: Store<fromStore.MainState>) { }
+  onResize() {
+    if (window.innerWidth <= 400){
+      this.numCols=3;
+    }
+    else if (window.innerWidth > 400 &&  window.innerWidth<800){
+      this.numCols=4;
+    }
+    else{
+      this.numCols=6;
+    }
+  }
+
   addBook(result: Book) {
     console.log('book added');
     //TODO need to add book to DB
@@ -92,7 +105,8 @@ export class AddBookComponent implements OnInit {
   }
 
   ngOnInit() {
-    {
+    
+      this.onResize();
       this.searchField = new FormControl();
       this.searchField.valueChanges
         .debounceTime(400)
@@ -101,7 +115,7 @@ export class AddBookComponent implements OnInit {
           this.searchTerm = term;
           this.doSearch();
         });
-    }
+    
   }
 
 }
