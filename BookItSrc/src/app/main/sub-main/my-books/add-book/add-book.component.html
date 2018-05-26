@@ -1,10 +1,16 @@
+<section class="header">
+    <button mat-button label class="button-switch-page" (click)="goToMyBooks()">
+      <div *ngIf="1 === 1; then leftArrowIcon"></div>
+    </button>
+    <label class="header-cat">Add Book</label>
+  </section>
 <div style="margin-top: 10pt;">
   <input id="book-search" type="search" class="form-control" placeholder="title, author, isbn..." [formControl]="searchField">
   <i class="fas fa-search"></i>
 </div>
 
 <hr />
-<button (click)="goToMyBooks()">go to my books</button>
+
 <ul>
   <li *ngFor="let result of results">
     <div class='book-left'><img class='cover' [attr.src]="result.imagePath"><br>
@@ -22,3 +28,6 @@
   </li>
   
 </ul>
+<ng-template #leftArrowIcon>
+    <mat-icon svgIcon='left-arrow' class="left-arrow-icon"></mat-icon>
+  </ng-template>
