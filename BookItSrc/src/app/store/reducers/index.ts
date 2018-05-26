@@ -2,11 +2,11 @@ import { MainState } from './index';
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromContext from './context.reducer';
 import * as fromUserData from './userData.reducer';
-import { ContextState, UserDataState } from '../../data_types/states.model'
+import { ContextState, UserState } from '../../data_types/states.model'
 
 export interface MainState {
     context: ContextState,
-    userData:UserDataState,
+    userData:UserState,
 }
 
 export const reducers: ActionReducerMap<MainState> = {
@@ -24,8 +24,12 @@ export const getContextNavbarOptionEnabled=createSelector(getContextState,fromCo
 export const getContextSettingsOption=createSelector(getContextState,fromContext.getContextSettingsOption);
 
 //userData selectors
-export const getUserDataState = createFeatureSelector<UserDataState>('userData');
+export const getUserDataState = createFeatureSelector<UserState>('userData');
 //export const getUserDataCategoriesState=createSelector(getUserDataState,fromUserData.getUserDataCategories);
 //export const getUserDataInfo=createSelector(getUserDataState,fromUserData.getUserDataInfo);
+
 export const getUserData=createSelector(getUserDataState,fromUserData.getUserData);
+export const getUserSettings=createSelector(getUserDataState,fromUserData.getUserSettings);
+export const getUserLocations=createSelector(getUserDataState,fromUserData.getUserLocations);
+
 export const getContextmybooksOption=createSelector(getContextState,fromContext.getContextmybooksOption);

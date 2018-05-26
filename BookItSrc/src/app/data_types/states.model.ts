@@ -38,7 +38,6 @@ export interface Location {
 
 export interface LocationSettings extends Loadable {
     useCurrentLocation?: boolean,
-    locations?: Location[],
     searchRadiusKm?: number,
 }
 
@@ -51,10 +50,15 @@ export interface FavoriteCategories extends Loadable {
     categories: Category[],
 }
 
-export interface UserDataState {
+export interface UserSettingsState {
     info?: ExtendedUserInfo,
     locationSettings?: LocationSettings,
     favoriteCategories?: FavoriteCategories,
+}
+
+export interface UserState {
+    userSettings: UserSettingsState,
+    locations, // {'id':Location, 'id':Location}
 }
 
 export enum UserUpdateType {

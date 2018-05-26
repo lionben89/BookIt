@@ -1,57 +1,101 @@
-import { Category } from './../../data_types/states.model';
+import { Category, UserSettingsState } from './../../data_types/states.model';
 
 import { Action } from '@ngrx/store';
 import * as fromUserData from '../actions/userData.action';
-import { UserDataState } from '../../data_types/states.model'
+import { UserState } from '../../data_types/states.model'
 
-let initState: UserDataState = {
-    info: {
-        uid: '',
-        displayName: '',
-        email: '',
-        photoURL: '',
-        accountDeleted: false,
-        borrowRestricted: false,
-        maxAllowedOpenBorrows: 0,
-        shareMyBooks:true,
-        loading: false,
-        loaded: false,
+let initState: UserState = {
+    userSettings : {
+        info: {
+            uid: '',
+            displayName: '',
+            email: '',
+            photoURL: '',
+            accountDeleted: false,
+            borrowRestricted: false,
+            maxAllowedOpenBorrows: 0,
+            shareMyBooks:true,
+            loading: false,
+            loaded: false,
+        },
+        locationSettings: {
+            useCurrentLocation: true,
+            searchRadiusKm: 3,
+            loading: false,
+            loaded: false,
+        },
+        favoriteCategories: {
+            categories: [],
+            loading: false,
+            loaded: false,
+        }
     },
-    locationSettings: {
-        locations: [],
-        useCurrentLocation: true,
-        searchRadiusKm: 3,
-        loading: false,
-        loaded: false,
-    },
-    favoriteCategories: {
-        categories: [],
-        loading: false,
-        loaded: false,
-    }
+    locations: {},
 };
-export function userDataReducer(state: UserDataState = initState, action: fromUserData.UserDataActions) {
+export function userDataReducer(state: UserState = initState, action: fromUserData.UserDataActions) {
 
     switch (action.type) {
-
-
         case fromUserData.ActionsUserDataConsts.LOGIN: {
-            return { ...state, info: { ...state.info, loading: true } };
+            return { ...state,
+                    userSettings: { ...state.userSettings,
+                        info: { ...state.userSettings.info,
+                            loading: true,
+                            loaded: false,
+                        }
+                    }
+                };
         }
         //case fromUserData.ActionsUserDataConsts.LOGIN_SUCCESS:{
 
         //}
         case fromUserData.ActionsUserDataConsts.ERROR: {
-            return { ...state, info: { ...state.info, loading: false, error: action.payload } }
+            return { ...state,
+                    userSettings: { ...state.userSettings,
+                        info: { ...state.userSettings.info,
+                            loading: false,
+                            loaded: false,
+                            error: action.payload
+                        }
+                    }
+                };
         }
+
         case fromUserData.ActionsUserDataConsts.LOAD_USER_INFO: {
-            return { ...state, loading: true };
+            return { ...state,
+                    userSettings: { ...state.userSettings,
+                        loading: true,
+                        loaded: false,
+                    }
+                };
         }
         case fromUserData.ActionsUserDataConsts.LOAD_USER_INFO_SUCCESS: {
-            return {...action.payload};
+            return { ...state,
+                    userSettings: {
+                        ...action.payload,
+                        loading: false,
+                        loaded: true,
+                    }
+                };
         }
         case fromUserData.ActionsUserDataConsts.LOAD_USER_INFO_FAIL: {
-            return { ...state,  loading: false, loaded: false };
+            return { ...state,
+                    userSettings: {
+                        loading: false,
+                        loaded: false,
+                    }
+                };
+        }
+        case fromUserData.ActionsUserDataConsts.ADD_LOCATION: {
+            return { ...state,
+                    loading: true,
+                    loaded: false,
+                };
+        }
+        case fromUserData.ActionsUserDataConsts.ADD_LOCATION_SUCCESS: {
+            return { ...state,
+                    loadig: false,
+                    loaded: true,
+                };
         }
         default: return state;
     }
@@ -60,4 +104,6 @@ export function userDataReducer(state: UserDataState = initState, action: fromUs
 //selectors
 //export const getContetxtNavbarOptionEnabled=(state:ContextState)=>{return state.navbar.optionEnabled;}
 //export const getUserDataCategories = (state: UserDataState) => { return state.favoriteCategories; }
-export const getUserData = (state: UserDataState) => { return state }
+export const getUserData = (state: UserState) => { return state }
+export const getUserSettings = (state: UserState) => { return state.userSettings }
+export const getUserLocations = (state: UserState) => { return state.locations }

@@ -17,28 +17,71 @@ export function contextReducer(state:ContextState=initState,action:fromContext.C
 
     switch (action.type){
         case fromContext.ActionsConsts.CHOOSE_EXPLORER:{
-            return {...state,navbar:{...state.navbar,show:true,optionEnabled:"explorer"}};
+            return {...state,
+                    navbar:{ ...state.navbar,
+                        show:true,
+                        optionEnabled:"explorer"
+                    }
+                };
         }
+
         case fromContext.ActionsConsts.CHOOSE_MY_BOOKS:{
-            return {...state,navbar:{...state.navbar,show:true,optionEnabled:"my_books"}};
+            return {...state,
+                    navbar:{ ...state.navbar,
+                        show:true,
+                        optionEnabled:"my_books"
+                    }
+                };
         }
+
         case fromContext.ActionsConsts.CHOOSE_MY_BOOKS_ADD_BOOK:{
-            return {...state,navbar:{...state.navbar,show:false,myBooksOption:"add_book"}};
+            return {...state,
+                    navbar:{ ...state.navbar,
+                        show:false,
+                        myBooksOption:"add_book"
+                    }
+                };
         }
         case fromContext.ActionsConsts.CHOOSE_MY_BOOKS_MAIN:{
-            return {...state,navbar:{...state.navbar,show:true,myBooksOption:"my_books"}};
+            return {...state,
+                    navbar:{...state.navbar,
+                        show:true,
+                        myBooksOption:"my_books"
+                    }
+                };
         }
         case fromContext.ActionsConsts.CHOOSE_SETTINGS:{
-            return {...state,navbar:{...state.navbar,show:true,optionEnabled:"settings",settingsOption:"settings"}};
+            return {...state,
+                    navbar:{...state.navbar,
+                        show:true,
+                        optionEnabled:"settings",
+                        settingsOption:"settings"
+                    }
+                };
         }
         case fromContext.ActionsConsts.CHOOSE_SETTINGS_LOCATIONS:{
-            return {...state,navbar:{...state.navbar,show:false,settingsOption:"locations"}};
+            return {...state,
+                    navbar:{...state.navbar,
+                        show:false,
+                        settingsOption:"locations"
+                    }
+                };
         }
         case fromContext.ActionsConsts.CHOOSE_SETTINGS_ADD_LOCATIONS:{
-            return {...state,navbar:{...state.navbar,show:false,settingsOption:"add_locations"}};
+            return {...state,
+                    navbar:{...state.navbar,
+                        show:false,
+                        settingsOption:"add_locations"
+                    }
+                };
         }
         case fromContext.ActionsConsts.CHOOSE_SETTINGS_CATEGORIES:{
-            return {...state,navbar:{...state.navbar,show:false,settingsOption:"categories"}};
+            return {...state,
+                    navbar:{...state.navbar,
+                        show:false,
+                        settingsOption:"categories"
+                    }
+                };
         }
         default: return state;
     }

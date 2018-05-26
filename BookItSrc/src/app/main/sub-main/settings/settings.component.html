@@ -1,8 +1,8 @@
 <container-element [ngSwitch]="this.which_page">
   <div class="switch_container_1" *ngSwitchCase="'settings'">
-    <div class="container" *ngIf="userData">
-      <img [src]="userData.info.photoURL + '?type=large'" />
-      <h3> {{ userData.info.displayName }}</h3>
+    <div class="container" *ngIf="userSettings">
+      <img [src]="userSettings.info.photoURL + '?type=large'" />
+      <h3> {{ userSettings.info.displayName }}</h3>
 
       <mat-card class="RightLeftStyle">
         <mat-card-content>
@@ -23,10 +23,10 @@
           <div class="container_search_radius">
             <label class="form-margin-sr1" name="search_radius_lab_1"> Search Radius</label>
             <span class="spacer"></span>
-            <label class="form-margin-sr2" name="search_radius_lab_2" [style.color]="'#8a8a8a'"> {{ this.userData.locationSettings.searchRadiusKm }}Km.</label>
+            <label class="form-margin-sr2" name="search_radius_lab_2" [style.color]="'#8a8a8a'"> {{ this.userSettings.locationSettings.searchRadiusKm }}Km.</label>
           </div>
           <mat-slider name="search_radius_slider" class="form-margin" [max]="max" [min]="min" [step]="step" [thumb-label]="thumbLabel"
-            [(ngModel)]="this.userData.locationSettings.searchRadiusKm"
+            [(ngModel)]="this.userSettings.locationSettings.searchRadiusKm"
             (change)="this.updateSearchRadiusKm()">
           </mat-slider>
         </mat-card-content>
@@ -54,7 +54,7 @@
             <div class="container_location">
               <label class="form-margin-c1" name="location_lab_1"> Share My Books</label>
               <span class="spacer"></span>
-              <mat-slide-toggle class="slide-show-books"  [(ngModel)]="this.userData.info.shareMyBooks"
+              <mat-slide-toggle class="slide-show-books"  [(ngModel)]="this.userSettings.info.shareMyBooks"
               (change)="this.updateShareMyBooks()">
               </mat-slide-toggle>
             </div>
