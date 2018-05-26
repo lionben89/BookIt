@@ -17,7 +17,7 @@ import { AddBookComponent } from './main/sub-main/my-books/add-book/add-book.com
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatMenuModule, MatButtonModule, MatIconModule,MatCardModule,MatToolbarModule, MatIconRegistry, MatInputModule,MatAutocomplete} from '@angular/material' ;
-import { MatCheckboxModule, MatChipsModule, MatSliderModule, MatSlideToggleModule } from '@angular/material';
+import { MatCheckboxModule, MatChipsModule, MatSliderModule, MatSlideToggleModule, MatDialogModule } from '@angular/material';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 import { AngularFireModule } from 'angularfire2';
@@ -43,6 +43,9 @@ import { AgmCoreModule } from '@agm/core';
 import { EffectsModule } from '@ngrx/effects';
 import { UserDataEffects } from './store/effects/userData.effect';
 import { BookComponent } from './main/sub-main/my-books/add-book/book/book.component';
+import { DialogOneButtonComponent } from './main/sub-main/settings/dialog-one-button/dialog-one-button.component';
+import { DialogTwoButtonComponent } from './main/sub-main/settings/dialog-two-button/dialog-two-button.component';
+import { DialogAddLocationTitleComponent } from './main/sub-main/settings/dialog-add-location-title/dialog-add-location-title.component';
 
 
 @NgModule({
@@ -62,6 +65,9 @@ import { BookComponent } from './main/sub-main/my-books/add-book/book/book.compo
     MyBooksComponent,
     AddBookComponent,
     BookComponent,
+    DialogOneButtonComponent,
+    DialogTwoButtonComponent,
+    DialogAddLocationTitleComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,6 +88,7 @@ import { BookComponent } from './main/sub-main/my-books/add-book/book/book.compo
     MatCheckboxModule,
     MatChipsModule,
     MatSliderModule,
+    MatDialogModule,
     FlexLayoutModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -92,11 +99,16 @@ MatCheckboxModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([UserDataEffects]),
     AngularFireModule.initializeApp(environment.firebase, 'BookIt'),
-    //AngularFirestoreModule.enablePersistence(),
+    AngularFirestoreModule.enablePersistence(),
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4'
-    }),
-    
+      apiKey: 'AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4',
+      libraries: ['places']
+    })
+  ],
+  entryComponents: [
+    DialogOneButtonComponent,
+    DialogTwoButtonComponent,
+    DialogAddLocationTitleComponent,
   ],
   providers: [AngularFirestore,MatIconRegistry],
   bootstrap: [AppComponent]
