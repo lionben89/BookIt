@@ -1,5 +1,5 @@
 
-import { UserDataState,UserUpdateType } from './../../../data_types/states.model';
+import { UserSettingsState, UserUpdateType } from './../../../data_types/states.model';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/auth.service';
 import { Store } from '@ngrx/store';
@@ -17,7 +17,7 @@ import { MatDialog } from "@angular/material";
 export class SettingsComponent implements OnInit {
   public which_page = "settings"; /* options = {settings, categories, locations, add_location} */
   public settingsOption$: Observable<string>;
-  public userData:UserDataState;
+  public userSettings:UserSettingsState;
 
   categories : string[];
 
@@ -100,12 +100,12 @@ export class SettingsComponent implements OnInit {
   }
 
   updateSearchRadiusKm(){
-    let newValue = this.userData.locationSettings.searchRadiusKm;
+    let newValue = this.userSettings.locationSettings.searchRadiusKm;
     this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.SEARCH_RADIUS_KM, newValue));
   }
 
   updateShareMyBooks(){
-    let newValue = this.userData.info.shareMyBooks;
+    let newValue = this.userSettings.info.shareMyBooks;
     this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.SHARE_MY_BOOKS,newValue ));
   }
 
@@ -113,8 +113,8 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     this.settingsOption$ = this.store.select(fromStore.getContextSettingsOption);
-    this.store.select<any>(fromStore.getContextSettingsOption).subscribe(state => { this.which_page = state; })
-    this.store.select<any>(fromStore.getUserData).subscribe(state => { this.userData = state; })
+    this.store.select<any>(fromStore.getContextSettingsOption).subscribe(state => { this.which_page = state; });
+    this.store.select<any>(fromStore.getUserSettings).subscribe(state => { this.userSettings = state; });
   }
 
   ngOnDestroy(){

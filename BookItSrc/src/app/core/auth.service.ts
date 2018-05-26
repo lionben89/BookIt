@@ -1,4 +1,4 @@
-import { UserDataState } from './../data_types/states.model';
+import { UserSettingsState } from './../data_types/states.model';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -15,7 +15,7 @@ import 'rxjs/add/operator/switchMap';
 @Injectable()
 export class AuthService {
 
-  user: Observable<UserDataState>;
+  user: Observable<UserSettingsState>;
 
   constructor(private afAuth: AngularFireAuth,
     private afStore: AngularFirestore,
@@ -23,7 +23,7 @@ export class AuthService {
     this.user = this.afAuth.authState
       .switchMap(user => {
         if (user) {
-          return this.afStore.doc<UserDataState>(`Users/${user.uid}`).valueChanges();
+          return this.afStore.doc<UserSettingsState>(`Users/${user.uid}`).valueChanges();
         } else {
           return Observable.of(null);
         }
@@ -49,9 +49,9 @@ export class AuthService {
   }
 
   private updateUserData(authUser) {
-    const userRef: AngularFirestoreDocument<UserDataState> = this.afStore.doc(`Users/${authUser.uid}`);
+    const userRef: AngularFirestoreDocument<UserSettingsState> = this.afStore.doc(`Users/${authUser.uid}`);
 
-    const data: UserDataState = {
+    const data: UserSettingsState = {
       info: {
         uid: authUser.uid,
         email: authUser.email,

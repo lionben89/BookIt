@@ -1,8 +1,8 @@
 import { location } from './../../main/sub-main/settings/settings.component';
 import { getUserData } from './../reducers/userData.reducer';
 import { MainState } from './../reducers/index';
-import { LoadUserInfoSuccess, Logout, LoginFacebook ,LoginGoogle} from './../actions/userData.action';
-import { UserDataState, ExtendedUserInfo, Category, UserUpdateType, LocationSettings } from './../../data_types/states.model';
+import { LoadUserInfoSuccess, Logout } from './../actions/userData.action';
+import { UserState, UserSettingsState, ExtendedUserInfo, Category, UserUpdateType, LocationSettings } from './../../data_types/states.model';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 
@@ -27,7 +27,7 @@ import * as fromUserDataActions from '../actions/userData.action';
 @Injectable()
 export class UserDataEffects {
     // members
-    private userDoc: AngularFirestoreDocument<UserDataState>;
+    private userDoc: AngularFirestoreDocument<UserSettingsState>;
 
     constructor(
         private actions: Actions,
@@ -47,9 +47,9 @@ export class UserDataEffects {
         return this.afAuth.auth.signInWithPopup(provider);
     }
     private updateUserData(userData: ExtendedUserInfo) {
-        const userRef: AngularFirestoreDocument<UserDataState> = this.afs.doc(`Users/${userData.uid}`);
+        const userRef: AngularFirestoreDocument<UserSettingsState> = this.afs.doc(`Users/${userData.uid}`);
 
-        const data: UserDataState = {
+        const data: UserSettingsState = {
             info: userData,
         };
 
@@ -64,7 +64,6 @@ export class UserDataEffects {
                 data.info.shareMyBooks = true;
                 data.locationSettings = {
                     useCurrentLocation: true,
-                    locations: [],
                     searchRadiusKm: 3.0,
                     //displayMetric: true,
                 };
@@ -154,7 +153,7 @@ export class UserDataEffects {
                     this.store.dispatch(new fromUserDataActions.LoadUserInfoFail());
                     return Observable.of(null);
                 }
-                this.userDoc = this.afs.doc<UserDataState>(`Users/${authData.uid}`);
+                this.userDoc = this.afs.doc<UserSettingsState>(`Users/${authData.uid}`);
                 return this.userDoc.valueChanges();
             }),
             map(userInfo => {
@@ -171,7 +170,7 @@ export class UserDataEffects {
     UpdateUserInfo: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.UPDATE_USER_INFO)
         .pipe(
             switchMap((action: fromUserDataActions.UpdateUserInfo) => {
-                let updatedFields: UserDataState = {};
+                let updatedFields: UserSettingsState = {};
                 switch (action.updateType) {
                     case UserUpdateType.SEARCH_RADIUS_KM:
                         if (!updatedFields.locationSettings) updatedFields.locationSettings = {};
@@ -201,7 +200,18 @@ export class UserDataEffects {
             //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
         );
 
+        @Effect()
+        AddLocation: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.ADD_LOCATION)
+            .pipe(
+                map((action: fromUserDataActions.AddLocation) => action.payload),
+                switchMap((location: Location) => {
+                    console.log(location);
+                    console.log(this.userDoc.ref.id);
+                    return Observable.of(null);
+                }),
+                map(() => {
+                    return new fromUserDataActions.AddLocationSuccess();
+                })
+            );
+
 }
-
-
-

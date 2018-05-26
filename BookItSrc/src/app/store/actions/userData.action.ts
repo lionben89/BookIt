@@ -21,7 +21,9 @@ export const ActionsUserDataConsts={
         LOGIN_FACEBOOK:"LOGIN_FACEBOOK", //get Auth data 
         LOGIN_SUCCESS:"LOGIN_SUCCESS", //push user data from Auth to DB
         LOGOUT:"LOGOUT", //log out from Auth
-        ERROR:"ERROR"
+        ERROR:"ERROR",
+        ADD_LOCATION:"ADD_LOCATION",
+        ADD_LOCATION_SUCCESS:"ADD_LOCATION_SUCCESS"
 
 }; 
 
@@ -75,18 +77,18 @@ export class UpdateUserInfoFail implements Action{
     constructor(public payload?:any){}
 }
 
-export class UpdateUserLocations implements Action{
-    readonly type=ActionsUserDataConsts.UPDATE_USER_INFO;
-    constructor(public updateType:UserUpdateType, public payload?:location[]){}
+export class AddLocation implements Action{
+    readonly type=ActionsUserDataConsts.ADD_LOCATION;
+    constructor(public payload?:Location){}
 }
 
-export class UpdateUserLocationsFail implements Action{
-    readonly type=ActionsUserDataConsts.UPDATE_USER_INFO_FAIL;
-    constructor(public payload?:location[]){}
+export class AddLocationSuccess implements Action{
+    readonly type=ActionsUserDataConsts.ADD_LOCATION_SUCCESS;
+    constructor(public payload?:any){}
 }
 
 export type UserDataActions =// LoadFavoriteCategories | LoadFavoriteCategoriesFail | LoadFavoriteCategoriesSuccess|
 LoadUserInfo | LoadUserInfoFail | LoadUserInfoSuccess
-|LoginGoogle |LoginFacebook |Logout| ErrorHandler| LoginSuccess|
-UpdateUserInfo|UpdateUserInfoFail|
-UpdateUserLocations|UpdateUserLocationsFail;
+|LoginGoogle|LoginFacebook |Logout| ErrorHandler| LoginSuccess|
+UpdateUserInfo|UpdateUserInfoFail |
+AddLocation | AddLocationSuccess;

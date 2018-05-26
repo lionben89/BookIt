@@ -1,5 +1,5 @@
 import { LoginGoogle } from './../store/actions/userData.action';
-import { UserDataState } from './../data_types/states.model';
+import { UserState, UserSettingsState } from './../data_types/states.model';
 import { Observable } from 'rxjs/Observable';
 import { MainState } from './../store/reducers/index';
 import { Component } from '@angular/core';
@@ -13,7 +13,7 @@ import { ExtendedUserInfo } from '../data_types/states.model';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  userData:UserDataState;
+  userData:UserSettingsState;
   constructor(/*public auth: AuthService*/ private store:Store<fromStore.MainState>) {}
 
   ngOnInit(){
