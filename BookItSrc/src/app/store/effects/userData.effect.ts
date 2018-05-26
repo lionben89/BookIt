@@ -1,8 +1,7 @@
-import { location } from './../../main/sub-main/settings/settings.component';
 import { getUserData } from './../reducers/userData.reducer';
 import { MainState } from './../reducers/index';
 import { LoadUserInfoSuccess, Logout } from './../actions/userData.action';
-import { UserState, UserSettingsState, ExtendedUserInfo, Category, UserUpdateType, LocationSettings } from './../../data_types/states.model';
+import { UserState, UserSettingsState, ExtendedUserInfo, Category, UserUpdateType, LocationSettings, Location } from './../../data_types/states.model';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 
@@ -157,7 +156,6 @@ export class UserDataEffects {
                 return this.userDoc.valueChanges();
             }),
             map(userInfo => {
-                console.log(userInfo);
                 if (!userInfo) {
                     //return new fromUserDataActions.Logout();
                 }
@@ -205,12 +203,59 @@ export class UserDataEffects {
             .pipe(
                 map((action: fromUserDataActions.AddLocation) => action.payload),
                 switchMap((location: Location) => {
-                    console.log(location);
-                    console.log(this.userDoc.ref.id);
-                    return Observable.of(null);
+                    let userPath = this.userDoc.ref.path;
+                    location.id = this.afs.createId();
+                    let locDocRef = this.afs.collection(`${userPath}/Locations`).doc(location.id);
+                    return locDocRef.set(location);
                 }),
                 map(() => {
                     return new fromUserDataActions.AddLocationSuccess();
+                })
+            );
+
+        @Effect()
+        LoadLocations: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.LOAD_LOCATIONS)
+            .pipe(
+                map((action: fromUserDataActions.LoadLocations) => action.payload),
+                switchMap(payload => this.afAuth.authState),
+                switchMap(authData => {
+                    if (!authData) {
+                        this.store.dispatch(new fromUserDataActions.LoadUserInfoFail());
+                        return Observable.of(null);
+                    }
+                    let userPath = this.userDoc.ref.path;
+                    return this.afs.collection(`${userPath}/Locations`).valueChanges();
+                }),
+                map(locations => {
+                    return new fromUserDataActions.LoadLocationsSuccess(locations);
+                })
+                //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
+            );
+
+        @Effect()
+        UpdateLocation: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.UPDATE_LOCATION)
+            .pipe(
+                map((action: fromUserDataActions.UpdateLocation) => action.payload),
+                switchMap((location: Location) => {
+                    let userPath = this.userDoc.ref.path;
+                    let locDocRef = this.afs.doc(`${userPath}/Locations/${location.id}`);
+                    return locDocRef.update(location);
+                }),
+                map(() => {
+                    return new fromUserDataActions.UpdateLocationSuccess();
+                })
+            );
+
+        @Effect()
+        RemoveLocation: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.REMOVE_LOCATION)
+            .pipe(
+                map((action: fromUserDataActions.UpdateLocation) => action.payload),
+                switchMap((location: Location) => {
+                    let userPath = this.userDoc.ref.path;
+                   return this.afs.doc(`${userPath}/Locations/${location.id}`).delete();
+                }),
+                map(() => {
+                    return new fromUserDataActions.RemoveLocationSuccess();
                 })
             );
 

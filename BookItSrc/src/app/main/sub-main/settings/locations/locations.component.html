@@ -10,24 +10,24 @@
 
     <mat-card class="locations">
       <mat-card-content class="locations-list" *ngFor="let loc of locations" selected="true" name="loc_list" ngDefaultControl>
-        <button mat-icon-button (click)="removeLocation(loc.name)">
+        <button mat-icon-button (click)="removeLocation(loc)">
           <div *ngIf="1 === 1; then deleteForeverIcon"></div>
         </button>
         <div class="loc-div">
-          <button mat-icon-button (click)="setOption(loc.name)">
-            <div *ngIf="loc.enabled; then leftEnableIcon; else leftDisableIcon"></div>
+          <button mat-icon-button (click)="setOption(loc)">
+            <div *ngIf="loc.active; then leftEnableIcon; else leftDisableIcon"></div>
           </button>
           <section class="info-section">
             <label class="label-loc">
-              {{loc.name}}
+              {{loc.label}}
             </label>
             <br>
             <label class="label-loc-city-street">
               {{loc.address}}
             </label>
           </section>
-          <button mat-icon-button (click)="setOption(loc.name)">
-            <div *ngIf="loc.enabled; then rightEnableIcon; else rightDisableIcon"></div>
+          <button mat-icon-button (click)="setOption(loc)">
+            <div *ngIf="loc.active; then rightEnableIcon; else rightDisableIcon"></div>
           </button>
         </div>
       </mat-card-content>
@@ -44,8 +44,6 @@
   <app-settings *ngSwitchCase="'settings'"></app-settings>
 
   <app-categories *ngSwitchCase="'categories'"> </app-categories>
-
-  <app-add-location *ngSwitchCase="'add_locations'" [locations]="locations" (add)="addLocation($event);"> </app-add-location>
 
 </container-element>
 

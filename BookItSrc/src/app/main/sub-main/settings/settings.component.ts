@@ -21,16 +21,6 @@ export class SettingsComponent implements OnInit {
 
   categories : string[];
 
-  x1 : location = new location("Current Location", "Tel Aviv, namir", 0, 0, true);
-  x2 : location = new location("Home", "Tel Aviv, Haim Levanon", 0, 0, false);
-  x3 : location = new location("Work", "Givaataim, Katzanelson", 0, 0, false);
-
-  locations = [
-    this.x1,
-    this.x2, 
-    this.x3
-    ];
-
   /* global */
   checked = false;
   indeterminate = false;
@@ -119,21 +109,5 @@ export class SettingsComponent implements OnInit {
 
   ngOnDestroy(){
     
-  }
-}
-
-export class location{
-  name: string;
-  address: string;
-  enabled: boolean;
-  latitude: number;
-  longitude: number;
-
-  constructor(_name, _address, _latitude, _longitude, _enabled){
-    this.name = _name;
-    this.address = _address;
-    this.enabled = _enabled;
-    this.latitude = _latitude;
-    this.longitude = _longitude;
   }
 }

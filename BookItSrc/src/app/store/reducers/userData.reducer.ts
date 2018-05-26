@@ -107,6 +107,25 @@ export function userDataReducer(state: UserState = initState, action: fromUserDa
                     loaded: true,
                 };
         }
+        case fromUserData.ActionsUserDataConsts.LOAD_LOCATIONS: {
+            return { ...state,
+                    loading: true,
+                    loaded: false,
+                };
+        }
+        case fromUserData.ActionsUserDataConsts.LOAD_LOCATIONS_SUCCESS: {
+            return { ...state,
+                    locations: action.payload,
+                    loading: false,
+                    loaded: true,
+                };
+        }
+        case fromUserData.ActionsUserDataConsts.UPDATE_LOCATION: {
+            return { ...state,
+                    loading: true,
+                    loaded: false,
+                };
+        }
         default: return state;
     }
 }

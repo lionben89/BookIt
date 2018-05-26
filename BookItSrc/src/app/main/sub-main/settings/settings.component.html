@@ -79,7 +79,7 @@
 
   <app-locations *ngSwitchCase="'locations'" [locations]="locations" (changed)="locations=$event;"> </app-locations>
 
-  <app-add-location *ngSwitchCase="'add_locations'" [locations]="locations" (add)="locations.push($event);"> </app-add-location>
+  <app-add-location *ngSwitchCase="'add_locations'"> </app-add-location>
 
 
 </container-element>

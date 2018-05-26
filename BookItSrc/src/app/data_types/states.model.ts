@@ -29,6 +29,7 @@ export interface ExtendedUserInfo extends Loadable {
 }
 
 export interface Location {
+    id?: string,
     label: string,
     address: string,
     lat: number,

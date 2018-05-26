@@ -1,5 +1,5 @@
 import { DialogAddLocationTitleComponent } from "./../../dialog-add-location-title/dialog-add-location-title.component";
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import * as fromStore from "../../../../../store";
 import { Observable } from "rxjs/Observable";
@@ -9,7 +9,7 @@ import {} from "googlemaps";
 import { MapsAPILoader } from "@agm/core";
 import { FormControl } from "@angular/forms";
 import { ElementRef, NgZone, ViewChild } from "@angular/core";
-import { location } from "../../settings.component";
+import { Location } from "../../../../../data_types/states.model";
 import { MatDialog } from "@angular/material";
 import { DialogOneButtonComponent } from "../../dialog-one-button/dialog-one-button.component";
 import { concat } from "rxjs/operators";
@@ -27,7 +27,7 @@ export class AddLocationComponent implements OnInit {
   public zoom: number = 15;
   public address_text: string;
   public place_holder: string = "Start typing address";
-  public new_location: location;
+  public new_location: Location;
   public new_location_address: string;
   public new_location_name: string = "";
   public new_location_lat: number;
@@ -35,9 +35,6 @@ export class AddLocationComponent implements OnInit {
   public empty_location: boolean = true;
   public saved_string = "Current Location";
   public first_diag = true;
-
-  @Input() locations: location[]; //get locations array from settings
-  @Output() add: EventEmitter<location> = new EventEmitter<location>();
 
   @ViewChild("search") public searchElementRef: ElementRef;
 
@@ -118,17 +115,15 @@ export class AddLocationComponent implements OnInit {
         this.new_location_long
     );
 
-    this.new_location = new location(
-      this.new_location_name,
-      this.new_location_address,
-      this.new_location_lat,
-      this.new_location_long,
-      true
-    );
+    this.new_location = {
+      label: this.new_location_name,
+      address: this.new_location_address,
+      lat: this.new_location_lat,
+      long: this.new_location_long,
+      active: true,
+    };
 
-    this.add.emit(this.new_location);
-    //YUVAL
-    //this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.ADD_NEW_LOCATION, this.new_location));
+    this.store.dispatch(new fromStore.AddLocation(this.new_location));
   }
 
   ngOnInit() {

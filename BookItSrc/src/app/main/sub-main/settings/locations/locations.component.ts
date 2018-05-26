@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import * as fromStore from "../../../../store";
 import { Observable } from "rxjs/Observable";
@@ -7,7 +7,7 @@ import { IconsService } from "./../../../../icons.service";
 import { MatDialog } from "@angular/material";
 import { DialogOneButtonComponent } from "../dialog-one-button/dialog-one-button.component";
 import { DialogTwoButtonComponent } from "../dialog-two-button/dialog-two-button.component";
-import {location} from "../settings.component";
+import { Location } from "../../../../data_types/states.model";
 
 @Component({
   selector: "app-locations",
@@ -22,8 +22,7 @@ export class LocationsComponent implements OnInit {
   public rc = 0;
   public no_remove = "Current Location";
 
-  @Input() locations : location[]; //get locations array from settings
-  @Output() changed : EventEmitter<location[]> = new EventEmitter<location[]>();
+  private locations = new Array<Location>();
 
   goToSettings() {
     if (this.cntEnabled === 0) this.openDialog_1();
@@ -64,34 +63,21 @@ export class LocationsComponent implements OnInit {
   constructor(
     private store: Store<fromStore.MainState>,
     iconService: IconsService,
-    public dialog: MatDialog
-  ) {}
+    public dialog: MatDialog) {}
 
-  setOption(name) {
-    let _locations = this.locations.slice(0);
-
-    for (var _i = 0; _i < _locations.length; _i++) {
-      if (_locations[_i].name === name) {
-        _locations[_i].enabled = !_locations[_i].enabled;
-
-        if (_locations[_i].enabled) this.cntEnabled++;
-        else this.cntEnabled--;
-      }
+  setOption(location) {
+    location.active = !location.active;
+    if (location.active) {
+      this.cntEnabled++;
+    } else {
+      this.cntEnabled--;
     }
 
-    this.changed.emit(_locations);
+    this.store.dispatch(new fromStore.UpdateLocation(location));
   }
 
-  addLocation(loc:location) {
-    let _locations = this.locations.slice(0);
-
-    _locations.push(loc);
-
-    this.changed.emit(_locations);    
-  }
-
-  removeLocation(name) {
-    if(name === this.no_remove){
+  removeLocation(location) {
+    if(location.label === this.no_remove){
       this.openDialog_2();
       return;
     }
@@ -103,46 +89,30 @@ export class LocationsComponent implements OnInit {
 
     //check if user is sure he wish to remove this location
     dialogRef.afterClosed().subscribe(result => {
-      console.log("The dialog was closed -" + result);
-      if(result === "confirm"){
-        console.log("remove location - " + name);
-
-        let _locations = this.locations.slice(0);
-        
-        for (var _i = 0; _i < _locations.length; _i++) {
-          if (_locations[_i].name === name) {
-            if (_locations[_i].enabled) 
-              this.cntEnabled--;
-            
-            //YUVAL
-            //this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.REMOVE_LOCATION, _locations[_i]));
-
-            _locations.splice(_i, 1);
-          }
+      if(result === "confirm") {
+        if (location.active) {
+          this.cntEnabled--;
         }
-
-        this.changed.emit(_locations);
-      }
-      else{
-        console.log("cancel, do nothing");
+        this.store.dispatch(new fromStore.RemoveLocation(location));
       }
     });
   }
 
   ngOnInit() {
-    this.settingsOption$ = this.store.select(
-      fromStore.getContextSettingsOption
-    );
-    this.store
-      .select<any>(fromStore.getContextSettingsOption)
+    this.settingsOption$ = this.store.select(fromStore.getContextSettingsOption);
+    this.store.select<any>(fromStore.getContextSettingsOption)
       .subscribe(state => {
         this.which_page = state;
-
-        //YUVAL
-        /*.select<any>(fromStore.getContextLocations)
-        .subscribe(state => {
-          this.locations = state;*/
       });
+
+    this.store.select<any>(fromStore.getUserLocations).subscribe((locations: Location[]) => { 
+      this.locations = new Array<Location>();
+      for (let location of locations) {
+        this.locations.push(location);
+      }
+    });
+
+    this.store.dispatch(new fromStore.LoadLocations());
   }
 
   ngOnDestroy(){

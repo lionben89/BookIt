@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Category, ExtendedUserInfo, UserUpdateType } from '../../data_types/states.model';
-import {location } from "../../main/sub-main/settings/settings.component"
+import { Category, ExtendedUserInfo, UserUpdateType, Location } from '../../data_types/states.model';
 
 export const ActionsUserDataConsts={
 
@@ -19,11 +18,17 @@ export const ActionsUserDataConsts={
         LOAD_USER_INFO_FAIL:"LOAD_USER_INFO_FAIL",//user data from DB failed
         LOGIN_GOOGLE:"LOGIN_GOOGLE", //get Auth data 
         LOGIN_FACEBOOK:"LOGIN_FACEBOOK", //get Auth data 
+        ADD_LOCATION:"ADD_LOCATION", //add new location to DB
+        ADD_LOCATION_SUCCESS:"ADD_LOCATION_SUCCESS", //location added to db
+        LOAD_LOCATIONS:"LOAD_LOCATIONS", //load all locations from DB
+        LOAD_LOCATIONS_SUCCESS:"LOAD_LOCATIONS_SUCCESS", //locations loaded 
+        UPDATE_LOCATION:"UPDATE_LOCATION", // update location in DB
+        UPDATE_LOCATION_SUCCESS:"UPDATE_LOCATION_SUCCESS", //updated location in DB
+        REMOVE_LOCATION:"REMOVE_LOCATION", //remove location from DB
+        REMOVE_LOCATION_SUCCESS:"REMOVE_LOCATION_SUCCESS", //removed location from DB
+        LOGIN:"LOGIN", //get Auth data 
         LOGIN_SUCCESS:"LOGIN_SUCCESS", //push user data from Auth to DB
         LOGOUT:"LOGOUT", //log out from Auth
-        ERROR:"ERROR",
-        ADD_LOCATION:"ADD_LOCATION",
-        ADD_LOCATION_SUCCESS:"ADD_LOCATION_SUCCESS"
 
 }; 
 
@@ -87,8 +92,41 @@ export class AddLocationSuccess implements Action{
     constructor(public payload?:any){}
 }
 
+export class LoadLocations implements Action{
+    readonly type=ActionsUserDataConsts.LOAD_LOCATIONS;
+    constructor(public payload?:any){}
+}
+
+export class LoadLocationsSuccess implements Action{
+    readonly type=ActionsUserDataConsts.LOAD_LOCATIONS_SUCCESS;
+    constructor(public payload?:any){}
+}
+
+export class UpdateLocation implements Action{
+    readonly type=ActionsUserDataConsts.UPDATE_LOCATION;
+    constructor(public payload?:Location){}
+}
+
+export class UpdateLocationSuccess implements Action{
+    readonly type=ActionsUserDataConsts.UPDATE_LOCATION_SUCCESS;
+    constructor(public payload?:any){}
+}
+
+export class RemoveLocation implements Action{
+    readonly type=ActionsUserDataConsts.REMOVE_LOCATION;
+    constructor(public payload?:Location){}
+}
+
+export class RemoveLocationSuccess implements Action{
+    readonly type=ActionsUserDataConsts.REMOVE_LOCATION_SUCCESS;
+    constructor(public payload?:any){}
+}
+
 export type UserDataActions =// LoadFavoriteCategories | LoadFavoriteCategoriesFail | LoadFavoriteCategoriesSuccess|
-LoadUserInfo | LoadUserInfoFail | LoadUserInfoSuccess
-|LoginGoogle|LoginFacebook |Logout| ErrorHandler| LoginSuccess|
+LoadUserInfo | LoadUserInfoFail | LoadUserInfoSuccess |
+LoginGoogle | LoginFacebook | Logout | ErrorHandler | LoginSuccess |
 UpdateUserInfo|UpdateUserInfoFail |
-AddLocation | AddLocationSuccess;
+AddLocation | AddLocationSuccess |
+LoadLocations | LoadLocationsSuccess | 
+UpdateLocation | UpdateLocationSuccess |
+RemoveLocation | RemoveLocationSuccess;
