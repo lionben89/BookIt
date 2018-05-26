@@ -64,10 +64,6 @@ export class UserDataEffects {
                 return userRef.set(data,{merge:true});
             });
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> 4a216149f15d29e477d1421aee8f36fca12aee32
 
     // effects
     @Effect()
