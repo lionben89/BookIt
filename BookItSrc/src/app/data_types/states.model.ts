@@ -80,6 +80,8 @@ export interface Book {
     description:string,
 }
 
+
+
 export enum UserUpdateType {
     SEARCH_RADIUS_KM,
     SHARE_MY_BOOKS,

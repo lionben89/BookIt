@@ -1,3 +1,28 @@
-<p>
-  explore works!
-</p>
+
+<container-element [ngSwitch]="this.which_page">
+  <div *ngSwitchCase="'explore'">
+          
+<div class="explore">
+      <mat-grid-list cols="1" gutterSize="10" rowHeight="5:8">
+              <mat-grid-tile *ngFor="let book of userBooks">
+                 <img class='cover' [attr.src]="book.imagePath" />
+              </mat-grid-tile>
+              <mat-grid-tile>
+                      <button class="cover" (click)="goToAddbook()">
+                              <i class="fas fa-plus"></i>
+                          </button>
+                      
+              </mat-grid-tile>
+          </mat-grid-list>
+</div>
+        
+          
+
+       
+  </div>
+    <app-add-book  *ngSwitchCase="'add_book'" [masterBooksArray]="userBooks"></app-add-book>
+
+
+
+
+</container-element>
