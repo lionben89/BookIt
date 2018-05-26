@@ -1,18 +1,30 @@
 import { Action } from '@ngrx/store';
 import { Category, ExtendedUserInfo, UserUpdateType, Location, Book } from '../../data_types/states.model';
 
-/*export const ActionsUserDataConsts={
+export const ActionsExploreConsts={
 
-        //LOAD_FAVORITE_CATEGORIES:"LOAD_FAVORITE_CATEGORIES",
+        LOAD_USERS_NEAR_BY:"LOAD_USERS_NEAR_BY",
+        LOAD_USERS_NEAR_BY_SUCCESS:"LOAD_USERS_NEAR_BY_SUCCESS",
+        LOAD_USERS_NEAR_BY_FAIL:"LOAD_USERS_NEAR_BY_FAIL",
 
 
 }; 
 
-export class LoginGoogle implements Action{
-    readonly type=ActionsUserDataConsts.LOGIN_GOOGLE;
+export class LoadUsersNearBy implements Action{
+    readonly type=ActionsExploreConsts.LOAD_USERS_NEAR_BY;
+    constructor(public payload?:any){}
+}
+
+export class LoadUsersNearBySuccess implements Action{
+    readonly type=ActionsExploreConsts.LOAD_USERS_NEAR_BY_SUCCESS;
+    constructor(public payload?:any){}
+}
+
+export class LoadUsersNearByFail implements Action{
+    readonly type=ActionsExploreConsts.LOAD_USERS_NEAR_BY_FAIL;
     constructor(public payload?:any){}
 }
 
 
-export type UserDataActions =*/
+export type ExploreActions =LoadUsersNearBy|LoadUsersNearBySuccess|LoadUsersNearByFail;
 

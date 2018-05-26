@@ -9,6 +9,10 @@ export interface ContextState {
     navbar: NavbarState,
 }
 
+export interface ExploreState extends Loadable {
+    usersNearBy:UserState[]
+}
+
 export interface Loadable {
     loading?: boolean,
     loaded?: boolean,

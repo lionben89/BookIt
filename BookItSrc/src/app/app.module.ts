@@ -1,3 +1,4 @@
+import { ExploreEffects } from './store/effects/explore.effect';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -98,7 +99,7 @@ import { UserDataEffects } from './store/effects/userData.effect';
     FormsModule,
 MatCheckboxModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([UserDataEffects]),
+    EffectsModule.forRoot([UserDataEffects,ExploreEffects]),
     AngularFireModule.initializeApp(environment.firebase, 'BookIt'),
     AngularFirestoreModule.enablePersistence(),
     AgmCoreModule.forRoot({
