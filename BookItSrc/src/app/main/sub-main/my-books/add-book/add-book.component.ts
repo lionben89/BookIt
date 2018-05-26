@@ -1,20 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import {ReactiveFormsModule,FormControl} from '@angular/forms';
 import  'rxjs/Rx';//TODO import only debouncetime
 import { HttpClient } from '@angular/common/http';
 import { BookComponent } from './book/book.component';
 import { MatIconRegistry } from '@angular/material/icon';
+import { Store } from '@ngrx/store';
+import * as fromStore from '../../../../store';
+import { Observable } from 'rxjs/Observable';
+
 @Component({
   selector: 'app-add-book',
   templateUrl: './add-book.component.html',
   styleUrls: ['./add-book.component.scss']
 })
 export class AddBookComponent implements OnInit {
+  @Input() masterBooksArray : BookComponent[];
   searchField: FormControl;
-  results: any[] = [];
+  results: BookComponent[] = [];
   apiRoot: string = "https://www.googleapis.com/books/v1/volumes";
   searchTerm: string;
-  constructor(private httpClient: HttpClient) { }
+  public mybooksOption$: Observable<string>;
+  constructor(private httpClient: HttpClient,private store: Store<fromStore.MainState>) { }
+  addBook(){
+    console.log('book added');
+    //TODO need to add book to DB
+    //TODO add dialog book added
+    this.masterBooksArray.push(this.results[0]);//change to specific
+    this.results = [];
+  }
+  goToMyBooks(){
+    this.store.dispatch(new fromStore.ChooseMyBooksMain);
+  }
   doSearch() {
     if (this.searchTerm === "") {
       this.results = [];

@@ -1,5 +1,29 @@
-<!-- <p>
-  my-books works!
-</p> -->
 
-<app-add-book></app-add-book>
+<container-element [ngSwitch]="this.which_page">
+    <div *ngSwitchCase="'my_books'">
+            
+<div class="mybooks">
+        <mat-grid-list cols="3" gutterSize="10" rowHeight="5:8">
+                <mat-grid-tile *ngFor="let book of books">
+                   <img class='cover' [attr.src]="book.imagePath" />
+                </mat-grid-tile>
+                <mat-grid-tile>
+                        <button class="cover" (click)="goToAddbook()">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        
+                </mat-grid-tile>
+            </mat-grid-list>
+</div>
+          
+            
+
+         
+    </div>
+      <app-add-book  *ngSwitchCase="'add_book'" [masterBooksArray]="books"></app-add-book>
+
+
+
+
+</container-element>
+

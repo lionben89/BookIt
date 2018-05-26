@@ -4,6 +4,10 @@ ul {
   padding: 0;
 
 }
+.cover{
+  border-radius: 0px;
+  filter: drop-shadow(rgb(43, 39, 39) 1px 1px 2px);
+}
 .book-left{
   vertical-align: middle;
   overflow-wrap: normal;
@@ -48,4 +52,12 @@ ul {
   width: 80%;
   vertical-align: middle;
   background-color: #fafafa;
+}
+*{
+  outline: none;
+}
+
+.addbook{
+  border: none !important;
+  background-color: transparent;
 }
