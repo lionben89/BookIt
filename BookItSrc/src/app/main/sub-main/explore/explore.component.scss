@@ -1,0 +1,51 @@
+
+body{
+    background-color: #FAFAFA !important;
+}
+.cover{
+    position: absolute;
+    border-radius: 0px;
+    filter: drop-shadow(rgb(43, 39, 39) 1px 1px 2px);
+    max-width:97%;
+    max-height:97%;
+    min-width: 97%;
+    min-height: 97%;
+    background-color: #ebebeb;
+  }
+  .my-books{
+    margin-top: 5%;
+    margin-left:  5%;
+    margin-right: 5%;
+  }
+
+  .fas{
+    filter: drop-shadow(0 0 3px rgba(0,0,0,0.7));
+  }
+  .bookNavbarBox{
+    position:fixed;
+    bottom:0%;
+    color:white;
+    background-color: #C8C8C8;
+    border-top: 6px solid #2B2727;
+    font-size: 32px;
+    height: 70px;
+    width: 100%;
+
+  }
+  .bookNavbarList{
+    margin-top: 5px;
+  }
+  .cover.blurred{
+    opacity:0.5;
+  }
+  .cover.regular{
+    opacity: 1;
+  }
+  button{
+    border:0;
+  }
+  .mybooks{
+    width:70%;
+    margin-left:15%;
+    //text-align: center;  
+  }

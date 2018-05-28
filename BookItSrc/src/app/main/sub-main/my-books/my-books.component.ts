@@ -23,7 +23,7 @@ export class MyBooksComponent implements OnInit {
     this.store.dispatch(new fromStore.ChooseMyBooksAddBook);
   }
 
-  onResize() {
+  onResize() {//TODO add font resize
     if (window.innerWidth <= 400){
       this.numCols=3;
     }

@@ -1,0 +1,7 @@
+<div class="mybooks">
+    <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
+        <mat-grid-tile  *ngFor="let book of booksNearBy">
+           <img class='cover' [attr.src]="book.imagePath" />
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>
