@@ -39,7 +39,6 @@ export class MyBooksComponent implements OnInit {
     this.bookSelected=book;
   }
   hideBookNavbar(book:Book){
-    console.log(book);
     if(book==this.bookSelected){
       this.bookNavBarEnabled=false;
       this.bookSelected=undefined;
