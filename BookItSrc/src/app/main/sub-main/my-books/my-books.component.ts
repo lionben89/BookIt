@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import * as fromStore from '../../../store';
 import { Observable } from 'rxjs/Observable';
 import { MatGridListModule } from '@angular/material/grid-list';
+//import { ClickOutsideModule } from 'ng-click-outside';
 @Component({
   selector: 'app-my-books',
   templateUrl: './my-books.component.html',
@@ -36,16 +37,30 @@ export class MyBooksComponent implements OnInit {
   showBookNavbar(book:Book){
     this.bookNavBarEnabled=true;
     this.bookSelected=book;
-    // for(let userBook of this.userBooks){
-    //   if(book!=userBook){
-
-    //   }
-    // }
   }
-  removeBook(book:Book){
-    this.userBooks.splice(this.userBooks.indexOf(book)-1,1);
+  hideBookNavbar(book:Book){
+    if(book==this.bookSelected){
+      this.bookNavBarEnabled=false;
+      this.bookSelected=undefined;
+    }
+  }
+  removeBook(){
+    this.userBooks.splice(this.userBooks.indexOf(this.bookSelected),1);
     this.bookNavBarEnabled=false;
     this.bookSelected=undefined;
+  }
+  approveRequest(){
+    console.log('request approved');
+  }
+  rejectRequest(){
+    console.log('request rejected');
+  }
+  showUser(){
+    console.log('showing user');
+
+  }
+  startChat(){
+    console.log('opening chat');
   }
   ngOnInit() {
     this.bookNavBarEnabled=false;

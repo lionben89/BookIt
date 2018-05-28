@@ -32,6 +32,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule, NgForm } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SliderModule } from 'primeng/slider';
+import { ClickOutsideModule } from 'ng-click-outside';
 
 //ngrx
 import {StoreModule} from '@ngrx/store'; 
@@ -70,8 +71,10 @@ import { UserDataEffects } from './store/effects/userData.effect';
     DialogTwoButtonComponent,
     DialogAddLocationTitleComponent,
     CategoryComponent,
+    AppComponent,
   ],
   imports: [
+    ClickOutsideModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
