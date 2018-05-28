@@ -15,6 +15,7 @@ export class SubMainComponent implements OnInit {
   constructor(private store: Store<fromStore.MainState>) { }
 
   ngOnInit() {
+    this.store.dispatch(new fromStore.LoadLocations());
     this._optionEnabled$ = this.store.select(fromStore.getContextNavbarOptionEnabled);
   }
 

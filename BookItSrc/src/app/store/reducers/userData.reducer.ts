@@ -171,3 +171,4 @@ export const getUserData = (state: UserState) => { return state }
 export const getUserSettings = (state: UserState) => { return state.userSettings }
 export const getUserLocations = (state: UserState) => { return state.locations }
 export const getUserBooks = (state: UserState) => { return state.myBooks}
+export const getUserSearchRadius=(state:UserState)=>{return state.userSettings.locationSettings.searchRadiusKm}

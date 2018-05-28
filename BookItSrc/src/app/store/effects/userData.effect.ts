@@ -299,7 +299,9 @@ export class UserDataEffects {
             .pipe(
                 map((action: fromUserDataActions.LoadLocationsSuccess) => action.payload),
                 switchMap((locations: Location[]) => {
-
+                    let searchRadius;
+                    this.store.select<any>(fromStore.getUserSearchRadius).subscribe(state => { searchRadius = state; }); // TODO: get from user settings
+                    console.log("radius:"+searchRadius); //TODO: change regestration from load locations success
                     for (let oldQuery of this.geoQueries) {
                         oldQuery.cancel();
                     }
@@ -308,7 +310,7 @@ export class UserDataEffects {
                     for (let location of locations) {
                         let geoQuery = this.geoFire.query({
                             center: [location.lat, location.long],
-                            radius: 10 // TODO: get from user settings
+                            radius:searchRadius  // TODO: get from user settings
                         });
 
                         let loggedUserID = this.userDoc.ref.id;
@@ -396,7 +398,8 @@ export class UserDataEffects {
                         return Observable.of(null);
                     }
                     let userPath = this.userDoc.ref.path;
-                    return this.afs.collection(userPath+'/Books').valueChanges();
+                    let x=this.afs.collection(userPath+'/Books').valueChanges();
+                    return x;
                 }),
                 map((books) => {            
                     return new fromUserDataActions.LoadMyBooksSuccess(books);

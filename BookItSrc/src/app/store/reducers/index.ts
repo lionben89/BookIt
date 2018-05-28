@@ -26,6 +26,7 @@ export const getContextState = createFeatureSelector<ContextState>('context');
 export const getContextNavbar=createSelector(getContextState,fromContext.getContextNavbar);
 export const getContextNavbarOptionEnabled=createSelector(getContextState,fromContext.getContetxtNavbarOptionEnabled);
 export const getContextSettingsOption=createSelector(getContextState,fromContext.getContextSettingsOption);
+export const getContextmybooksOption=createSelector(getContextState,fromContext.getContextmybooksOption);
 
 //userData selectors
 export const getUserDataState = createFeatureSelector<UserState>('userData');
@@ -33,8 +34,8 @@ export const getUserData=createSelector(getUserDataState,fromUserData.getUserDat
 export const getUserSettings=createSelector(getUserDataState,fromUserData.getUserSettings);
 export const getUserLocations=createSelector(getUserDataState,fromUserData.getUserLocations);
 export const getUserBooks=createSelector(getUserDataState,fromUserData.getUserBooks);
-export const getContextmybooksOption=createSelector(getContextState,fromContext.getContextmybooksOption);
-
+export const getUserSearchRadius=createSelector(getUserDataState,fromUserData.getUserSearchRadius);
 //Explore selectors
 export const getExploreState = createFeatureSelector<ExploreState>('explore');
 export const getUsersNearBy=createSelector(getExploreState,fromExplore.getUsersNearBy);
+export const getBooksNearBy=createSelector(getExploreState,fromExplore.getBooksNearBy);

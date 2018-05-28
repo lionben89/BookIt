@@ -8,6 +8,7 @@ import { ExploreState } from '../../data_types/states.model'
 
 let initState: ExploreState = {
     usersNearBy: [],
+    booksNearBy: [],
     loading: false,
     loaded: false,
 };
@@ -15,10 +16,11 @@ export function ExploreReducer(state: ExploreState = initState, action: fromExpl
     switch (action.type) {
         case fromExplore.ActionsExploreConsts.ADD_USER_NEARBY: {
             let userID = action.payload;
-            if (state.usersNearBy.indexOf(userID) === -1) {
-                state.usersNearBy.push(userID);
+            let newUsersNearBy = state.usersNearBy.slice();
+            if (newUsersNearBy.indexOf(userID) === -1) {
+                newUsersNearBy.push(userID);
             }
-            return state;
+            return { ...state, usersNearBy: newUsersNearBy };
         }
 
         case fromExplore.ActionsExploreConsts.REMOVE_USER_NEARBY: {
@@ -30,7 +32,7 @@ export function ExploreReducer(state: ExploreState = initState, action: fromExpl
             return state;
         }
 
-        case fromExplore.ActionsExploreConsts.LOAD_USERS_NEAR_BY: {
+        case fromExplore.ActionsExploreConsts.LOAD_BOOKS_FROM_USERS_NEAR_BY: {
             return {
                 ...state,
                 loading: true,
@@ -38,9 +40,12 @@ export function ExploreReducer(state: ExploreState = initState, action: fromExpl
             };
         }
 
-        case fromExplore.ActionsExploreConsts.LOAD_USERS_NEAR_BY_SUCCESS: {
+        case fromExplore.ActionsExploreConsts.LOAD_BOOKS_FROM_USERS_NEAR_BY_SUCCESS: {
+         
+           // console.log(newBooksNearBy);
             return {
-                usersNearBy: action.payload,
+                ...state,
+                booksNearBy: action.payload,
                 loading: true,
                 loaded: false
             };
@@ -52,4 +57,5 @@ export function ExploreReducer(state: ExploreState = initState, action: fromExpl
 
 
 export const getUsersNearBy = (state: ExploreState) => { return state.usersNearBy; }
+export const getBooksNearBy = (state: ExploreState) => { return state.booksNearBy; }
 

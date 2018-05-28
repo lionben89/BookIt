@@ -1,4 +1,4 @@
-import { ActionsExploreConsts, LoadUsersNearBySuccess } from './../actions/explore.action';
+import { ActionsExploreConsts, LoadBooksFromUsersNearBySuccess } from './../actions/explore.action';
 import { getUserData } from './../reducers/userData.reducer';
 import { MainState } from './../reducers/index';
 import { LoadUserInfoSuccess, Logout, LoadMyBooksSuccess } from './../actions/userData.action';
@@ -13,6 +13,7 @@ import { Effect, Actions } from '@ngrx/effects';
 import { of } from 'rxjs/observable/of';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import { map, catchError, switchMap, mergeMap } from 'rxjs/operators';
+import { combineLatest } from 'rxjs/observable/combineLatest';
 import 'rxjs/add/operator/catch';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../store';
@@ -27,7 +28,8 @@ import * as fromExploreActions from '../actions/explore.action';
 @Injectable()
 export class ExploreEffects {
     // members
-    usersNearByCol;
+    BooksNearByCol = [];
+    combinedList;
     constructor(
         private actions: Actions,
         private afAuth: AngularFireAuth,
@@ -35,28 +37,37 @@ export class ExploreEffects {
         private afs: AngularFirestore,
         private store: Store<MainState>) {
     }
-   
+
     // effects
     @Effect()
-    LoadUsersNearBy: Observable<Action> = this.actions.ofType(fromExploreActions.ActionsExploreConsts.LOAD_USERS_NEAR_BY)
+    LoadBooksFromUsersNearBy: Observable<Action> = this.actions.ofType(fromExploreActions.ActionsExploreConsts.LOAD_BOOKS_FROM_USERS_NEAR_BY)
         .pipe(
-            map((action: fromExploreActions.LoadUsersNearBy) => action.payload),
-            switchMap(payload => this.afAuth.authState),
-            switchMap(authData => {
-                if (!authData) {
-                    this.store.dispatch(new fromExploreActions.LoadUsersNearByFail());
+            map((action: fromExploreActions.LoadBooksFromUsersNearBy) => action.payload),
+            switchMap(usersNearBy => {
+                if (!usersNearBy) {
+                    //this.store.dispatch(new fromExploreActions.LoadUsersNearByFail());
+                    console.log("no users nearby");
                     return Observable.of(null);
                 }
-                this.usersNearByCol = this.afs.collection(`Users`);
-                return this.usersNearByCol.valueChanges();
+                usersNearBy.forEach(user => {
+                    this.BooksNearByCol.push(this.afs.collection('Users/'+user+'/Books').valueChanges());
+                });
+
+
+                this.combinedList = combineLatest<any[]>(this.BooksNearByCol).pipe(
+                    map(arr => arr.reduce((acc, cur) => acc.concat(cur) ) ),
+                  )
+                //return this.BooksNearByCol;
+                return this.combinedList;
             }),
-            map(usersInfo => {
-                if (!usersInfo) {
+            map(booksPromise => {
+                if (!booksPromise) {
                     //return new fromUserDataActions.Logout();
                 }
-                return new fromExploreActions.LoadUsersNearBySuccess("B");
+                
+                return new fromExploreActions.LoadBooksFromUsersNearBySuccess(booksPromise);
             })
             //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
         )
-       
+
 }
