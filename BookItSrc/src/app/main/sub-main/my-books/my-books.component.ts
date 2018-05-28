@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import * as fromStore from '../../../store';
 import { Observable } from 'rxjs/Observable';
 import { MatGridListModule } from '@angular/material/grid-list';
-//import { ClickOutsideModule } from 'ng-click-outside';
+
 @Component({
   selector: 'app-my-books',
   templateUrl: './my-books.component.html',
@@ -39,6 +39,7 @@ export class MyBooksComponent implements OnInit {
     this.bookSelected=book;
   }
   hideBookNavbar(book:Book){
+    console.log(book);
     if(book==this.bookSelected){
       this.bookNavBarEnabled=false;
       this.bookSelected=undefined;
