@@ -29,7 +29,7 @@ export const ActionsUserDataConsts={
         LOGIN:"LOGIN", //get Auth data 
         LOGIN_SUCCESS:"LOGIN_SUCCESS", //push user data from Auth to DB
         LOGOUT:"LOGOUT", //log out from Auth
-
+        ERROR:"LOGOUT", //error on log out from Auth
 }; 
 
 export class LoginGoogle implements Action{

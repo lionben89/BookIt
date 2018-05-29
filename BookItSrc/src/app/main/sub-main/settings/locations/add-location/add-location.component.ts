@@ -32,9 +32,10 @@ export class AddLocationComponent implements OnInit {
   public new_location_name: string = "";
   public new_location_lat: number;
   public new_location_long: number;
-  public empty_location: boolean = true;
+  public empty_location: boolean;
   public saved_string = "Current Location";
   public first_diag = true;
+  public first_time = true;
 
   @ViewChild("search") public searchElementRef: ElementRef;
 
@@ -126,9 +127,6 @@ export class AddLocationComponent implements OnInit {
         this.which_page = state;
       });
 
-    //set current position
-    this.setCurrentPosition();
-
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
       let autocomplete = new google.maps.places.Autocomplete(
@@ -139,45 +137,88 @@ export class AddLocationComponent implements OnInit {
           types: ["address"]
         }
       );
-      autocomplete.addListener("place_changed", () => {
-        this.ngZone.run(() => {
-          //get the place result
-          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-          let splited = place.formatted_address.split(",");
 
-          //verify result
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
-          }
-
-          //set latitude, longitude and zoom
-          this.address_text = place.adr_address;
-          this.latitude = place.geometry.location.lat();
-          this.longitude = place.geometry.location.lng();
-          this.zoom = 15;
-          this.empty_location = false;
-          this.new_location_lat = this.latitude;
-          this.new_location_long = this.longitude;
-
-          console.log("splited.length = " + splited.length);
-          this.new_location_address = splited[0];
-          if (splited.length > 2) {
-            this.new_location_address = this.new_location_address.concat(", ");
-            this.new_location_address = this.new_location_address.concat(splited[1]);
-          }
-        });
-      });
-    });
-  }
-
-  private setCurrentPosition() {
+    //set current position
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
         this.zoom = 15;
+
+        /* get with latitude and longtitude the formated address */
+        /*
+        var lat = this.latitude;
+        var lng = this.longitude;
+        var geocoder = new google.maps.Geocoder;
+        var latlng = {lat, lng};
+        var splited;
+
+        if(this.first_time){
+        geocoder.geocode({'location': latlng}, function(results, status) {
+          if (status.toString() === 'OK') {
+            if (results[0]) {
+              //console.log(results);
+              splited = results[0].formatted_address.split(",");
+              console.log(splited);
+
+              this.new_location_address = splited[0];
+              if (splited.length > 2) {
+                this.new_location_address = this.new_location_address.concat(", ");
+                this.new_location_address = this.new_location_address.concat(splited[1]);
+              }
+              this.empty_location = false;
+              this.searchValue = this.new_location_address;
+              this.new_location_lat = lat;
+              this.new_location_long = lng;
+              console.log("after = " + this.searchValue + ", emptyloc? = " + this.empty_location);
+              console.log("after = " + this.new_location_address);
+              console.log("after lat = " + this.new_location_lat + ", lng = " + this.new_location_long);
+
+              //autocomplete.set("key", this.new_location_address);
+              
+            } else {
+              console.log('No results found');
+            }
+          } else {
+            console.log('Geocoder failed due to: ' + status);
+          }
+        });
+      }*/
+        
       });
     }
+
+    
+      /* add listener on autocomplete */
+        autocomplete.addListener("place_changed", () => {
+          this.ngZone.run(() => {
+            //get the place result
+            let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+            let splited = place.formatted_address.split(",");
+
+            //verify result
+            if (place.geometry === undefined || place.geometry === null) {
+              return;
+            }
+
+            //set latitude, longitude and zoom
+            this.address_text = place.adr_address;
+            this.latitude = place.geometry.location.lat();
+            this.longitude = place.geometry.location.lng();
+            this.zoom = 15;
+            this.empty_location = false;
+            this.new_location_lat = this.latitude;
+            this.new_location_long = this.longitude;
+
+            console.log("splited.length = " + splited.length);
+            this.new_location_address = splited[0];
+            if (splited.length > 2) {
+              this.new_location_address = this.new_location_address.concat(", ");
+              this.new_location_address = this.new_location_address.concat(splited[1]);
+            }
+          });
+        });
+      });
   }
 
   ngOnDestroy() {
@@ -200,5 +241,7 @@ export class AddLocationComponent implements OnInit {
   emptyLocText() {
     this.searchValue = "";
     this.empty_location = true;
+
+    console.log("emptyLocText - emptyloc? = " + this.empty_location);
   }
 }

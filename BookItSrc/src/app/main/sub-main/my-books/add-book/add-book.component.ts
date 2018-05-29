@@ -79,10 +79,6 @@ export class AddBookComponent implements OnInit {
         let book = new BookComponent(title, author,category, imagePath);
         this.results.push(book);
 
-       // console.log(title + ", " + category + ", " + cnt);
-
-        if(cnt++ > 1000)
-         break;
       }
     });
   }
