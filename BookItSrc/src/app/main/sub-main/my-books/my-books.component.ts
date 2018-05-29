@@ -45,7 +45,8 @@ export class MyBooksComponent implements OnInit {
     }
   }
   removeBook(){
-    this.userBooks.splice(this.userBooks.indexOf(this.bookSelected),1);
+    //this.userBooks.splice(this.userBooks.indexOf(this.bookSelected),1);
+    this.store.dispatch(new fromStore.RemoveBook(this.bookSelected));
     this.bookNavBarEnabled=false;
     this.bookSelected=undefined;
   }

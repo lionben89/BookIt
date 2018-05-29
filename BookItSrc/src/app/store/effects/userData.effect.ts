@@ -374,6 +374,7 @@ export class UserDataEffects {
                 console.log(book);
                 let userPath=this.userDoc.ref.path;
                 let bookID=this.afs.createId();
+                book.id=bookID;
                 let bookDocRef=this.afs.collection(userPath+'/Books').doc(bookID);
                 if (!this.userDoc || !bookDocRef) {
                     console.error("No userDoc");
@@ -386,6 +387,31 @@ export class UserDataEffects {
                 return new fromUserDataActions.AddBookSuccess();
             })
         );
+        @Effect()
+        RemoveBook: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.REMOVE_BOOK)
+        .pipe(
+            map((action: fromUserDataActions.RemoveBook) =>{ 
+                return action.payload}),
+            switchMap((book: Book) => {
+                let userPath = this.userDoc.ref.path;
+                return this.afs.doc(`${userPath}/Books/${book.id}`).delete().then(() => {
+                        return book;
+                    });
+            }),
+            map((book: Book) => {
+                return new fromUserDataActions.RemoveBookSuccess(location);
+            })
+        );
+
+    /*@Effect({dispatch: false})
+    RemoveLocationSuccess: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.REMOVE_LOCATION_SUCCESS)
+        .pipe(
+            map((action: fromUserDataActions.RemoveLocationSuccess) => action.payload),
+            switchMap((location: Location) => {
+                location.active = false;
+                return this.updateRealtimeDBLocations(location);
+            })
+        );*/
 
         @Effect()
         LoadMyBooks: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.LOAD_MY_BOOKS)
