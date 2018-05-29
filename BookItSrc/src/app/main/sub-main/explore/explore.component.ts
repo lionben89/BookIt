@@ -29,6 +29,12 @@ export class ExploreComponent implements OnInit {
       this.bookSelected=undefined;
     }
   }
+  goToPrevCategory(){
+    console.log("Prev Category");
+  }
+  goToNextCategory(){
+    console.log("Next Category");
+  }
   bookInfo(){
     console.log(this.bookSelected.description);
   }

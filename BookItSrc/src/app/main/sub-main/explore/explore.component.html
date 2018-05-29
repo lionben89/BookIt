@@ -1,3 +1,17 @@
+<section class="header">
+   
+        <button mat-button label class="button-switch-page" (click)="goToNextCategory()">
+                <div *ngIf="1 === 1; then leftArrowIcon"></div>
+        </button>
+        <label class="header-cat">Main Category</label>
+
+    <button mat-button label class="button-switch-page" (click)="goToPrevCategory()">
+        <div *ngIf="1 === 1; then rightArrowIcon"></div>
+    </button>
+
+ 
+    
+</section>
 <div class="mybooks">
     <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
         <mat-grid-tile  *ngFor="let book of booksNearBy"(click)="showBookNavbar(book)" (clickOutside)="hideBookNavbar(book)">
@@ -23,3 +37,11 @@
                 </mat-grid-list>
     </div>
 </ng-template>
+
+
+<ng-template #rightArrowIcon>
+    <mat-icon svgIcon='right-arrow' class="arrow-icon"></mat-icon>
+  </ng-template>
+  <ng-template #leftArrowIcon>
+    <mat-icon svgIcon='left-arrow' class="arrow-icon"></mat-icon>
+  </ng-template>
