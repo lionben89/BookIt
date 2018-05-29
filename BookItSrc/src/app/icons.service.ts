@@ -86,6 +86,11 @@ export class IconsService {
     );
 
     iconRegistry.addSvgIcon(
+      "right-arrow-settings",
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/right_arrow_settings.svg")
+    );
+
+    iconRegistry.addSvgIcon(
       "delete-forever",
       sanitizer.bypassSecurityTrustResourceUrl(
         "/assets/icons/delete-forever.svg"
