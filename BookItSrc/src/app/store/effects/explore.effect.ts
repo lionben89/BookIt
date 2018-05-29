@@ -44,7 +44,7 @@ export class ExploreEffects {
         .pipe(
             map((action: fromExploreActions.LoadBooksFromUsersNearBy) => action.payload),
             switchMap(usersNearBy => {
-                if (!usersNearBy) {
+                if (usersNearBy.length===0) {
                     //this.store.dispatch(new fromExploreActions.LoadUsersNearByFail());
                     console.log("no users nearby");
                     return Observable.of(null);

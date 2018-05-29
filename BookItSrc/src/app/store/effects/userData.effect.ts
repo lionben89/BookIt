@@ -98,7 +98,7 @@ export class UserDataEffects {
         }
     }
 
-    private registerToGeoQuery(locations:Location[]) {
+    private registerToGeoQuery(locations: Location[]) {
         console.log("radius:" + this.searchRadius); //TODO: change regestration from load locations success
         this.store.dispatch(new fromStore.DeleteAllUsersNearBy());
         for (let oldQuery of this.geoQueries) {
@@ -107,29 +107,33 @@ export class UserDataEffects {
         this.geoQueries = new Array<any>();
 
         for (let location of locations) {
-            let geoQuery = this.geoFire.query({
-                center: [location.lat, location.long],
-                radius: this.searchRadius  // TODO: get from user settings
-            });
+            let geoQuery
+            if (location.active) {
+                geoQuery = this.geoFire.query({
+                    center: [location.lat, location.long],
+                    radius: this.searchRadius  // TODO: get from user settings
+                });
 
-            let loggedUserID = this.userDoc.ref.id;
-            geoQuery.on("key_entered", function (dbRef, loggedUserID, store) {
-                return function (key, location) {
-                    dbRef.child(key).once('value').then(function (store) {
-                        return function (snapshot) {
-                            if (snapshot.val().userID !== loggedUserID) {
-                                console.log(snapshot.val().userID + " entered!");
-                                store.dispatch(new fromExploreActions.AddUserNearby(snapshot.val().userID));
-                            };
-                        }
-                    }(store));
-                };
-            }(this.dbRef, loggedUserID, this.store)
-            );
 
-            // TODO: remove users somehow (maybe set counter for keys of user and if 0 then remove)
+                let loggedUserID = this.userDoc.ref.id;
+                geoQuery.on("key_entered", function (dbRef, loggedUserID, store) {
+                    return function (key, location) {
+                        dbRef.child(key).once('value').then(function (store) {
+                            return function (snapshot) {
+                                if (snapshot.val().userID !== loggedUserID) {
+                                    console.log(snapshot.val().userID + " entered!");
+                                    store.dispatch(new fromExploreActions.AddUserNearby(snapshot.val().userID));
+                                };
+                            }
+                        }(store));
+                    };
+                }(this.dbRef, loggedUserID, this.store)
+                );
 
-            this.geoQueries.push(geoQuery);
+                // TODO: remove users somehow (maybe set counter for keys of user and if 0 then remove)
+
+                this.geoQueries.push(geoQuery);
+            }
         }
     }
 
@@ -337,10 +341,10 @@ export class UserDataEffects {
             switchMap((locations: Location[]) => {
 
                 this.store.select<any>(fromStore.getUserSearchRadius).subscribe(state => {
-                    
+
                     this.searchRadius = state;
                     this.registerToGeoQuery(locations);
-                }); 
+                });
                 this.registerToGeoQuery(locations);
 
                 /*var onReadyRegistration = geoQuery.on("ready", function() {
