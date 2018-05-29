@@ -33,6 +33,9 @@ export const ActionsUserDataConsts={
         ADD_BOOK:"ADD_BOOK",
         ADD_BOOK_FAIL:"ADD_BOOK_FAIL",
         ADD_BOOK_SUCCESS:"ADD_BOOK_SUCCESS",
+        REMOVE_BOOK:"REMOVE_BOOK",
+        REMOVE_BOOK_FAIL:"REMOVE_BOOK_FAIL",
+        REMOVE_BOOK_SUCCESS:"REMOVE_BOOK_SUCCESS",
         LOAD_MY_BOOKS:"LOAD_MY_BOOKS",
         LOAD_MY_BOOKS_SUCCESS:"LOAD_MY_BOOKS_SUCCESS",
         LOAD_MY_BOOKS_FAIL:"LOAD_MY_BOOKS_FAIL",
@@ -154,6 +157,21 @@ export class AddBookFail implements Action{
     constructor(public payload?:any){}
 }
 
+export class RemoveBook implements Action{
+    readonly type=ActionsUserDataConsts.REMOVE_BOOK;
+    constructor(public payload?:any){}
+}
+
+export class RemoveBookSuccess implements Action{
+    readonly type=ActionsUserDataConsts.REMOVE_BOOK_SUCCESS;
+    constructor(public payload?:any){}
+}
+
+export class RemoveBookFail implements Action{
+    readonly type=ActionsUserDataConsts.REMOVE_BOOK_FAIL;
+    constructor(public payload?:any){}
+}
+
 export type UserDataActions =// LoadFavoriteCategories | LoadFavoriteCategoriesFail | LoadFavoriteCategoriesSuccess|
 LoadUserInfo | LoadUserInfoFail | LoadUserInfoSuccess |
 LoginGoogle | LoginFacebook | Logout | ErrorHandler | LoginSuccess |
@@ -162,4 +180,5 @@ AddLocation | AddLocationSuccess |
 LoadLocations | LoadLocationsSuccess | 
 UpdateLocation | UpdateLocationSuccess |
 RemoveLocation | RemoveLocationSuccess |
-AddBook|AddBookSuccess|AddBookFail|LoadMyBooks|LoadMyBooksSuccess|LoadMyBooksFail;
+AddBook|AddBookSuccess|AddBookFail|LoadMyBooks|LoadMyBooksSuccess|LoadMyBooksFail
+|RemoveBook|RemoveBookSuccess|RemoveBookFail;
