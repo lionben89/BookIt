@@ -27,6 +27,8 @@ export class SettingsComponent implements OnInit {
   align = "start";
   disabled = false;
 
+  userSettingsSubscription;
+
   /* search radius parameters */
   max = 30;
   min = 0.5;
@@ -38,6 +40,7 @@ export class SettingsComponent implements OnInit {
   share_enabled = true;
 
   logout(){
+    this.userSettingsSubscription.unsubscribe();
     this.store.dispatch(new fromStore.Logout());
   }
 
@@ -104,10 +107,10 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {
     this.settingsOption$ = this.store.select(fromStore.getContextSettingsOption);
     this.store.select<any>(fromStore.getContextSettingsOption).subscribe(state => { this.which_page = state; });
-    this.store.select<any>(fromStore.getUserSettings).subscribe(state => { this.userSettings = state; });
+    this.userSettingsSubscription=this.store.select<any>(fromStore.getUserSettings).subscribe(state => { this.userSettings = state; });
   }
 
   ngOnDestroy(){
-    
+    this.userSettingsSubscription.unsubscribe();
   }
 }

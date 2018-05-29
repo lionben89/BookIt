@@ -32,6 +32,7 @@ export class UserDataEffects {
     private dbRef: any;
     private geoFire: any;
     private geoQueries = new Array<any>();
+    private searchRadius;
 
     private userDoc: AngularFirestoreDocument<UserSettingsState>;
 
@@ -42,8 +43,8 @@ export class UserDataEffects {
         private afs: AngularFirestore,
         private afdb: AngularFireDatabase,
         private store: Store<MainState>) {
-            this.dbRef = this.afdb.database.ref('locations/');
-            this.geoFire = new GeoFire(this.dbRef);
+        this.dbRef = this.afdb.database.ref('locations/');
+        this.geoFire = new GeoFire(this.dbRef);
     }
 
     // methods
@@ -86,14 +87,49 @@ export class UserDataEffects {
             let userID = this.userDoc.ref.id;
 
             let latLong = [location.lat, location.long];
-            return this.geoFire.set(location.id, latLong).then(function(dbRef, location, userID) {
-                    return function() {
-                        dbRef.child(location.id).update({'userID': userID});
-                    }
-                }(this.dbRef, location, userID)
-              );
+            return this.geoFire.set(location.id, latLong).then(function (dbRef, location, userID) {
+                return function () {
+                    dbRef.child(location.id).update({ 'userID': userID });
+                }
+            }(this.dbRef, location, userID)
+            );
         } else {
             return this.geoFire.remove(location.id);
+        }
+    }
+
+    private registerToGeoQuery(locations:Location[]) {
+        console.log("radius:" + this.searchRadius); //TODO: change regestration from load locations success
+        this.store.dispatch(new fromStore.DeleteAllUsersNearBy());
+        for (let oldQuery of this.geoQueries) {
+            oldQuery.cancel();
+        }
+        this.geoQueries = new Array<any>();
+
+        for (let location of locations) {
+            let geoQuery = this.geoFire.query({
+                center: [location.lat, location.long],
+                radius: this.searchRadius  // TODO: get from user settings
+            });
+
+            let loggedUserID = this.userDoc.ref.id;
+            geoQuery.on("key_entered", function (dbRef, loggedUserID, store) {
+                return function (key, location) {
+                    dbRef.child(key).once('value').then(function (store) {
+                        return function (snapshot) {
+                            if (snapshot.val().userID !== loggedUserID) {
+                                console.log(snapshot.val().userID + " entered!");
+                                store.dispatch(new fromExploreActions.AddUserNearby(snapshot.val().userID));
+                            };
+                        }
+                    }(store));
+                };
+            }(this.dbRef, loggedUserID, this.store)
+            );
+
+            // TODO: remove users somehow (maybe set counter for keys of user and if 0 then remove)
+
+            this.geoQueries.push(geoQuery);
         }
     }
 
@@ -224,158 +260,133 @@ export class UserDataEffects {
             //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
         );
 
-        @Effect()
-        AddLocation: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.ADD_LOCATION)
-            .pipe(
-                map((action: fromUserDataActions.AddLocation) => action.payload),
-                switchMap((location: Location) => {
-                    let userPath = this.userDoc.ref.path;
-                    location.id = this.afs.createId();
-                    let locDocRef = this.afs.collection(`${userPath}/Locations`).doc(location.id);
-                    return locDocRef.set(location).then(() => {
-                        return location;
-                    });
-                }),
-                map((location: Location) => {
-                    return new fromUserDataActions.AddLocationSuccess(location);
-                })
-            );
+    @Effect()
+    AddLocation: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.ADD_LOCATION)
+        .pipe(
+            map((action: fromUserDataActions.AddLocation) => action.payload),
+            switchMap((location: Location) => {
+                let userPath = this.userDoc.ref.path;
+                location.id = this.afs.createId();
+                let locDocRef = this.afs.collection(`${userPath}/Locations`).doc(location.id);
+                return locDocRef.set(location).then(() => {
+                    return location;
+                });
+            }),
+            map((location: Location) => {
+                return new fromUserDataActions.AddLocationSuccess(location);
+            })
+        );
 
-        @Effect({dispatch: false})
-        AddLocationSuccess: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.ADD_LOCATION_SUCCESS)
-            .pipe(
-                map((action: fromUserDataActions.AddLocationSuccess) => action.payload),
-                switchMap((location: Location) => {
-                    return this.updateRealtimeDBLocations(location);
-                })
-            );
+    @Effect({ dispatch: false })
+    AddLocationSuccess: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.ADD_LOCATION_SUCCESS)
+        .pipe(
+            map((action: fromUserDataActions.AddLocationSuccess) => action.payload),
+            switchMap((location: Location) => {
+                return this.updateRealtimeDBLocations(location);
+            })
+        );
 
-        @Effect()
-        UpdateLocation: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.UPDATE_LOCATION)
-            .pipe(
-                map((action: fromUserDataActions.UpdateLocation) => action.payload),
-                switchMap((location: Location) => {
-                    let userPath = this.userDoc.ref.path;
-                    let locDocRef = this.afs.doc(`${userPath}/Locations/${location.id}`);
-                    return locDocRef.update(location).then(() => {
-                        return location;
-                    });
-                }),
-                map((location: Location) => {
-                    return new fromUserDataActions.UpdateLocationSuccess(location);
-                })
-            );
+    @Effect()
+    UpdateLocation: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.UPDATE_LOCATION)
+        .pipe(
+            map((action: fromUserDataActions.UpdateLocation) => action.payload),
+            switchMap((location: Location) => {
+                let userPath = this.userDoc.ref.path;
+                let locDocRef = this.afs.doc(`${userPath}/Locations/${location.id}`);
+                return locDocRef.update(location).then(() => {
+                    return location;
+                });
+            }),
+            map((location: Location) => {
+                return new fromUserDataActions.UpdateLocationSuccess(location);
+            })
+        );
 
-        @Effect({dispatch: false})
-        UpdateLocationSuccess: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.UPDATE_LOCATION_SUCCESS)
-            .pipe(
-                map((action: fromUserDataActions.UpdateLocationSuccess) => action.payload),
-                switchMap((location: Location) => {
-                    return this.updateRealtimeDBLocations(location);
-                })
-            );    
-        
-        @Effect()
-        LoadLocations: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.LOAD_LOCATIONS)
-            .pipe(
-                map((action: fromUserDataActions.LoadLocations) => action.payload),
-                switchMap(payload => this.afAuth.authState),
-                switchMap(authData => {
-                    if (!authData) {
-                        this.store.dispatch(new fromUserDataActions.LoadUserInfoFail());
-                        return Observable.of(null);
-                    }
-                    let userPath = this.userDoc.ref.path;
-                    return this.afs.collection(`${userPath}/Locations`).valueChanges();
-                }),
-                map(locations => {
-                    return new fromUserDataActions.LoadLocationsSuccess(locations);
-                })
-                //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
-            );
+    @Effect({ dispatch: false })
+    UpdateLocationSuccess: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.UPDATE_LOCATION_SUCCESS)
+        .pipe(
+            map((action: fromUserDataActions.UpdateLocationSuccess) => action.payload),
+            switchMap((location: Location) => {
+                return this.updateRealtimeDBLocations(location);
+            })
+        );
 
-        @Effect({dispatch: false})
-        LoadLocationsSuccess: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.LOAD_LOCATIONS_SUCCESS)
-            .pipe(
-                map((action: fromUserDataActions.LoadLocationsSuccess) => action.payload),
-                switchMap((locations: Location[]) => {
-                    let searchRadius;
-                    this.store.select<any>(fromStore.getUserSearchRadius).subscribe(state => { searchRadius = state; }); // TODO: get from user settings
-                    console.log("radius:"+searchRadius); //TODO: change regestration from load locations success
-                    for (let oldQuery of this.geoQueries) {
-                        oldQuery.cancel();
-                    }
-                    this.geoQueries = new Array<any>();
-
-                    for (let location of locations) {
-                        let geoQuery = this.geoFire.query({
-                            center: [location.lat, location.long],
-                            radius:searchRadius  // TODO: get from user settings
-                        });
-
-                        let loggedUserID = this.userDoc.ref.id;
-                        geoQuery.on("key_entered", function(dbRef, loggedUserID, store) {
-                                return function(key, location) {
-                                    dbRef.child(key).once('value').then(function(store) {
-                                            return function(snapshot) {
-                                                if (snapshot.val().userID !== loggedUserID) {
-                                                    console.log(snapshot.val().userID + " entered!");
-                                                    store.dispatch(new fromExploreActions.AddUserNearby(snapshot.val().userID));
-                                                };
-                                            }
-                                        } (store));
-                                    };
-                                } (this.dbRef, loggedUserID, this.store)
-                            );
-
-                        // TODO: remove users somehow (maybe set counter for keys of user and if 0 then remove)
-                        
-                        this.geoQueries.push(geoQuery);
-                    
-                        /*var onReadyRegistration = geoQuery.on("ready", function() {
-                        console.log("*** 'ready' event fired - cancelling query ***");
-                        geoQuery.cancel();
-                        })*/
-                    }
+    @Effect()
+    LoadLocations: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.LOAD_LOCATIONS)
+        .pipe(
+            map((action: fromUserDataActions.LoadLocations) => action.payload),
+            switchMap(payload => this.afAuth.authState),
+            switchMap(authData => {
+                if (!authData) {
+                    this.store.dispatch(new fromUserDataActions.LoadUserInfoFail());
                     return Observable.of(null);
-                })
-            );
+                }
+                let userPath = this.userDoc.ref.path;
+                return this.afs.collection(`${userPath}/Locations`).valueChanges();
+            }),
+            map(locations => {
+                return new fromUserDataActions.LoadLocationsSuccess(locations);
+            })
+            //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
+        );
 
-        @Effect()
-        RemoveLocation: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.REMOVE_LOCATION)
-            .pipe(
-                map((action: fromUserDataActions.RemoveLocation) => action.payload),
-                switchMap((location: Location) => {
-                    let userPath = this.userDoc.ref.path;
-                    return this.afs.doc(`${userPath}/Locations/${location.id}`).delete().then(() => {
-                            return location;
-                        });
-                }),
-                map((location: Location) => {
-                    return new fromUserDataActions.RemoveLocationSuccess(location);
-                })
-            );
+    @Effect({ dispatch: false })
+    LoadLocationsSuccess: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.LOAD_LOCATIONS_SUCCESS)
+        .pipe(
+            map((action: fromUserDataActions.LoadLocationsSuccess) => action.payload),
+            switchMap((locations: Location[]) => {
 
-        @Effect({dispatch: false})
-        RemoveLocationSuccess: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.REMOVE_LOCATION_SUCCESS)
-            .pipe(
-                map((action: fromUserDataActions.RemoveLocationSuccess) => action.payload),
-                switchMap((location: Location) => {
-                    location.active = false;
-                    return this.updateRealtimeDBLocations(location);
-                })
-            );
+                this.store.select<any>(fromStore.getUserSearchRadius).subscribe(state => {
+                    
+                    this.searchRadius = state;
+                    this.registerToGeoQuery(locations);
+                }); 
+                this.registerToGeoQuery(locations);
 
-        @Effect()
-        AddBook: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.ADD_BOOK)
+                /*var onReadyRegistration = geoQuery.on("ready", function() {
+                console.log("*** 'ready' event fired - cancelling query ***");
+                geoQuery.cancel();
+                })*/
+
+                return Observable.of(null);
+            })
+        );
+
+    @Effect()
+    RemoveLocation: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.REMOVE_LOCATION)
+        .pipe(
+            map((action: fromUserDataActions.RemoveLocation) => action.payload),
+            switchMap((location: Location) => {
+                let userPath = this.userDoc.ref.path;
+                return this.afs.doc(`${userPath}/Locations/${location.id}`).delete().then(() => {
+                    return location;
+                });
+            }),
+            map((location: Location) => {
+                return new fromUserDataActions.RemoveLocationSuccess(location);
+            })
+        );
+
+    @Effect({ dispatch: false })
+    RemoveLocationSuccess: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.REMOVE_LOCATION_SUCCESS)
+        .pipe(
+            map((action: fromUserDataActions.RemoveLocationSuccess) => action.payload),
+            switchMap((location: Location) => {
+                location.active = false;
+                return this.updateRealtimeDBLocations(location);
+            })
+        );
+
+    @Effect()
+    AddBook: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.ADD_BOOK)
         .pipe(
             map((action: fromUserDataActions.AddBook) => action.payload),
             switchMap((book: Book) => {
                 console.log(book);
-                let userPath=this.userDoc.ref.path;
-                let bookID=this.afs.createId();
-                book.id=bookID;
-                let bookDocRef=this.afs.collection(userPath+'/Books').doc(bookID);
+                let userPath = this.userDoc.ref.path;
+                let bookID = this.afs.createId();
+                book.id = bookID;
+                let bookDocRef = this.afs.collection(userPath + '/Books').doc(bookID);
                 if (!this.userDoc || !bookDocRef) {
                     console.error("No userDoc");
                     this.store.dispatch(new fromUserDataActions.AddBookFail());
@@ -387,16 +398,17 @@ export class UserDataEffects {
                 return new fromUserDataActions.AddBookSuccess();
             })
         );
-        @Effect()
-        RemoveBook: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.REMOVE_BOOK)
+    @Effect()
+    RemoveBook: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.REMOVE_BOOK)
         .pipe(
-            map((action: fromUserDataActions.RemoveBook) =>{ 
-                return action.payload}),
+            map((action: fromUserDataActions.RemoveBook) => {
+                return action.payload
+            }),
             switchMap((book: Book) => {
                 let userPath = this.userDoc.ref.path;
                 return this.afs.doc(`${userPath}/Books/${book.id}`).delete().then(() => {
-                        return book;
-                    });
+                    return book;
+                });
             }),
             map((book: Book) => {
                 return new fromUserDataActions.RemoveBookSuccess(location);
@@ -413,23 +425,23 @@ export class UserDataEffects {
             })
         );*/
 
-        @Effect()
-        LoadMyBooks: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.LOAD_MY_BOOKS)
-            .pipe(
-                map((action: fromUserDataActions.LoadMyBooks) => action.payload),
-                switchMap(payload => this.afAuth.authState),
-                switchMap(authData => {
-                    if (!authData) {
-                        this.store.dispatch(new fromUserDataActions.LoadMyBooksFail());
-                        return Observable.of(null);
-                    }
-                    let userPath = this.userDoc.ref.path;
-                    let x=this.afs.collection(userPath+'/Books').valueChanges();
-                    return x;
-                }),
-                map((books) => {            
-                    return new fromUserDataActions.LoadMyBooksSuccess(books);
-                })
-                //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
-            );
+    @Effect()
+    LoadMyBooks: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.LOAD_MY_BOOKS)
+        .pipe(
+            map((action: fromUserDataActions.LoadMyBooks) => action.payload),
+            switchMap(payload => this.afAuth.authState),
+            switchMap(authData => {
+                if (!authData) {
+                    this.store.dispatch(new fromUserDataActions.LoadMyBooksFail());
+                    return Observable.of(null);
+                }
+                let userPath = this.userDoc.ref.path;
+                let x = this.afs.collection(userPath + '/Books').valueChanges();
+                return x;
+            }),
+            map((books) => {
+                return new fromUserDataActions.LoadMyBooksSuccess(books);
+            })
+            //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
+        );
 }

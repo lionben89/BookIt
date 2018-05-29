@@ -61,6 +61,9 @@ export function ExploreReducer(state: ExploreState = initState, action: fromExpl
                 loaded: false
             };
         }
+        case fromExplore.ActionsExploreConsts.DELETE_ALL_USERS_NEARBY:{
+            return {...state, usersNearBy:new Array<any>()};
+        }
 
         default: return state;
     }

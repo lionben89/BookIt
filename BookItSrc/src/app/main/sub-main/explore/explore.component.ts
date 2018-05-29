@@ -56,9 +56,12 @@ export class ExploreComponent implements OnInit {
     this.bookNavBarEnabled=false;
     this.onResize();
     this.booksNearBySubscription = this.store.select<any>(fromStore.getBooksNearBy).subscribe(state => { this.booksNearBy = state; });
-    this.usersNearBySubscription = this.store.select<any>(fromStore.getUsersNearBy).subscribe(state => { this.usersNearBy = state; });
+    this.usersNearBySubscription = this.store.select<any>(fromStore.getUsersNearBy).subscribe(state => { 
+      this.usersNearBy = state;
+      this.store.dispatch(new fromStore.LoadBooksFromUsersNearBy(this.usersNearBy));
+     });
     //if (this.usersNearBy.length > 0) {
-    this.store.dispatch(new fromStore.LoadBooksFromUsersNearBy(this.usersNearBy));
+    
     //this.numCols=1;
     //}
 
