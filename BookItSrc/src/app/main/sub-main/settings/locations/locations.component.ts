@@ -18,15 +18,21 @@ import { Location } from "../../../../data_types/states.model";
 export class LocationsComponent implements OnInit {
   public which_page = "locations"; /* options = {settings, categories, locations, add_location} */
   public settingsOption$: Observable<string>;
-  public cntEnabled = 1;
   public rc = 0;
   public no_remove = "Current Location";
 
   private locations = new Array<Location>();
 
   goToSettings() {
-    if (this.cntEnabled === 0) this.openDialog_1();
-    else this.store.dispatch(new fromStore.ChooseSettings());
+    for(let loc of this.locations){
+      if(loc.active){
+        this.store.dispatch(new fromStore.ChooseSettings());
+        return;
+      }
+    }
+    
+    /* user didnt pick any location */
+    this.openDialog_1();
   }
 
   goToAddLocation() {
@@ -67,12 +73,6 @@ export class LocationsComponent implements OnInit {
 
   setOption(location) {
     location.active = !location.active;
-    if (location.active) {
-      this.cntEnabled++;
-    } else {
-      this.cntEnabled--;
-    }
-
     this.store.dispatch(new fromStore.UpdateLocation(location));
   }
 
@@ -90,9 +90,6 @@ export class LocationsComponent implements OnInit {
     //check if user is sure he wish to remove this location
     dialogRef.afterClosed().subscribe(result => {
       if(result === "confirm") {
-        if (location.active) {
-          this.cntEnabled--;
-        }
         this.store.dispatch(new fromStore.RemoveLocation(location));
       }
     });
