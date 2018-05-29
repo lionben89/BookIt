@@ -49,6 +49,7 @@ export class ExploreEffects {
                     console.log("no users nearby");
                     return Observable.of(null);
                 }
+                this.BooksNearByCol=[];
                 usersNearBy.forEach(user => {
                     this.BooksNearByCol.push(this.afs.collection('Users/'+user+'/Books').valueChanges());
                 });
