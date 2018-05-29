@@ -16,7 +16,7 @@
       </button>
     </mat-toolbar-row>
 
-    <div *ngIf="navbar.optionEnabled ==='explorer'; then autoComplete;"></div>
+    <!--<div *ngIf="navbar.optionEnabled ==='explorer'; then autoComplete;"></div>-->
 
   </mat-toolbar>
 </ng-template>
@@ -52,7 +52,7 @@
 <ng-template #autoComplete>
   <mat-toolbar-row class="mat-toolbar-row2">
 
-    <app-auto-complete id="auto-complete"></app-auto-complete>
+   <app-auto-complete id="auto-complete"></app-auto-complete>
     <span class="spacer"></span>
     <span class="spacer"></span>
   </mat-toolbar-row>
