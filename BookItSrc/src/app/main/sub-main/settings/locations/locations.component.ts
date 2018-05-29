@@ -24,16 +24,15 @@ export class LocationsComponent implements OnInit {
   private locations = new Array<Location>();
 
   goToSettings() {
-    var cntEnabled = 0;
-
     /* check if at least one position is active */
     for(let loc of this.locations){
-      if(loc.active)
-        cntEnabled++;
+      if(loc.active){
+        this.store.dispatch(new fromStore.ChooseSettings());
+        return;
+      }
     }
 
-    if (cntEnabled === 0) this.openDialog_1();
-    else this.store.dispatch(new fromStore.ChooseSettings());
+    this.openDialog_1();
   }
 
   goToAddLocation() {
