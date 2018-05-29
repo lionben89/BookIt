@@ -43,13 +43,13 @@ export class ExploreComponent implements OnInit {
   }
   onResize() {//TODO add font resize
     if (window.innerWidth <= 400){
-      this.numCols=1;
-    }
-    else if (window.innerWidth > 400 &&  window.innerWidth<800){
       this.numCols=3;
     }
+    else if (window.innerWidth > 400 &&  window.innerWidth<800){
+      this.numCols=4;
+    }
     else{
-      this.numCols=5;
+      this.numCols=6;
     }
   }
   ngOnInit() {
