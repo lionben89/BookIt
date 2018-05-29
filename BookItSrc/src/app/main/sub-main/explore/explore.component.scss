@@ -2,6 +2,46 @@
 body{
     background-color: #FAFAFA !important;
 }
+
+//switch categories
+.header {
+  background-color: #2B2727; 
+  color: white;
+  width: 100%;
+  
+  flex: auto;
+  display: flex;
+}
+button-switch-page {
+  flex: start;
+}
+
+label.header-cat {
+  flex-grow: 2;
+  position: relative;
+  right:0%;
+  
+  transform: translate(0%,0%);
+}
+.arrow-icon{
+  height:56px;
+}
+#rightArrowIcon{
+  position: relative;
+  right:5%;
+}
+#lefttArrowIcon{
+  position: relative;
+  left:5%;
+}
+section {
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+}
+
+
+//book list
 .cover{
     position: absolute;
     border-radius: 0px;
@@ -49,3 +89,4 @@ body{
     margin-left:15%;
     //text-align: center;  
   }
+  
