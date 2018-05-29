@@ -5,7 +5,17 @@ import * as fromUserData from '../actions/userData.action';
 import * as fromExplore from '../actions/explore.action';
 import { ExploreState } from '../../data_types/states.model'
 
-
+const isBookEquale=(book1,book2)=>{
+    let eq=true;
+    let keys= Object.keys(book1);
+    for (let key of keys){
+        if (book1[key]!==book2[key]){
+            eq= false;
+            break;
+        }   
+    }
+    return eq;
+}
 let initState: ExploreState = {
     usersNearBy: [],
     booksNearBy: [],
@@ -42,7 +52,8 @@ export function ExploreReducer(state: ExploreState = initState, action: fromExpl
 
         case fromExplore.ActionsExploreConsts.LOAD_BOOKS_FROM_USERS_NEAR_BY_SUCCESS: {
          
-           // console.log(newBooksNearBy);
+            //console.log(action.payload);
+            
             return {
                 ...state,
                 booksNearBy: action.payload,

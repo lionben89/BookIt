@@ -14,9 +14,9 @@ export class ExploreComponent implements OnInit {
   private usersNearBySubscription;
   public booksNearBy = [];
   private booksNearBySubscription;
-  numCols;
-  bookNavBarEnabled:boolean;
-  bookSelected:Book;
+  public numCols;
+  public bookNavBarEnabled:boolean;
+  public bookSelected:Book;
 
   constructor(private store: Store<fromStore.MainState>) { }
   showBookNavbar(book:Book){
@@ -53,7 +53,7 @@ export class ExploreComponent implements OnInit {
     this.usersNearBySubscription = this.store.select<any>(fromStore.getUsersNearBy).subscribe(state => { this.usersNearBy = state; });
     //if (this.usersNearBy.length > 0) {
     this.store.dispatch(new fromStore.LoadBooksFromUsersNearBy(this.usersNearBy));
-    this.numCols=1;
+    //this.numCols=1;
     //}
 
   }
