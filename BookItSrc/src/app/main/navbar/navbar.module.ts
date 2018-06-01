@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators/map';
 
 import { IconsService } from '../../icons.service';
 import { NavbarComponent } from './navbar/navbar.component';
-import { AutoCompleteComponent } from './auto-complete/auto-complete.component';
+
 
 
 @NgModule({
@@ -28,6 +28,6 @@ import { AutoCompleteComponent } from './auto-complete/auto-complete.component';
     StoreModule.forFeature('context', reducers),
   ],
   providers:[IconsService],
-  declarations: [NavbarComponent, AutoCompleteComponent]
+  declarations: [NavbarComponent]
 })
 export class NavbarModule { }

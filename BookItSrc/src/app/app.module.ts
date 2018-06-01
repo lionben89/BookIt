@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
 import { NavbarComponent } from './main/navbar/navbar/navbar.component';
-import { AutoCompleteComponent } from './main/navbar/auto-complete/auto-complete.component';
+import { AutoCompleteComponent } from './main/sub-main/explore/auto-complete/auto-complete.component';
 import { SubMainComponent } from './main/sub-main/sub-main.component';
 import { SettingsComponent } from './main/sub-main/settings/settings.component';
 import { ExploreComponent } from './main/sub-main/explore/explore.component';

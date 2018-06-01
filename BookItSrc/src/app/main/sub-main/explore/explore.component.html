@@ -8,12 +8,14 @@
         <div *ngIf="1 === 1; then rightArrowIcon"></div>
     </button>
 </section>
-<div *ngIf="status.loading && !status.loaded; then loading  else loaded"></div>
+<div *ngIf="(status.loading && !status.loaded) || (!status.loading && !status.loaded); then loading  else loaded"></div>
 <ng-template #loaded>
+    
     <div class="mybooks">
+            <app-auto-complete [books]="booksNearBy" [activeOption]="getAutoCompleteValue(this.bookSelected)" (getBookSelected)="showBookNavbar($event)" id="auto-complete"></app-auto-complete>
         <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
-            <mat-grid-tile *ngFor="let book of booksNearBy" (click)="showBookNavbar(book)" (clickOutside)="hideBookNavbar(book)">
-                <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
+            <mat-grid-tile *ngFor="let book of booksNearBy" (click)="showBookNavbar(book)">
+                <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!==book) , 'regular': (this.bookNavBarEnabled===false || this.isBookEquale(this.bookSelected,book)) }"
                     [attr.src]="book.imagePath" />
             </mat-grid-tile>
         </mat-grid-list>
@@ -33,6 +35,7 @@
                         <img src="https://png.icons8.com/ios/35/2B2727/borrow-book-filled.png">
                     </button>
                 </mat-grid-tile>
+                
             </mat-grid-list>
         </div>
     </ng-template>

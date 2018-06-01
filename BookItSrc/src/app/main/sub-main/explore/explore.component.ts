@@ -1,14 +1,19 @@
+
 import { getUsersNearBy } from './../../../store/reducers/index';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,Output, Input} from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../../store';
 import { Book, Loadable } from './../../../data_types/states.model';
+import { IconsService } from '../../../icons.service';
+import { MatIconRegistry } from '@angular/material/icon';
+
 
 
 @Component({
   selector: 'app-explore',
   templateUrl: './explore.component.html',
-  styleUrls: ['./explore.component.scss']
+  styleUrls: ['./explore.component.scss'],
+  providers: [IconsService]
 })
 export class ExploreComponent implements OnInit {
   public usersNearBy = [];
@@ -19,18 +24,33 @@ export class ExploreComponent implements OnInit {
   public bookNavBarEnabled:boolean;
   public bookSelected:Book;
   public status:Loadable;
+ 
+  
 
-  constructor(private store: Store<fromStore.MainState>) { }
+  constructor(private store: Store<fromStore.MainState>, iconService: IconsService) {
+   
+   }
   showBookNavbar(book:Book){
     this.bookNavBarEnabled=true;
     this.bookSelected=book;
   }
   hideBookNavbar(book:Book){
-    if(book==this.bookSelected){
+    if(book===this.bookSelected){
       this.bookNavBarEnabled=false;
       this.bookSelected=undefined;
     }
   }
+  isBookEquale = (book1, book2) => {
+    let eq = true;
+    let keys = Object.keys(book1);
+    for (let key of keys) {
+        if (book1[key] !== book2[key]) {
+            eq = false;
+            break;
+        }
+    }
+    return eq;
+}
   goToPrevCategory(){
     console.log("Prev Category");
   }
@@ -52,6 +72,14 @@ export class ExploreComponent implements OnInit {
     }
     else{
       this.numCols=6;
+    }
+  }
+  getAutoCompleteValue(bookSelected){
+    if (bookSelected && bookSelected.title){
+      return bookSelected
+    }
+    else{
+      return null;
     }
   }
   ngOnInit() {
