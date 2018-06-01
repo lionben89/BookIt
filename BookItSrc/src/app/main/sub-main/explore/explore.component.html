@@ -1,46 +1,52 @@
 <section class="header">
-   
-        <button mat-button label class="button-switch-page" (click)="goToNextCategory()">
-                <div *ngIf="1 === 1; then leftArrowIcon"></div>
-        </button>
-        <label class="header-cat">Main Category</label>
+
+    <button mat-button label class="button-switch-page" (click)="goToNextCategory()">
+        <div *ngIf="1 === 1; then leftArrowIcon"></div>
+    </button>
+    <label class="header-cat">Main Category</label>
     <button mat-button label class="button-switch-page" (click)="goToPrevCategory()">
         <div *ngIf="1 === 1; then rightArrowIcon"></div>
     </button>
-
- 
-    
 </section>
-<div class="mybooks">
-    <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
-        <mat-grid-tile  *ngFor="let book of booksNearBy"(click)="showBookNavbar(book)" (clickOutside)="hideBookNavbar(book)">
-           <img class='cover'[ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }" [attr.src]="book.imagePath" />
-        </mat-grid-tile>
-    </mat-grid-list>
-</div>
-<div *ngIf="this.bookNavBarEnabled===true; then bookNavbar"></div>
-
-<ng-template #bookNavbar>
-    <div class='bookNavbarBox'>
-            <mat-grid-list class="bookNavbarList" rowHeight="50px" cols="2" gutterSize="10">
-                    <mat-grid-tile>
-                        <button style="font-size:1em; color:#2B2727;background-color:#C8C8C8;" (click)="bookInfo()">
-                            <i class="fas fa-info-circle"></i>
-                        </button>        
-                    </mat-grid-tile>
-                    <mat-grid-tile>
-                        <button style="font-size:1em; color:#2B2727;background-color:#C8C8C8;" (click)="requestBook()">
-                                <img src="https://png.icons8.com/ios/35/2B2727/borrow-book-filled.png">
-                            </button>        
-                    </mat-grid-tile>
-                </mat-grid-list>
+<div *ngIf="status.loading && !status.loaded; then loading  else loaded"></div>
+<ng-template #loaded>
+    <div class="mybooks">
+        <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
+            <mat-grid-tile *ngFor="let book of booksNearBy" (click)="showBookNavbar(book)" (clickOutside)="hideBookNavbar(book)">
+                <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
+                    [attr.src]="book.imagePath" />
+            </mat-grid-tile>
+        </mat-grid-list>
     </div>
-</ng-template>
+    <div *ngIf="this.bookNavBarEnabled===true; then bookNavbar"></div>
 
+    <ng-template #bookNavbar>
+        <div class='bookNavbarBox'>
+            <mat-grid-list class="bookNavbarList" rowHeight="50px" cols="2" gutterSize="10">
+                <mat-grid-tile>
+                    <button style="font-size:1em; color:#2B2727;background-color:#C8C8C8;" (click)="bookInfo()">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <button style="font-size:1em; color:#2B2727;background-color:#C8C8C8;" (click)="requestBook()">
+                        <img src="https://png.icons8.com/ios/35/2B2727/borrow-book-filled.png">
+                    </button>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </div>
+    </ng-template>
+</ng-template>
 
 <ng-template #rightArrowIcon>
     <mat-icon svgIcon='right-arrow' class="arrow-icon"></mat-icon>
-  </ng-template>
-  <ng-template #leftArrowIcon>
+</ng-template>
+<ng-template #leftArrowIcon>
     <mat-icon svgIcon='left-arrow' class="arrow-icon"></mat-icon>
-  </ng-template>
+</ng-template>
+
+<ng-template #loading>
+    <div class="centered">
+        <mat-spinner [color]="'accent'"></mat-spinner>
+    </div>
+</ng-template>

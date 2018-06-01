@@ -20,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule, MatButtonModule, MatIconModule,MatCardModule,MatToolbarModule, MatIconRegistry, MatInputModule,MatAutocomplete} from '@angular/material' ;
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCheckboxModule, MatChipsModule, MatSliderModule, MatSlideToggleModule, MatDialogModule } from '@angular/material';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 import { AngularFireModule } from 'angularfire2';
@@ -97,6 +98,7 @@ import { UserDataEffects } from './store/effects/userData.effect';
     MatSliderModule,
     MatDialogModule,
     MatGridListModule,
+    MatProgressSpinnerModule,
     FlexLayoutModule,
     HttpClientModule,
     BrowserAnimationsModule,

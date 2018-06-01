@@ -5,14 +5,14 @@ import * as fromUserData from '../actions/userData.action';
 import * as fromExplore from '../actions/explore.action';
 import { ExploreState } from '../../data_types/states.model'
 
-const isBookEquale=(book1,book2)=>{
-    let eq=true;
-    let keys= Object.keys(book1);
-    for (let key of keys){
-        if (book1[key]!==book2[key]){
-            eq= false;
+const isBookEquale = (book1, book2) => {
+    let eq = true;
+    let keys = Object.keys(book1);
+    for (let key of keys) {
+        if (book1[key] !== book2[key]) {
+            eq = false;
             break;
-        }   
+        }
     }
     return eq;
 }
@@ -51,18 +51,18 @@ export function ExploreReducer(state: ExploreState = initState, action: fromExpl
         }
 
         case fromExplore.ActionsExploreConsts.LOAD_BOOKS_FROM_USERS_NEAR_BY_SUCCESS: {
-         
+
             //console.log(action.payload);
-            
+
             return {
                 ...state,
                 booksNearBy: action.payload,
-                loading: true,
-                loaded: false
+                loading: false,
+                loaded: true
             };
         }
-        case fromExplore.ActionsExploreConsts.DELETE_ALL_USERS_NEARBY:{
-            return {...state, usersNearBy:new Array<any>()};
+        case fromExplore.ActionsExploreConsts.DELETE_ALL_USERS_NEARBY: {
+            return { ...state, usersNearBy: new Array<any>() };
         }
 
         default: return state;
@@ -72,4 +72,5 @@ export function ExploreReducer(state: ExploreState = initState, action: fromExpl
 
 export const getUsersNearBy = (state: ExploreState) => { return state.usersNearBy; }
 export const getBooksNearBy = (state: ExploreState) => { return state.booksNearBy; }
+export const getExploreStatus = (state: ExploreState) => { return { loading: state.loading, loaded: state.loaded } }
 

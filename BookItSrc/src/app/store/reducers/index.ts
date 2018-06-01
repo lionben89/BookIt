@@ -39,3 +39,4 @@ export const getUserSearchRadius=createSelector(getUserDataState,fromUserData.ge
 export const getExploreState = createFeatureSelector<ExploreState>('explore');
 export const getUsersNearBy=createSelector(getExploreState,fromExplore.getUsersNearBy);
 export const getBooksNearBy=createSelector(getExploreState,fromExplore.getBooksNearBy);
+export const getExploreStatus=createSelector(getExploreState,fromExplore.getExploreStatus);
