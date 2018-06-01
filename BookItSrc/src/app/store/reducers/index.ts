@@ -35,6 +35,7 @@ export const getUserSettings=createSelector(getUserDataState,fromUserData.getUse
 export const getUserLocations=createSelector(getUserDataState,fromUserData.getUserLocations);
 export const getUserBooks=createSelector(getUserDataState,fromUserData.getUserBooks);
 export const getUserSearchRadius=createSelector(getUserDataState,fromUserData.getUserSearchRadius);
+export const getUserDataStatus=createSelector(getUserDataState,fromUserData.getUserDataStatus);
 //Explore selectors
 export const getExploreState = createFeatureSelector<ExploreState>('explore');
 export const getUsersNearBy=createSelector(getExploreState,fromExplore.getUsersNearBy);

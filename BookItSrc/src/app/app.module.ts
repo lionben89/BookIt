@@ -34,6 +34,7 @@ import { ReactiveFormsModule, FormsModule, NgForm } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SliderModule } from 'primeng/slider';
 import { ClickOutsideModule } from 'ng-click-outside';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 //ngrx
 import {StoreModule} from '@ngrx/store'; 
@@ -106,6 +107,7 @@ import { UserDataEffects } from './store/effects/userData.effect';
     ReactiveFormsModule,
     FormsModule,
     MatCheckboxModule,
+    MatSnackBarModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([UserDataEffects,ExploreEffects]),
     AngularFireModule.initializeApp(environment.firebase, 'BookIt'),
