@@ -1,9 +1,11 @@
-import { Book } from './../../../data_types/states.model';
+import { getUserDataStatus } from './../../../store/reducers/index';
+import { Book, Loadable } from './../../../data_types/states.model';
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../../store';
 import { Observable } from 'rxjs/Observable';
 import { MatGridListModule } from '@angular/material/grid-list';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-my-books',
@@ -11,14 +13,16 @@ import { MatGridListModule } from '@angular/material/grid-list';
   styleUrls: ['./my-books.component.scss']
 })
 export class MyBooksComponent implements OnInit {
+  getUserDataStatusSubscription;
   public which_page = 'my_books'; /* options = {my_books, add_book} */
   public mybooksOption$: Observable<string>;
-  constructor(private store: Store<fromStore.MainState>) { }
+  constructor(private store: Store<fromStore.MainState>,public snackBar: MatSnackBar) { }
   userBooks: Book[];
   userBooksSubscription;
   numCols;
   bookNavBarEnabled:boolean;
   bookSelected:Book;
+  public status:Loadable;
   goToAddbook() {
     this.store.dispatch(new fromStore.ChooseMyBooksAddBook);
   }
@@ -34,6 +38,8 @@ export class MyBooksComponent implements OnInit {
       this.numCols=6;
     }
   }
+
+  
   showBookNavbar(book:Book){
     this.bookNavBarEnabled=true;
     this.bookSelected=book;
@@ -49,6 +55,7 @@ export class MyBooksComponent implements OnInit {
     this.store.dispatch(new fromStore.RemoveBook(this.bookSelected));
     this.bookNavBarEnabled=false;
     this.bookSelected=undefined;
+    this.snackBar.open("Book Removed",null,{duration: 1000});
   }
   approveRequest(){
     console.log('request approved');
@@ -70,10 +77,12 @@ export class MyBooksComponent implements OnInit {
     this.store.select<any>(fromStore.getContextmybooksOption).subscribe(state => { this.which_page = state; });
     this.store.dispatch(new fromStore.LoadMyBooks());
     this.userBooksSubscription = this.store.select<any>(fromStore.getUserBooks).subscribe(state => { this.userBooks = state; });
+    this.getUserDataStatusSubscription=this.store.select(fromStore.getUserDataStatus).subscribe(state=>{this.status=state;});
   }
 
   ngOnDestroy() {
     this.userBooksSubscription.unsubscribe();
+    this.getUserDataStatusSubscription.unsubscribe();
   }
 
 }

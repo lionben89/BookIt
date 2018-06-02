@@ -4,6 +4,7 @@ import { Category, ExtendedUserInfo, UserUpdateType, Location, Book } from '../.
 export const ActionsExploreConsts={
         ADD_USER_NEARBY:"ADD_USER_NEARBY",
         REMOVE_USER_NEARBY:"REMOVE_USER_NEARBY",
+        DELETE_ALL_USERS_NEARBY:"DELETE_ALL_USERS_NEARBY",
         LOAD_BOOKS_FROM_USERS_NEAR_BY:"LOAD_BOOKS_FROM_USERS_NEAR_BY",
         LOAD_BOOKS_FROM_USERS_NEAR_BY_SUCCESS:"LOAD_BOOKS_FROM_USERS_NEAR_BY_SUCCESS",
         LOAD_BOOKS_FROM_USERS_NEAR_BY_FAIL:"LOAD_BOOKS_FROM_USERS_NEAR_BY_FAIL",
@@ -34,7 +35,13 @@ export class LoadBooksFromUsersNearByFail implements Action{
     constructor(public payload?:any){}
 }
 
+export class DeleteAllUsersNearBy implements Action{
+    readonly type=ActionsExploreConsts.DELETE_ALL_USERS_NEARBY;
+    constructor(public payload?:any){}
+}
+
 
 export type ExploreActions = AddUserNearby | RemoveUserNearby |
-    LoadBooksFromUsersNearBy | LoadBooksFromUsersNearBySuccess | LoadBooksFromUsersNearByFail;
+    LoadBooksFromUsersNearBy | LoadBooksFromUsersNearBySuccess | LoadBooksFromUsersNearByFail
+    |DeleteAllUsersNearBy;
 

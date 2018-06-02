@@ -33,6 +33,9 @@ let initState: UserState = {
     },
     locations: {},
     myBooks: [],
+    loading:false,
+    loaded:false,
+    
 };
 export function userDataReducer(state: UserState = initState, action: fromUserData.UserDataActions) {
 
@@ -139,6 +142,8 @@ export function userDataReducer(state: UserState = initState, action: fromUserDa
         case fromUserData.ActionsUserDataConsts.LOAD_MY_BOOKS_SUCCESS:{
             return {...state,
                 myBooks: action.payload,
+                loading:false,
+                loaded:true,
             }
         }
         case fromUserData.ActionsUserDataConsts.LOAD_LOCATIONS: {
@@ -171,4 +176,10 @@ export const getUserData = (state: UserState) => { return state }
 export const getUserSettings = (state: UserState) => { return state.userSettings }
 export const getUserLocations = (state: UserState) => { return state.locations }
 export const getUserBooks = (state: UserState) => { return state.myBooks}
-export const getUserSearchRadius=(state:UserState)=>{return state.userSettings.locationSettings.searchRadiusKm}
+export const getUserSearchRadius=(state:UserState)=>{
+    if (state.userSettings && state.userSettings.locationSettings ){
+        return state.userSettings.locationSettings.searchRadiusKm
+    }
+    return 0;
+}
+export const getUserDataStatus=(state:UserState)=>{return {loading:state.loading, loaded:state.loaded}}

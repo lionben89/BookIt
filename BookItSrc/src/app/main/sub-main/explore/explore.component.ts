@@ -2,7 +2,8 @@ import { getUsersNearBy } from './../../../store/reducers/index';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../../store';
-import { Book } from './../../../data_types/states.model';
+import { Book, Loadable } from './../../../data_types/states.model';
+
 
 @Component({
   selector: 'app-explore',
@@ -17,6 +18,7 @@ export class ExploreComponent implements OnInit {
   public numCols;
   public bookNavBarEnabled:boolean;
   public bookSelected:Book;
+  public status:Loadable;
 
   constructor(private store: Store<fromStore.MainState>) { }
   showBookNavbar(book:Book){
@@ -43,22 +45,26 @@ export class ExploreComponent implements OnInit {
   }
   onResize() {//TODO add font resize
     if (window.innerWidth <= 400){
-      this.numCols=1;
-    }
-    else if (window.innerWidth > 400 &&  window.innerWidth<800){
       this.numCols=3;
     }
+    else if (window.innerWidth > 400 &&  window.innerWidth<800){
+      this.numCols=4;
+    }
     else{
-      this.numCols=5;
+      this.numCols=6;
     }
   }
   ngOnInit() {
     this.bookNavBarEnabled=false;
     this.onResize();
     this.booksNearBySubscription = this.store.select<any>(fromStore.getBooksNearBy).subscribe(state => { this.booksNearBy = state; });
-    this.usersNearBySubscription = this.store.select<any>(fromStore.getUsersNearBy).subscribe(state => { this.usersNearBy = state; });
+    this.usersNearBySubscription = this.store.select<any>(fromStore.getUsersNearBy).subscribe(state => { 
+      this.usersNearBy = state;
+      this.store.dispatch(new fromStore.LoadBooksFromUsersNearBy(this.usersNearBy));
+     });
+     this.store.select(fromStore.getExploreStatus).subscribe(state=>{this.status=state;});
     //if (this.usersNearBy.length > 0) {
-    this.store.dispatch(new fromStore.LoadBooksFromUsersNearBy(this.usersNearBy));
+    
     //this.numCols=1;
     //}
 

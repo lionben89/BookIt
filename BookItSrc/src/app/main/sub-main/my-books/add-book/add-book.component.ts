@@ -7,6 +7,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../../../store';
 import { Observable } from 'rxjs/Observable';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-add-book',
@@ -21,7 +22,7 @@ export class AddBookComponent implements OnInit {
   searchTerm: string;
   public mybooksOption$: Observable<string>;
   numCols;
-  constructor(private httpClient: HttpClient, private store: Store<fromStore.MainState>) { }
+  constructor(private httpClient: HttpClient, private store: Store<fromStore.MainState>,public snackBar: MatSnackBar) { }
   onResize() {
     if (window.innerWidth <= 400){
       this.numCols=3;
@@ -41,7 +42,7 @@ export class AddBookComponent implements OnInit {
     this.masterBooksArray.push(result);//change to specific
     this.results = [];
     this.store.dispatch(new fromStore.AddBook(result));
-    //this.store.dispatch(new fromStore.ChooseMyBooksMain);
+    this.snackBar.open("Book Added",null,{duration: 1000});
   }
   goToMyBooks() {
     this.store.dispatch(new fromStore.ChooseMyBooksMain);

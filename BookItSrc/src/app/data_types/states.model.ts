@@ -62,7 +62,7 @@ export interface UserSettingsState {
     favoriteCategories?: FavoriteCategories,
 }
 
-export interface UserState {
+export interface UserState extends Loadable {
     userSettings: UserSettingsState,
     locations,// {'id':Location, 'id':Location}
     myBooks:Book[],
