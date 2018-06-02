@@ -5,7 +5,7 @@ import * as fromUserData from '../actions/userData.action';
 import * as fromExplore from '../actions/explore.action';
 import { ExploreState } from '../../data_types/states.model'
 
-const isBookEquale = (book1, book2) => {
+export const isBookEquale = (book1, book2) => {
     let eq = true;
     let keys = Object.keys(book1);
     for (let key of keys) {

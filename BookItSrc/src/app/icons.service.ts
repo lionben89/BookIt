@@ -91,6 +91,30 @@ export class IconsService {
     );
 
     iconRegistry.addSvgIcon(
+      "down-arrow-white",
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/down-arrow-white.svg")
+    );
+
+    iconRegistry.addSvgIcon(
+      "down-arrow-black",
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/down-arrow-black.svg")
+    );
+
+    iconRegistry.addSvgIcon(
+      "request-book-black",
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/download-ebook-black.svg")
+    );
+    iconRegistry.addSvgIcon(
+      "request-pending",
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/request-pending.svg")
+    );
+
+    iconRegistry.addSvgIcon(
+      "new-message",
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/new-message.svg")
+    );
+
+    iconRegistry.addSvgIcon(
       "delete-forever",
       sanitizer.bypassSecurityTrustResourceUrl(
         "/assets/icons/delete-forever.svg"

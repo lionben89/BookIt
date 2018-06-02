@@ -1,3 +1,4 @@
+import { isBookEquale } from './explore.reducer';
 import { Category, UserSettingsState } from './../../data_types/states.model';
 
 import { Action } from '@ngrx/store';
@@ -33,9 +34,10 @@ let initState: UserState = {
     },
     locations: {},
     myBooks: [],
-    loading:false,
-    loaded:false,
-    
+    myRequests: [],
+    loading: false,
+    loaded: false,
+
 };
 export function userDataReducer(state: UserState = initState, action: fromUserData.UserDataActions) {
 
@@ -139,32 +141,52 @@ export function userDataReducer(state: UserState = initState, action: fromUserDa
                 loaded: false
             }
         }
-        case fromUserData.ActionsUserDataConsts.LOAD_MY_BOOKS_SUCCESS:{
-            return {...state,
+        case fromUserData.ActionsUserDataConsts.LOAD_MY_BOOKS_SUCCESS: {
+            return {
+                ...state,
                 myBooks: action.payload,
-                loading:false,
-                loaded:true,
+                loading: false,
+                loaded: true,
+            }
+        }
+        case fromUserData.ActionsUserDataConsts.LOAD_MY_REQUESTS: {
+            return {
+                ...state,
+                loading: true,
+                loaded: false
+            }
+        }
+        case fromUserData.ActionsUserDataConsts.LOAD_MY_REQUESTS_SUCCESS: {
+            return {
+                ...state,
+                myRequests: action.payload,
+                loading: false,
+                loaded: true,
             }
         }
         case fromUserData.ActionsUserDataConsts.LOAD_LOCATIONS: {
-            return { ...state,
-                    loading: true,
-                    loaded: false,
-                };
+            return {
+                ...state,
+                loading: true,
+                loaded: false,
+            };
         }
         case fromUserData.ActionsUserDataConsts.LOAD_LOCATIONS_SUCCESS: {
-            return { ...state,
-                    locations: action.payload,
-                    loading: false,
-                    loaded: true,
-                };
+            return {
+                ...state,
+                locations: action.payload,
+                loading: false,
+                loaded: true,
+            };
         }
         case fromUserData.ActionsUserDataConsts.UPDATE_LOCATION: {
-            return { ...state,
-                    loading: true,
-                    loaded: false,
-                };
+            return {
+                ...state,
+                loading: true,
+                loaded: false,
+            };
         }
+
         default: return state;
     }
 }
@@ -174,12 +196,14 @@ export function userDataReducer(state: UserState = initState, action: fromUserDa
 //export const getUserDataCategories = (state: UserDataState) => { return state.favoriteCategories; }
 export const getUserData = (state: UserState) => { return state }
 export const getUserSettings = (state: UserState) => { return state.userSettings }
+export const getUserInfo = (state: UserState) => { return state.userSettings.info }
 export const getUserLocations = (state: UserState) => { return state.locations }
-export const getUserBooks = (state: UserState) => { return state.myBooks}
-export const getUserSearchRadius=(state:UserState)=>{
-    if (state.userSettings && state.userSettings.locationSettings ){
+export const getUserBooks = (state: UserState) => { return state.myBooks }
+export const getUserRequests = (state: UserState) => { return state.myRequests }
+export const getUserSearchRadius = (state: UserState) => {
+    if (state.userSettings && state.userSettings.locationSettings) {
         return state.userSettings.locationSettings.searchRadiusKm
     }
     return 0;
 }
-export const getUserDataStatus=(state:UserState)=>{return {loading:state.loading, loaded:state.loaded}}
+export const getUserDataStatus = (state: UserState) => { return { loading: state.loading, loaded: state.loaded } }

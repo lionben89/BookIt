@@ -66,6 +66,7 @@ export interface UserState extends Loadable {
     userSettings: UserSettingsState,
     locations,// {'id':Location, 'id':Location}
     myBooks:Book[],
+    myRequests:Book[],
 }
 
 export interface Book {
@@ -74,8 +75,11 @@ export interface Book {
     giveaway: boolean,
     lendCount: number,
     maxLendDays: number,
-    currentLend?: {
+    ownerUid:string,
+    currentRequest?: {
         borrowerUid: string,
+        approved:boolean,
+        pending:boolean,
         startTime: Date
     }
     title: string,

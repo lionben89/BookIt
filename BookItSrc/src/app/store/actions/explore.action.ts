@@ -8,6 +8,8 @@ export const ActionsExploreConsts={
         LOAD_BOOKS_FROM_USERS_NEAR_BY:"LOAD_BOOKS_FROM_USERS_NEAR_BY",
         LOAD_BOOKS_FROM_USERS_NEAR_BY_SUCCESS:"LOAD_BOOKS_FROM_USERS_NEAR_BY_SUCCESS",
         LOAD_BOOKS_FROM_USERS_NEAR_BY_FAIL:"LOAD_BOOKS_FROM_USERS_NEAR_BY_FAIL",
+        
+
 };
 
 export class AddUserNearby implements Action {
@@ -39,6 +41,8 @@ export class DeleteAllUsersNearBy implements Action{
     readonly type=ActionsExploreConsts.DELETE_ALL_USERS_NEARBY;
     constructor(public payload?:any){}
 }
+
+
 
 
 export type ExploreActions = AddUserNearby | RemoveUserNearby |

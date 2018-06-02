@@ -4,15 +4,27 @@
         <container-element [ngSwitch]="this.which_page">
             <div *ngSwitchCase="'my_books'">
                 <div class="mybooks">
+                    <section class="header">
+                        <label class="header-cat">My Books</label>
+                        <button mat-button label class="button-switch-page" (click)="goToMyRequests()">
+                            <div *ngIf="1 === 1; then rightArrowIcon"></div>
+                        </button>
+                    </section>
                     <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
                         <mat-grid-tile>
                             <button class="cover" (click)="goToAddbook()">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </mat-grid-tile>
-                        <mat-grid-tile *ngFor="let book of userBooks" (click)="showBookNavbar(book)" (clickOutside)="hideBookNavbar(book)">
+                        <mat-grid-tile *ngFor="let book of userBooks" (click)="showBookNavbar(book)">
+                            <div class='book-bottom'>
+                                <span class='addbook_title'>{{book.title}}</span>
+                                <br>
+                                <span class='addbook_author'>by {{book.author}}</span>
+                            </div>
                             <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
                                 [attr.src]="book.imagePath" />
+                            <div *ngIf="book.currentRequest  && book.currentRequest.pending && !book.currentRequest.approved then requestPending"></div>
                         </mat-grid-tile>
                     </mat-grid-list>
                 </div>
@@ -21,6 +33,7 @@
 
             </div>
             <app-add-book *ngSwitchCase="'add_book'" [masterBooksArray]="userBooks"></app-add-book>
+            <app-my-requests *ngSwitchCase="'my_requests'"></app-my-requests>
         </container-element>
     </div>
 
@@ -57,8 +70,19 @@
     </ng-template>
 </ng-template>
 
+<ng-template #rightArrowIcon>
+    <mat-icon svgIcon='right-arrow' class="arrow-icon"></mat-icon>
+</ng-template>
+<ng-template #leftArrowIcon>
+    <mat-icon svgIcon='left-arrow' class="arrow-icon"></mat-icon>
+</ng-template>
+
 <ng-template #loading>
     <div class="centered">
         <mat-spinner [color]="'accent'"></mat-spinner>
     </div>
+</ng-template>
+
+<ng-template #requestPending>
+    <mat-icon svgIcon='request-pending' class="book-status"></mat-icon>
 </ng-template>

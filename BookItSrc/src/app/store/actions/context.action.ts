@@ -1,3 +1,4 @@
+
 import { Action } from '@ngrx/store';
 
 export const ActionsConsts={
@@ -10,6 +11,7 @@ export const ActionsConsts={
         CHOOSE_SETTINGS_CATEGORIES:"CHOOSE_SETTINGS_CATEGORIES",
         CHOOSE_MY_BOOKS_ADD_BOOK:"CHOOSE_MY_BOOKS_ADD_BOOK",
         CHOOSE_MY_BOOKS_MAIN:"CHOOSE_MY_BOOKS_MAIN",
+        CHOOSE_MY_BOOKS_MY_REQUESTS:"CHOOSE_MY_BOOKS_MY_REQUESTS",
 }; 
 
 
@@ -45,4 +47,10 @@ export class ChooseSettingsCategories implements Action{
     readonly type =ActionsConsts.CHOOSE_SETTINGS_CATEGORIES;
 }
 
-export type ContextActions = ChooseExplorer | ChooseSettings | ChooseSettingsCategories | ChooseSettingsAddLocations | ChooseSettingsLocations|ChooseMyBooks|ChooseMyBooksAddBook;
+export class ChooseMyBooksMyRequests implements Action{
+    readonly type =ActionsConsts.CHOOSE_MY_BOOKS_MY_REQUESTS;
+}
+
+export type ContextActions = ChooseExplorer | ChooseSettings | ChooseSettingsCategories | 
+ChooseSettingsAddLocations | ChooseSettingsLocations|ChooseMyBooks| 
+ChooseMyBooksAddBook | ChooseMyBooksMyRequests;

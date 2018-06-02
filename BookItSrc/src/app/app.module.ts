@@ -23,6 +23,7 @@ import { MatCheckboxModule, MatChipsModule, MatSliderModule, MatSlideToggleModul
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
+
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestore, AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireDatabase, AngularFireDatabaseModule } from 'angularfire2/database'
@@ -51,6 +52,8 @@ import { DialogAddLocationTitleComponent } from './main/sub-main/settings/dialog
 import { AgmCoreModule } from '@agm/core';
 import { EffectsModule } from '@ngrx/effects';
 import { UserDataEffects } from './store/effects/userData.effect';
+import { MyRequestsComponent } from './main/sub-main/my-books/my-requests/my-requests.component';
+
 
 
 
@@ -76,6 +79,8 @@ import { UserDataEffects } from './store/effects/userData.effect';
     DialogAddLocationTitleComponent,
     CategoryComponent,
     AppComponent,
+    MyRequestsComponent,
+   
   ],
   imports: [
     ClickOutsideModule,

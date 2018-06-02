@@ -24,7 +24,7 @@ export class AutoCompleteComponent implements OnInit {
     this.filteredBooks = this.bookCtrl.valueChanges
       .pipe(
         startWith(''),
-        map(book => book ? this.filterStates(book) : this.books.slice())
+        map(book => book ? this.filterStates(book) :[])
       );
   }
 

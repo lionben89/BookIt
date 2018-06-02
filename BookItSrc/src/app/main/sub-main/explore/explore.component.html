@@ -10,9 +10,10 @@
 </section>
 <div *ngIf="(status.loading && !status.loaded) || (!status.loading && !status.loaded); then loading  else loaded"></div>
 <ng-template #loaded>
-    
+
     <div class="mybooks">
-            <app-auto-complete [books]="booksNearBy" [activeOption]="getAutoCompleteValue(this.bookSelected)" (getBookSelected)="showBookNavbar($event)" id="auto-complete"></app-auto-complete>
+        <app-auto-complete [books]="booksNearBy" [(activeOption)]="this.bookSelected" (getBookSelected)="showBookNavbar($event)"
+            id="auto-complete"></app-auto-complete>
         <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
             <mat-grid-tile *ngFor="let book of booksNearBy" (click)="showBookNavbar(book)">
                 <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!==book) , 'regular': (this.bookNavBarEnabled===false || this.isBookEquale(this.bookSelected,book)) }"
@@ -24,18 +25,20 @@
 
     <ng-template #bookNavbar>
         <div class='bookNavbarBox'>
-            <mat-grid-list class="bookNavbarList" rowHeight="50px" cols="2" gutterSize="10">
-                <mat-grid-tile>
-                    <button style="font-size:1em; color:#2B2727;background-color:#C8C8C8;" (click)="bookInfo()">
-                        <i class="fas fa-info-circle"></i>
+            <mat-grid-list class="bookNavbarList" rowHeight="56px" cols="2" gutterSize="10">
+                <mat-grid-tile item-height="100%">
+                    <button mat-icon-button (click)="hideBookNavbar(bookSelected)">
+                        <mat-icon svgIcon='down-arrow-black' class="arrow-icon"></mat-icon>
                     </button>
                 </mat-grid-tile>
-                <mat-grid-tile>
-                    <button style="font-size:1em; color:#2B2727;background-color:#C8C8C8;" (click)="requestBook()">
-                        <img src="https://png.icons8.com/ios/35/2B2727/borrow-book-filled.png">
+                <mat-grid-tile >
+
+                    <button mat-icon-button class="arrow-icon" (click)="requestBook(bookSelected)">
+                        <mat-icon svgIcon='request-book-black'></mat-icon>
                     </button>
+
                 </mat-grid-tile>
-                
+
             </mat-grid-list>
         </div>
     </ng-template>

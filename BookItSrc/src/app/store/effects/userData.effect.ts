@@ -440,12 +440,80 @@ export class UserDataEffects {
                     return Observable.of(null);
                 }
                 let userPath = this.userDoc.ref.path;
-                let x = this.afs.collection(userPath + '/Books').valueChanges();
-                return x;
+                return this.afs.collection(userPath + '/Books').valueChanges();
             }),
             map((books) => {
                 return new fromUserDataActions.LoadMyBooksSuccess(books);
             })
             //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
         );
+
+    @Effect()
+    LoadMyRequests: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.LOAD_MY_REQUESTS)
+        .pipe(
+            map((action: fromUserDataActions.LoadMyRequests) => action.payload),
+            switchMap(payload => this.afAuth.authState),
+            switchMap(authData => {
+                if (!authData) {
+                    this.store.dispatch(new fromUserDataActions.LoadMyRequestsFail());
+                    return Observable.of(null);
+                }
+                let userPath = this.userDoc.ref.path;
+                let x = this.afs.collection(userPath + '/Requests').valueChanges();
+                return x;
+            }),
+            map((books) => {
+                return new fromUserDataActions.LoadMyRequestsSuccess(books);
+            })
+            //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
+        );
+        @Effect()
+    
+   /* @Effect()
+    RemoveRequest: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.REMOVE_REQUEST)
+        .pipe(
+            map((action: fromUserDataActions.RemoveBook) => {
+                return action.payload
+            }),
+            switchMap((book: Book) => {
+                let userPath = this.userDoc.ref.path;
+                return this.afs.doc(`${userPath}/Books/${book.id}`).delete().then(() => {
+                    return book;
+                });
+            }),
+            map((book: Book) => {
+                return new fromUserDataActions.RemoveBookSuccess(location);
+            })
+        );*/
+    @Effect()
+    RequesteBook: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.REQUEST_BOOK)
+        .pipe(
+            map((action: fromUserDataActions.RequestBook) => action.payload),
+            switchMap((book: Book) => {
+                let request = {
+                    borrowerUid: this.userDoc.ref.id,
+                    approved: false,
+                    pending: true,
+                    startTime: null,
+                };
+                book.currentRequest = request;
+                console.log(book);
+                let bookDocRef = this.afs.collection('Users/' + book.ownerUid + '/Books').doc(book.id);
+                if (!bookDocRef) {
+                    console.error("No userDoc");
+                    this.store.dispatch(new fromUserDataActions.RequestBookFail());
+                    return Observable.of(null);
+                }
+                bookDocRef.set(book, { merge: true });
+                return bookDocRef.valueChanges();
+            }),
+            map((book)=>{
+                let bookDocRef=this.afs.collection('Users/' + this.userDoc.ref.id + '/Requests').doc(book.id);
+                return bookDocRef.set(book, { merge: true });
+            }),
+            map((book) => {
+                return new fromUserDataActions.RequestBookSuccess();
+            })
+            //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
+        )
 }

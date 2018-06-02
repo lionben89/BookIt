@@ -39,6 +39,12 @@ export const ActionsUserDataConsts={
         LOAD_MY_BOOKS:"LOAD_MY_BOOKS",
         LOAD_MY_BOOKS_SUCCESS:"LOAD_MY_BOOKS_SUCCESS",
         LOAD_MY_BOOKS_FAIL:"LOAD_MY_BOOKS_FAIL",
+        LOAD_MY_REQUESTS:"LOAD_MY_REQUESTS",
+        LOAD_MY_REQUESTS_SUCCESS:"LOAD_MY_REQUESTS_SUCCESS",
+        LOAD_MY_REQUESTS_FAIL:"LOAD_MY_REQUESTS_FAIL",
+        REQUEST_BOOK:"REQUEST_BOOK",
+        REQUEST_BOOK_SUCCESS:"REQUEST_BOOK_SUCCESS",
+        REQUEST_BOOK_FAIL:"REQUEST_BOOK_FAIL",
 
 }; 
 
@@ -172,6 +178,33 @@ export class RemoveBookFail implements Action{
     constructor(public payload?:any){}
 }
 
+export class LoadMyRequests implements Action{
+    readonly type=ActionsUserDataConsts.LOAD_MY_REQUESTS;
+    constructor(public payload?:any){}
+}
+export class LoadMyRequestsSuccess implements Action{
+    readonly type=ActionsUserDataConsts.LOAD_MY_REQUESTS_SUCCESS;
+    constructor(public payload?:any){}
+}
+export class LoadMyRequestsFail implements Action{
+    readonly type=ActionsUserDataConsts.LOAD_MY_REQUESTS_FAIL;
+    constructor(public payload?:any){}
+}
+export class RequestBook implements Action{
+    readonly type=ActionsUserDataConsts.REQUEST_BOOK;
+    constructor(public payload?:any){}
+}
+
+export class RequestBookSuccess implements Action{
+    readonly type=ActionsUserDataConsts.REQUEST_BOOK_SUCCESS;
+    constructor(public payload?:any){}
+}
+
+export class RequestBookFail implements Action{
+    readonly type=ActionsUserDataConsts.REQUEST_BOOK_FAIL;
+    constructor(public payload?:any){}
+}
+
 export type UserDataActions =// LoadFavoriteCategories | LoadFavoriteCategoriesFail | LoadFavoriteCategoriesSuccess|
 LoadUserInfo | LoadUserInfoFail | LoadUserInfoSuccess |
 LoginGoogle | LoginFacebook | Logout | ErrorHandler | LoginSuccess |
@@ -181,4 +214,6 @@ LoadLocations | LoadLocationsSuccess |
 UpdateLocation | UpdateLocationSuccess |
 RemoveLocation | RemoveLocationSuccess |
 AddBook|AddBookSuccess|AddBookFail|LoadMyBooks|LoadMyBooksSuccess|LoadMyBooksFail
-|RemoveBook|RemoveBookSuccess|RemoveBookFail;
+|RemoveBook|RemoveBookSuccess|RemoveBookFail
+|RequestBook|RequestBookFail|RequestBookSuccess
+|LoadMyRequests|LoadMyRequestsFail|LoadMyRequestsSuccess;

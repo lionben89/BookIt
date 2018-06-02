@@ -6,6 +6,7 @@ import * as fromStore from '../../../store';
 import { Book, Loadable } from './../../../data_types/states.model';
 import { IconsService } from '../../../icons.service';
 import { MatIconRegistry } from '@angular/material/icon';
+import {MatSnackBar} from '@angular/material';
 
 
 
@@ -27,7 +28,7 @@ export class ExploreComponent implements OnInit {
  
   
 
-  constructor(private store: Store<fromStore.MainState>, iconService: IconsService) {
+  constructor(private store: Store<fromStore.MainState>, iconService: IconsService,public snackBar: MatSnackBar) {
    
    }
   showBookNavbar(book:Book){
@@ -60,8 +61,12 @@ export class ExploreComponent implements OnInit {
   bookInfo(){
     console.log(this.bookSelected.description);
   }
-  requestBook(){
+  requestBook(book){
     console.log("book requested");
+    this.store.dispatch(new fromStore.RequestBook(book));
+    this.hideBookNavbar(book);
+    this.snackBar.open("Request Was Sent",null,{duration: 1000});
+
   }
   onResize() {//TODO add font resize
     if (window.innerWidth <= 400){

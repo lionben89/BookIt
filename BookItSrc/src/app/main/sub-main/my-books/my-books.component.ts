@@ -6,17 +6,20 @@ import * as fromStore from '../../../store';
 import { Observable } from 'rxjs/Observable';
 import { MatGridListModule } from '@angular/material/grid-list';
 import {MatSnackBar} from '@angular/material';
+import { IconsService } from '../../../icons.service';
 
 @Component({
   selector: 'app-my-books',
   templateUrl: './my-books.component.html',
-  styleUrls: ['./my-books.component.scss']
+  styleUrls: ['./my-books.component.scss'],
+  providers: [IconsService]
 })
 export class MyBooksComponent implements OnInit {
   getUserDataStatusSubscription;
+  whichPageSubscription;
   public which_page = 'my_books'; /* options = {my_books, add_book} */
-  public mybooksOption$: Observable<string>;
-  constructor(private store: Store<fromStore.MainState>,public snackBar: MatSnackBar) { }
+
+  constructor(private store: Store<fromStore.MainState>,iconService: IconsService,public snackBar: MatSnackBar) { }
   userBooks: Book[];
   userBooksSubscription;
   numCols;
@@ -37,6 +40,9 @@ export class MyBooksComponent implements OnInit {
     else{
       this.numCols=6;
     }
+  }
+  goToMyRequests(){
+    this.store.dispatch(new fromStore.ChooseMyBooksMyRequests());
   }
 
   
@@ -73,14 +79,15 @@ export class MyBooksComponent implements OnInit {
   ngOnInit() {
     this.bookNavBarEnabled=false;
     this.onResize();
-    this.mybooksOption$ = this.store.select(fromStore.getContextmybooksOption);
-    this.store.select<any>(fromStore.getContextmybooksOption).subscribe(state => { this.which_page = state; });
+    this.whichPageSubscription=this.store.select<any>(fromStore.getContextmybooksOption).subscribe(state => { this.which_page = state; });
     this.store.dispatch(new fromStore.LoadMyBooks());
+    this.store.dispatch(new fromStore.LoadMyRequests());
     this.userBooksSubscription = this.store.select<any>(fromStore.getUserBooks).subscribe(state => { this.userBooks = state; });
     this.getUserDataStatusSubscription=this.store.select(fromStore.getUserDataStatus).subscribe(state=>{this.status=state;});
   }
 
   ngOnDestroy() {
+    this.whichPageSubscription.unsubscribe();
     this.userBooksSubscription.unsubscribe();
     this.getUserDataStatusSubscription.unsubscribe();
   }

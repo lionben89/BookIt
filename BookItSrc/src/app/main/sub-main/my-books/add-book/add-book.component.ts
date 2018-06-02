@@ -1,4 +1,4 @@
-import { Book } from '../../../../data_types/states.model';
+import { Book, ExtendedUserInfo } from '../../../../data_types/states.model';
 import { Component, OnInit, Input } from '@angular/core';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import 'rxjs/Rx';//TODO import only debouncetime
@@ -20,6 +20,8 @@ export class AddBookComponent implements OnInit {
   results: Book[] = [];
   apiRoot: string = "https://www.googleapis.com/books/v1/volumes";
   searchTerm: string;
+  userInfo:ExtendedUserInfo;
+  userInfoSubscription;
   public mybooksOption$: Observable<string>;
   numCols;
   constructor(private httpClient: HttpClient, private store: Store<fromStore.MainState>,public snackBar: MatSnackBar) { }
@@ -94,6 +96,7 @@ export class AddBookComponent implements OnInit {
           giveaway:false,
           lendCount:0,
           maxLendDays:30,
+          ownerUid:this.userInfo.uid,
           title:item.volumeInfo.title,
           author:item.volumeInfo.authors[0],
           categories:item.volumeInfo.categories,
@@ -116,7 +119,11 @@ export class AddBookComponent implements OnInit {
           this.searchTerm = term;
           this.doSearch();
         });
+        this.userInfoSubscription=this.store.select(fromStore.getUserInfo).subscribe((state)=>{this.userInfo=state;});
     
+  }
+  ngOnDestroy(){
+    this.userInfoSubscription.unsubscribe();
   }
 
 }

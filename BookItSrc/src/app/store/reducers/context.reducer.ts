@@ -21,7 +21,7 @@ export function contextReducer(state:ContextState=initState,action:fromContext.C
             return {...state,
                     navbar:{ ...state.navbar,
                         show:true,
-                        optionEnabled:"explorer"
+                        optionEnabled:"explorer",
                     }
                 };
         }
@@ -30,7 +30,8 @@ export function contextReducer(state:ContextState=initState,action:fromContext.C
             return {...state,
                     navbar:{ ...state.navbar,
                         show:true,
-                        optionEnabled:"my_books"
+                        optionEnabled:"my_books",
+                        
                     }
                 };
         }
@@ -50,6 +51,16 @@ export function contextReducer(state:ContextState=initState,action:fromContext.C
                     navbar:{ ...state.navbar,
                         show:false,
                         myBooksOption:"add_book"
+                    }
+                };
+        }
+
+        case fromContext.ActionsConsts.CHOOSE_MY_BOOKS_MY_REQUESTS:{
+            return {...state,
+                    navbar:{ ...state.navbar,
+                        show:true,
+                        optionEnabled:"my_books",
+                        myBooksOption:"my_requests"
                     }
                 };
         }
