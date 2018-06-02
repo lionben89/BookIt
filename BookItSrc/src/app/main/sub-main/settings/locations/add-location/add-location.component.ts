@@ -1,5 +1,5 @@
 import { DialogAddLocationTitleComponent } from "./../../dialog-add-location-title/dialog-add-location-title.component";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, AfterViewInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import * as fromStore from "../../../../../store";
 import { Observable } from "rxjs/Observable";
@@ -20,25 +20,21 @@ import { concat } from "rxjs/operators";
   styleUrls: ["./add-location.component.scss"],
   providers: [IconsService]
 })
-export class AddLocationComponent implements OnInit {
+export class AddLocationComponent implements AfterViewInit {
   public latitude: number;
   public longitude: number;
   public searchControl: FormControl = new FormControl();
   public zoom: number = 15;
-  public address_text: string;
   public place_holder: string = "Start typing address";
   public new_location: Location;
   public new_location_address: string;
   public new_location_name: string = "";
   public new_location_lat: number;
   public new_location_long: number;
-  public empty_location: boolean = true;
+  public empty_location: boolean = false;
   public saved_string = "Current Location";
-  public first_diag = true;
 
   @ViewChild("search") public searchElementRef: ElementRef;
-
-  public searchValue;
 
   public which_page = "add_locations"; /* options = {settings, categories, locations, add_location} */
   public settingsOption$: Observable<string>;
@@ -110,13 +106,13 @@ export class AddLocationComponent implements OnInit {
       address: this.new_location_address,
       lat: this.new_location_lat,
       long: this.new_location_long,
-      active: true,
+      active: true
     };
 
     this.store.dispatch(new fromStore.AddLocation(this.new_location));
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.settingsOption$ = this.store.select(
       fromStore.getContextSettingsOption
     );
@@ -126,11 +122,50 @@ export class AddLocationComponent implements OnInit {
         this.which_page = state;
       });
 
-    //set current position
-    this.setCurrentPosition();
-
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
+      //set current position
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(position => {
+          this.latitude = position.coords.latitude;
+          this.longitude = position.coords.longitude;
+          this.zoom = 15;
+
+          /* get the formated address */
+          var lat = this.latitude;
+          var lng = this.longitude;
+          var geocoder = new google.maps.Geocoder();
+          var latlng = { lat, lng };
+          var splited;
+
+          geocoder.geocode({ location: latlng }, (results, status) => {
+            if (status.toString() === "OK") {
+              if (results[0]) {
+                splited = results[0].formatted_address.split(",");
+                console.log(splited);
+
+                this.new_location_address = splited[0];
+                if (splited.length > 2) {
+                  this.new_location_address = this.new_location_address.concat(
+                    ", "
+                  );
+                  this.new_location_address = this.new_location_address.concat(
+                    splited[1]
+                  );
+                }
+                this.empty_location = false;
+                this.new_location_lat = lat;
+                this.new_location_long = lng;
+              } else {
+                console.log("No results found");
+              }
+            } else {
+              console.log("Geocoder failed due to: " + status);
+            }
+          });
+        });
+      }
+
       let autocomplete = new google.maps.places.Autocomplete(
         this.searchElementRef.nativeElement,
         {
@@ -139,11 +174,15 @@ export class AddLocationComponent implements OnInit {
           types: ["address"]
         }
       );
+
+      /* add listener on autocomplete */
       autocomplete.addListener("place_changed", () => {
         this.ngZone.run(() => {
           //get the place result
           let place: google.maps.places.PlaceResult = autocomplete.getPlace();
           let splited = place.formatted_address.split(",");
+
+          this.empty_location = false;
 
           //verify result
           if (place.geometry === undefined || place.geometry === null) {
@@ -151,7 +190,6 @@ export class AddLocationComponent implements OnInit {
           }
 
           //set latitude, longitude and zoom
-          this.address_text = place.adr_address;
           this.latitude = place.geometry.location.lat();
           this.longitude = place.geometry.location.lng();
           this.zoom = 15;
@@ -163,26 +201,16 @@ export class AddLocationComponent implements OnInit {
           this.new_location_address = splited[0];
           if (splited.length > 2) {
             this.new_location_address = this.new_location_address.concat(", ");
-            this.new_location_address = this.new_location_address.concat(splited[1]);
+            this.new_location_address = this.new_location_address.concat(
+              splited[1]
+            );
           }
         });
       });
     });
   }
 
-  private setCurrentPosition() {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-        this.zoom = 15;
-      });
-    }
-  }
-
-  ngOnDestroy() {
-    
-  }
+  ngOnDestroy() {}
 
   openDialog_emptyLocation(): void {
     let dialogRef = this.dialog.open(DialogOneButtonComponent, {
@@ -198,7 +226,7 @@ export class AddLocationComponent implements OnInit {
   }
 
   emptyLocText() {
-    this.searchValue = "";
+    this.new_location_address = "";
     this.empty_location = true;
   }
 }

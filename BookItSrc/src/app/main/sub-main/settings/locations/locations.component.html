@@ -10,8 +10,8 @@
 
     <mat-card class="locations">
       <mat-card-content class="locations-list" *ngFor="let loc of locations" selected="true" name="loc_list" ngDefaultControl>
-        <button mat-icon-button (click)="removeLocation(loc)">
-          <div *ngIf="1 === 1; then deleteForeverIcon"></div>
+        <button mat-icon-button (click)="removeOrAddLocation(loc)">
+          <div *ngIf="loc.label != no_remove; then deleteForeverIcon; else addIcon"></div>
         </button>
         <div class="loc-div">
           <button mat-icon-button (click)="setOption(loc)">
@@ -70,3 +70,7 @@
 <ng-template #deleteForeverIcon>
   <mat-icon svgIcon='delete-forever' class="delete-forever-icon"></mat-icon>
 </ng-template>
+
+<ng-template #addIcon>
+    <mat-icon svgIcon='add' class="add-icon"></mat-icon>
+  </ng-template>

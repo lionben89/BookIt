@@ -12,8 +12,10 @@
       <section class="total-search-section">
         <div *ngIf="1 === 1; then searchIcon"></div>
         <mat-form-field class="add-address">
-          <input matInput class="input-address" placeholder="{{place_holder}}" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search [(ngModel)]="searchValue" [formControl]="searchControl">
-          <button mat-button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="emptyLocText()">
+          <input matInput class="input-address" 
+            placeholder="{{place_holder}}" autocorrect="off" autocapitalize="off"
+            spellcheck="off" type="text" #search [(ngModel)]="new_location_address">
+          <button mat-button *ngIf="new_location_address" matSuffix mat-icon-button aria-label="Clear" (click)="emptyLocText()">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
