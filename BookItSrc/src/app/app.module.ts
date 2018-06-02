@@ -1,3 +1,4 @@
+import { ExploreEffects } from './store/effects/explore.effect';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -23,6 +24,7 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestore, AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireDatabase, AngularFireDatabaseModule } from 'angularfire2/database'
 import { environment } from '../environments/environment';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -30,6 +32,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule, NgForm } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SliderModule } from 'primeng/slider';
+import { ClickOutsideModule } from 'ng-click-outside';
 
 //ngrx
 import {StoreModule} from '@ngrx/store'; 
@@ -38,7 +41,6 @@ import { CategoriesComponent } from './main/sub-main/settings/categories/categor
 import { LocationsComponent } from './main/sub-main/settings/locations/locations.component';
 import { AddLocationComponent } from './main/sub-main/settings/locations/add-location/add-location.component';
 import { CategoryComponent } from './main/sub-main/explore/category/category.component';
-import { BookComponent } from './main/sub-main/my-books/add-book/book/book.component';
 import { DialogOneButtonComponent } from './main/sub-main/settings/dialog-one-button/dialog-one-button.component';
 import { DialogTwoButtonComponent } from './main/sub-main/settings/dialog-two-button/dialog-two-button.component';
 import { DialogAddLocationTitleComponent } from './main/sub-main/settings/dialog-add-location-title/dialog-add-location-title.component';
@@ -47,6 +49,8 @@ import { DialogAddLocationTitleComponent } from './main/sub-main/settings/dialog
 import { AgmCoreModule } from '@agm/core';
 import { EffectsModule } from '@ngrx/effects';
 import { UserDataEffects } from './store/effects/userData.effect';
+
+
 
 
 @NgModule({
@@ -65,13 +69,14 @@ import { UserDataEffects } from './store/effects/userData.effect';
     ExploreComponent,
     MyBooksComponent,
     AddBookComponent,
-    BookComponent,
     DialogOneButtonComponent,
     DialogTwoButtonComponent,
     DialogAddLocationTitleComponent,
     CategoryComponent,
+    AppComponent,
   ],
   imports: [
+    ClickOutsideModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -98,11 +103,12 @@ import { UserDataEffects } from './store/effects/userData.effect';
     MatInputModule,
     ReactiveFormsModule,
     FormsModule,
-MatCheckboxModule,
+    MatCheckboxModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([UserDataEffects]),
+    EffectsModule.forRoot([UserDataEffects,ExploreEffects]),
     AngularFireModule.initializeApp(environment.firebase, 'BookIt'),
     AngularFirestoreModule.enablePersistence(),
+    AngularFireDatabaseModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4',
       libraries: ['places']
@@ -113,7 +119,7 @@ MatCheckboxModule,
     DialogTwoButtonComponent,
     DialogAddLocationTitleComponent,
   ],
-  providers: [AngularFirestore,MatIconRegistry],
+  providers: [AngularFirestore, AngularFireDatabase, MatIconRegistry],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

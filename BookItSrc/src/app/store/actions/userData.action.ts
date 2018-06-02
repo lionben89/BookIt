@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Category, ExtendedUserInfo, UserUpdateType, Location } from '../../data_types/states.model';
+import { Category, ExtendedUserInfo, UserUpdateType, Location, Book } from '../../data_types/states.model';
 
 export const ActionsUserDataConsts={
 
@@ -29,7 +29,17 @@ export const ActionsUserDataConsts={
         LOGIN:"LOGIN", //get Auth data 
         LOGIN_SUCCESS:"LOGIN_SUCCESS", //push user data from Auth to DB
         LOGOUT:"LOGOUT", //log out from Auth
-        ERROR:"LOGOUT", //error on log out from Auth
+        ERROR:"ERROR",
+        ADD_BOOK:"ADD_BOOK",
+        ADD_BOOK_FAIL:"ADD_BOOK_FAIL",
+        ADD_BOOK_SUCCESS:"ADD_BOOK_SUCCESS",
+        REMOVE_BOOK:"REMOVE_BOOK",
+        REMOVE_BOOK_FAIL:"REMOVE_BOOK_FAIL",
+        REMOVE_BOOK_SUCCESS:"REMOVE_BOOK_SUCCESS",
+        LOAD_MY_BOOKS:"LOAD_MY_BOOKS",
+        LOAD_MY_BOOKS_SUCCESS:"LOAD_MY_BOOKS_SUCCESS",
+        LOAD_MY_BOOKS_FAIL:"LOAD_MY_BOOKS_FAIL",
+
 }; 
 
 export class LoginGoogle implements Action{
@@ -89,7 +99,7 @@ export class AddLocation implements Action{
 
 export class AddLocationSuccess implements Action{
     readonly type=ActionsUserDataConsts.ADD_LOCATION_SUCCESS;
-    constructor(public payload?:any){}
+    constructor(public payload?:Location){}
 }
 
 export class LoadLocations implements Action{
@@ -109,7 +119,7 @@ export class UpdateLocation implements Action{
 
 export class UpdateLocationSuccess implements Action{
     readonly type=ActionsUserDataConsts.UPDATE_LOCATION_SUCCESS;
-    constructor(public payload?:any){}
+    constructor(public payload?:Location){}
 }
 
 export class RemoveLocation implements Action{
@@ -119,6 +129,46 @@ export class RemoveLocation implements Action{
 
 export class RemoveLocationSuccess implements Action{
     readonly type=ActionsUserDataConsts.REMOVE_LOCATION_SUCCESS;
+    constructor(public payload?:Location){}
+}
+
+export class LoadMyBooks implements Action{
+    readonly type=ActionsUserDataConsts.LOAD_MY_BOOKS;
+    constructor(public payload?:any){}
+}
+export class LoadMyBooksSuccess implements Action{
+    readonly type=ActionsUserDataConsts.LOAD_MY_BOOKS_SUCCESS;
+    constructor(public payload?:any){}
+}
+export class LoadMyBooksFail implements Action{
+    readonly type=ActionsUserDataConsts.LOAD_MY_BOOKS_FAIL;
+    constructor(public payload?:any){}
+}
+export class AddBook implements Action{
+    readonly type=ActionsUserDataConsts.ADD_BOOK;
+    constructor(public payload?:Book){}
+}
+export class AddBookSuccess implements Action{
+    readonly type=ActionsUserDataConsts.ADD_BOOK_SUCCESS;
+    constructor(public payload?:any){}
+}
+export class AddBookFail implements Action{
+    readonly type=ActionsUserDataConsts.ADD_BOOK_FAIL;
+    constructor(public payload?:any){}
+}
+
+export class RemoveBook implements Action{
+    readonly type=ActionsUserDataConsts.REMOVE_BOOK;
+    constructor(public payload?:any){}
+}
+
+export class RemoveBookSuccess implements Action{
+    readonly type=ActionsUserDataConsts.REMOVE_BOOK_SUCCESS;
+    constructor(public payload?:any){}
+}
+
+export class RemoveBookFail implements Action{
+    readonly type=ActionsUserDataConsts.REMOVE_BOOK_FAIL;
     constructor(public payload?:any){}
 }
 
@@ -129,4 +179,6 @@ UpdateUserInfo|UpdateUserInfoFail |
 AddLocation | AddLocationSuccess |
 LoadLocations | LoadLocationsSuccess | 
 UpdateLocation | UpdateLocationSuccess |
-RemoveLocation | RemoveLocationSuccess;
+RemoveLocation | RemoveLocationSuccess |
+AddBook|AddBookSuccess|AddBookFail|LoadMyBooks|LoadMyBooksSuccess|LoadMyBooksFail
+|RemoveBook|RemoveBookSuccess|RemoveBookFail;

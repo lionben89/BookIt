@@ -1,12 +1,17 @@
 export interface NavbarState {
     optionEnabled: string,
     settingsOption: string,
-    myBooksOption:string,
-    show:boolean,
+    myBooksOption: string,
+    show: boolean,
 }
 
 export interface ContextState {
     navbar: NavbarState,
+}
+
+export interface ExploreState extends Loadable {
+    usersNearBy:string[],
+    booksNearBy:Book[],
 }
 
 export interface Loadable {
@@ -25,7 +30,7 @@ export interface ExtendedUserInfo extends Loadable {
     numRates?: number;
     borrowRestricted?: boolean,
     maxAllowedOpenBorrows?: number,
-    shareMyBooks?:boolean,
+    shareMyBooks?: boolean,
 }
 
 export interface Location {
@@ -59,8 +64,28 @@ export interface UserSettingsState {
 
 export interface UserState {
     userSettings: UserSettingsState,
-    locations, // {'id':Location, 'id':Location}
+    locations,// {'id':Location, 'id':Location}
+    myBooks:Book[],
 }
+
+export interface Book {
+    id: string,
+    visible: boolean,
+    giveaway: boolean,
+    lendCount: number,
+    maxLendDays: number,
+    currentLend?: {
+        borrowerUid: string,
+        startTime: Date
+    }
+    title: string,
+    author: string,
+    categories: string[],
+    imagePath: string,
+    description:string,
+}
+
+
 
 export enum UserUpdateType {
     SEARCH_RADIUS_KM,

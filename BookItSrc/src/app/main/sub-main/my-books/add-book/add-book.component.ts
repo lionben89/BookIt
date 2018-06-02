@@ -1,9 +1,8 @@
-import { Book } from './../../../navbar/auto-complete/auto-complete.component';
-import { Component, OnInit,Input } from '@angular/core';
-import {ReactiveFormsModule,FormControl} from '@angular/forms';
-import  'rxjs/Rx';//TODO import only debouncetime
+import { Book } from '../../../../data_types/states.model';
+import { Component, OnInit, Input } from '@angular/core';
+import { ReactiveFormsModule, FormControl } from '@angular/forms';
+import 'rxjs/Rx';//TODO import only debouncetime
 import { HttpClient } from '@angular/common/http';
-import { BookComponent } from './book/book.component';
 import { MatIconRegistry } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../../../store';
@@ -15,22 +14,36 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./add-book.component.scss']
 })
 export class AddBookComponent implements OnInit {
-  @Input() masterBooksArray : BookComponent[];
+  @Input() masterBooksArray: Book[];
   searchField: FormControl;
-  results: BookComponent[] = [];
+  results: Book[] = [];
   apiRoot: string = "https://www.googleapis.com/books/v1/volumes";
   searchTerm: string;
   public mybooksOption$: Observable<string>;
-  constructor(private httpClient: HttpClient,private store: Store<fromStore.MainState>) { }
-  addBook(_result : BookComponent){
+  numCols;
+  constructor(private httpClient: HttpClient, private store: Store<fromStore.MainState>) { }
+  onResize() {
+    if (window.innerWidth <= 400){
+      this.numCols=3;
+    }
+    else if (window.innerWidth > 400 &&  window.innerWidth<800){
+      this.numCols=4;
+    }
+    else{
+      this.numCols=6;
+    }
+  }
+
+  addBook(result: Book) {
     console.log('book added');
     //TODO need to add book to DB
     //TODO add dialog book added
-    this.masterBooksArray.push(_result);//change to specific
+    this.masterBooksArray.push(result);//change to specific
     this.results = [];
-    this.store.dispatch(new fromStore.ChooseMyBooksMain);
+    this.store.dispatch(new fromStore.AddBook(result));
+    //this.store.dispatch(new fromStore.ChooseMyBooksMain);
   }
-  goToMyBooks(){
+  goToMyBooks() {
     this.store.dispatch(new fromStore.ChooseMyBooksMain);
   }
   doSearch() {
@@ -54,46 +67,55 @@ export class AddBookComponent implements OnInit {
 
     //send book search request to Book API
     this.results = [];
-    let url = `${this.apiRoot}/?q=` + final_search_term + '&filter=partial';
-    console.log(url);
 
-    let cnt = 0;
-
+    let url = this.apiRoot + '/?q=' + encodeURIComponent(this.searchTerm) + '&maxResults=15&printType=books&fields=items(id%2CvolumeInfo(authors%2Ccategories%2Cdescription%2CimageLinks%2CmainCategory%2CratingsCount%2Ctitle))%2Ckind%2CtotalItems&key=AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4';
     this.httpClient.get(url).subscribe(res => {
-      if (res['items'] === undefined){
+      if (res['items'] === undefined) {
         this.results = [];
         return;
       }
-      for(let item of res['items']) {
+      for (let item of res['items']) {
         if (item.volumeInfo === undefined ||
-            item.volumeInfo.categories === undefined ||
-            item.volumeInfo.authors === undefined ||
-            item.volumeInfo.imageLinks === undefined ||
-            item.volumeInfo.imageLinks.thumbnail === undefined) {
+          item.volumeInfo.categories === undefined ||
+          item.volumeInfo.authors === undefined ||
+          item.volumeInfo.imageLinks === undefined ||
+          item.volumeInfo.imageLinks.thumbnail === undefined) {
           return;
         }
-        let title = item.volumeInfo.title;
-        let category = item.volumeInfo.categories;
-        let author = item.volumeInfo.authors[0];
-        let imagePath = item.volumeInfo.imageLinks.thumbnail;
-        let book = new BookComponent(title, author,category, imagePath);
+        //let title = item.volumeInfo.title;
+        /*let category: string = item.volumeInfo.categories;
+        let author: string = item.volumeInfo.authors[0];
+        let imagePath: string = item.volumeInfo.imageLinks.thumbnail;
+        let description: string = item.volumeInfo.description;*/
+        let book: Book = {
+          id:item.id,
+          visible:true,
+          giveaway:false,
+          lendCount:0,
+          maxLendDays:30,
+          title:item.volumeInfo.title,
+          author:item.volumeInfo.authors[0],
+          categories:item.volumeInfo.categories,
+          imagePath:item.volumeInfo.imageLinks.thumbnail,
+          description:item.volumeInfo.description,
+        };
         this.results.push(book);
-
       }
     });
   }
-   
+
   ngOnInit() {
-    {
+    
+      this.onResize();
       this.searchField = new FormControl();
       this.searchField.valueChanges
-          .debounceTime(400)
-          .distinctUntilChanged()
-          .subscribe(term => {
-            this.searchTerm = term;
-            this.doSearch();
-          });
-    }
+        .debounceTime(400)
+        .distinctUntilChanged()
+        .subscribe(term => {
+          this.searchTerm = term;
+          this.doSearch();
+        });
+    
   }
 
 }

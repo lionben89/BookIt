@@ -1,4 +1,3 @@
-import { LoginGoogle } from './../store/actions/userData.action';
 import { UserState, UserSettingsState } from './../data_types/states.model';
 import { Observable } from 'rxjs/Observable';
 import { MainState } from './../store/reducers/index';

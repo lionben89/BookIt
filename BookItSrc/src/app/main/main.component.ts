@@ -15,5 +15,6 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new fromStore.LoadUserInfo());
+    
   }
 }

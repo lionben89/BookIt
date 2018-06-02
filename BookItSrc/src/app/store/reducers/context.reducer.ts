@@ -1,6 +1,7 @@
 
 import {Action} from '@ngrx/store';
 import * as fromContext from '../actions/context.action';
+import * as fromUserData from '../actions/userData.action';
 import {ContextState} from '../../data_types/states.model'
 
 
@@ -32,6 +33,16 @@ export function contextReducer(state:ContextState=initState,action:fromContext.C
                         optionEnabled:"my_books"
                     }
                 };
+        }
+
+        case fromUserData.ActionsUserDataConsts.ADD_BOOK_SUCCESS:{
+            return {...state,
+                navbar:{ ...state.navbar,
+                    show:true,
+                    optionEnabled:"my_books",
+                    myBooksOption:"my_books",
+                }
+            };
         }
 
         case fromContext.ActionsConsts.CHOOSE_MY_BOOKS_ADD_BOOK:{

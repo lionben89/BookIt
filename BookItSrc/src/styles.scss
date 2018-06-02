@@ -2,7 +2,9 @@
 @import './custom-theme.scss';
 //@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import '~bootstrap/dist/css/bootstrap.min.css';
-
+//@import '~bootstrap/dist/css/custom.css';
 html, body {
     background-color: #fafafa;
+    height: 100%;
+    line-height: 1.2;
 }
