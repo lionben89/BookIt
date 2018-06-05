@@ -18,6 +18,7 @@ export class MyBooksComponent implements OnInit {
   getUserDataStatusSubscription;
   whichPageSubscription;
   public which_page = 'my_books'; /* options = {my_books, add_book} */
+  messegeSubscription;
 
   constructor(private store: Store<fromStore.MainState>,iconService: IconsService,public snackBar: MatSnackBar) { }
   userBooks: Book[];
@@ -70,21 +71,21 @@ export class MyBooksComponent implements OnInit {
     this.store.dispatch(new fromStore.RemoveBook(this.bookSelected));
     this.bookNavBarEnabled=false;
     this.bookSelected=undefined;
-    this.snackBar.open("Book Removed",null,{duration: 1000});
+    
   }
   approveRequest(book:Book){
     book.currentRequest.pending=false;
     book.currentRequest.approved=true;
     this.store.dispatch(new fromStore.UpdateBook(book));
     this.bookNavBarEnabled=false;
-    this.snackBar.open("Request Approved",null,{duration: 1000});
+    
   }
   rejectRequest(book:Book){
     book.currentRequest.pending=false;
     book.currentRequest.approved=false;
     this.store.dispatch(new fromStore.UpdateBook(book));
-    this.bookNavBarEnabled=false;
-    this.snackBar.open("Request Rejected",null,{duration: 1000});
+    this.hideBookNavbar(book);
+    
   }
   showUser(){
     console.log('showing user');
@@ -101,12 +102,19 @@ export class MyBooksComponent implements OnInit {
     this.store.dispatch(new fromStore.LoadMyRequests());
     this.userBooksSubscription = this.store.select<any>(fromStore.getUserBooks).subscribe(state => { this.userBooks = state; });
     this.getUserDataStatusSubscription=this.store.select(fromStore.getUserDataStatus).subscribe(state=>{this.status=state;});
+    this.messegeSubscription = this.store.select(fromStore.getMessege).subscribe((state) => {
+      if (state && state!=='') {
+        this.snackBar.open(state, null, { duration: 1000 });
+        setTimeout(this.store.dispatch(new fromStore.ShowMessege('')),0);
+      }
+    });
   }
 
   ngOnDestroy() {
     this.whichPageSubscription.unsubscribe();
     this.userBooksSubscription.unsubscribe();
     this.getUserDataStatusSubscription.unsubscribe();
+    this.messegeSubscription.unsubscribe();
   }
 
 }

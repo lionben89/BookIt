@@ -29,6 +29,7 @@ export const ActionsUserDataConsts={
         LOGIN:"LOGIN", //get Auth data 
         LOGIN_SUCCESS:"LOGIN_SUCCESS", //push user data from Auth to DB
         LOGOUT:"LOGOUT", //log out from Auth
+        SHOW_MESSEGE:"SHOW_MESSEGE",
         ERROR:"ERROR",
         ADD_BOOK:"ADD_BOOK",
         ADD_BOOK_FAIL:"ADD_BOOK_FAIL",
@@ -48,6 +49,9 @@ export const ActionsUserDataConsts={
         REQUEST_BOOK:"REQUEST_BOOK",
         REQUEST_BOOK_SUCCESS:"REQUEST_BOOK_SUCCESS",
         REQUEST_BOOK_FAIL:"REQUEST_BOOK_FAIL",
+        REMOVE_REQUEST_BOOK:"REMOVE_REQUEST_BOOK",
+        REMOVE_REQUEST_BOOK_SUCCESS:"REMOVE_REQUEST_BOOK_SUCCESS",
+        REMOVE_REQUEST_BOOK_FAIL:"REMOVE_REQUEST_BOOK_FAIL",
 
 }; 
 
@@ -71,6 +75,10 @@ export class Logout implements Action{
     constructor(public payload?:any){}
 }
 
+export class ShowMessege implements Action{
+    readonly type=ActionsUserDataConsts.SHOW_MESSEGE;
+    constructor(public payload?:any){}
+}
 export class ErrorHandler implements Action{
     readonly type=ActionsUserDataConsts.ERROR;
     constructor(public payload?:any){}
@@ -219,10 +227,24 @@ export class RequestBookFail implements Action{
     readonly type=ActionsUserDataConsts.REQUEST_BOOK_FAIL;
     constructor(public payload?:any){}
 }
+export class RemoveRequestBook implements Action{
+    readonly type=ActionsUserDataConsts.REMOVE_REQUEST_BOOK;
+    constructor(public payload?:any){}
+}
+
+export class RemoveRequestBookSuccess implements Action{
+    readonly type=ActionsUserDataConsts.REMOVE_REQUEST_BOOK_SUCCESS;
+    constructor(public payload?:any){}
+}
+
+export class RemoveRequestBookFail implements Action{
+    readonly type=ActionsUserDataConsts.REMOVE_REQUEST_BOOK_FAIL;
+    constructor(public payload?:any){}
+}
 
 export type UserDataActions =// LoadFavoriteCategories | LoadFavoriteCategoriesFail | LoadFavoriteCategoriesSuccess|
 LoadUserInfo | LoadUserInfoFail | LoadUserInfoSuccess |
-LoginGoogle | LoginFacebook | Logout | ErrorHandler | LoginSuccess |
+LoginGoogle | LoginFacebook | Logout | ErrorHandler|ShowMessege | LoginSuccess |
 UpdateUserInfo|UpdateUserInfoFail |
 AddLocation | AddLocationSuccess |
 LoadLocations | LoadLocationsSuccess | 
@@ -232,4 +254,5 @@ AddBook|AddBookSuccess|AddBookFail|LoadMyBooks|LoadMyBooksSuccess|LoadMyBooksFai
 |UpdateBook|UpdateBookSuccess|UpdateBookFail
 |RemoveBook|RemoveBookSuccess|RemoveBookFail
 |RequestBook|RequestBookFail|RequestBookSuccess
-|LoadMyRequests|LoadMyRequestsFail|LoadMyRequestsSuccess;
+|LoadMyRequests|LoadMyRequestsFail|LoadMyRequestsSuccess
+|RemoveRequestBook|RemoveBookSuccess|RemoveRequestBookFail;

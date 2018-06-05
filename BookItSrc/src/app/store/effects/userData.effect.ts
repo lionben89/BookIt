@@ -1,6 +1,6 @@
 import { getUserData } from './../reducers/userData.reducer';
 import { MainState } from './../reducers/index';
-import { LoadUserInfoSuccess, Logout, LoadMyBooksSuccess } from './../actions/userData.action';
+import { LoadUserInfoSuccess, Logout, LoadMyBooksSuccess, RemoveRequestBookSuccess } from './../actions/userData.action';
 import { UserState, UserSettingsState, ExtendedUserInfo, Category, UserUpdateType, LocationSettings, Location, Book } from './../../data_types/states.model';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
@@ -395,10 +395,14 @@ export class UserDataEffects {
                 let requestDocRef = this.afs.doc(`Users/${book.currentRequest.borrowerUid}/Requests/${book.id}`);
                 if (book.currentRequest.borrowerUid) {
                     if (!book.currentRequest.approved && !book.currentRequest.pending) {
-                        requestDocRef.delete();
+                        requestDocRef.delete().then(() => {
+                            this.store.dispatch(new fromStore.ShowMessege("Request Rejected"));
+                        });
                     }
                     else {
-                        requestDocRef.update(book);
+                        requestDocRef.update(book).then(() => {
+                            this.store.dispatch(new fromStore.ShowMessege("Request Approved"));
+                        });
                     }
                 }
                 return new fromUserDataActions.UpdateBookSuccess(book);
@@ -423,6 +427,7 @@ export class UserDataEffects {
                 return bookDocRef.set(book, { merge: true });
             }),
             map(() => {
+                this.store.dispatch(new fromUserDataActions.ShowMessege("Book Was Added"));
                 return new fromUserDataActions.AddBookSuccess();
             })
         );
@@ -439,7 +444,11 @@ export class UserDataEffects {
                 });
             }),
             map((book: Book) => {
-                return new fromUserDataActions.RemoveBookSuccess(location);
+                if (book.currentRequest.borrowerUid && (book.currentRequest.pending || book.currentRequest.approved)) {
+                    this.afs.doc(`Users/${book.currentRequest.borrowerUid}/Requests/${book.id}`).delete();
+                }
+                this.store.dispatch(new fromStore.ShowMessege("Book Removed"));
+                return new fromUserDataActions.RemoveBookSuccess(book);
             })
         );
 
@@ -493,22 +502,29 @@ export class UserDataEffects {
         );
     @Effect()
 
-    /* @Effect()
-     RemoveRequest: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.REMOVE_REQUEST)
-         .pipe(
-             map((action: fromUserDataActions.RemoveBook) => {
-                 return action.payload
-             }),
-             switchMap((book: Book) => {
-                 let userPath = this.userDoc.ref.path;
-                 return this.afs.doc(`${userPath}/Books/${book.id}`).delete().then(() => {
-                     return book;
-                 });
-             }),
-             map((book: Book) => {
-                 return new fromUserDataActions.RemoveBookSuccess(location);
-             })
-         );*/
+    @Effect()
+    RemoveRequest: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.REMOVE_REQUEST_BOOK)
+        .pipe(
+            map((action: fromUserDataActions.RemoveRequestBook) => {
+                return action.payload
+            }),
+            switchMap((book: Book) => {
+                book.currentRequest.pending = false;
+                book.currentRequest.approved = false;
+                let userPath = this.userDoc.ref.path;
+                return this.afs.doc(`Users/${book.ownerUid}/Books/${book.id}`).set(book, { merge: true }).then(()=>{
+                    return book;
+                });
+                
+            }),
+            map((book: Book) => {
+                 this.afs.doc(`Users/${book.currentRequest.borrowerUid}/Requests/${book.id}`).delete().then(() => {
+                    this.store.dispatch(new fromUserDataActions.ShowMessege("Request Removed"));
+                });
+                return new fromUserDataActions.RemoveRequestBookSuccess(book);
+            }),
+    );
+
     @Effect()
     RequestBook: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.REQUEST_BOOK)
         .pipe(
@@ -520,20 +536,25 @@ export class UserDataEffects {
                     pending: true,
                     startTime: null,
                 };
-                book.currentRequest = request;
+
                 console.log(book);
                 let bookDocRef = this.afs.collection('Users/' + book.ownerUid + '/Books').doc(book.id);
-                if (!bookDocRef) {
-                    console.error("No userDoc");
-                    this.store.dispatch(new fromUserDataActions.RequestBookFail());
+                if (book.currentRequest && (book.currentRequest.pending) || (book.currentRequest.approved)) {
+                   
+                    this.store.dispatch(new fromUserDataActions.ShowMessege("Book Was Already Requested"));
                     return Observable.of(null);
                 }
+                book.currentRequest = request;
                 bookDocRef.set(book, { merge: true });
                 return bookDocRef.valueChanges();
             }),
             map((book) => {
-                let bookDocRef = this.afs.collection('Users/' + book.currentRequest.borrowerUid + '/Requests').doc(book.id);
-                return bookDocRef.set(book, { merge: true });
+                if (book&&(book.currentRequest) && (book.currentRequest.borrowerUid)){
+                    let bookDocRef = this.afs.collection('Users/' + book.currentRequest.borrowerUid + '/Requests').doc(book.id);
+                    return bookDocRef.set(book, { merge: true }).then(() => {
+                        this.store.dispatch(new fromStore.ShowMessege("Book Requested"));
+                    });
+                }
             }),
             map((book) => {
                 return new fromUserDataActions.RequestBookSuccess();

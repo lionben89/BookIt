@@ -186,6 +186,11 @@ export function userDataReducer(state: UserState = initState, action: fromUserDa
                 loaded: false,
             };
         }
+        case fromUserData.ActionsUserDataConsts.SHOW_MESSEGE:{
+            return {...state,
+                messege:action.payload
+            }
+        }
 
         default: return state;
     }
@@ -207,3 +212,4 @@ export const getUserSearchRadius = (state: UserState) => {
     return 0;
 }
 export const getUserDataStatus = (state: UserState) => { return { loading: state.loading, loaded: state.loaded } }
+export const getMessege=(state:UserState)=>{ return state.messege;}

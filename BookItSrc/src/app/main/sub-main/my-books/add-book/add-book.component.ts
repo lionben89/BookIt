@@ -24,6 +24,7 @@ export class AddBookComponent implements OnInit {
   userInfoSubscription;
   public mybooksOption$: Observable<string>;
   numCols;
+  messegeSubscription;
   constructor(private httpClient: HttpClient, private store: Store<fromStore.MainState>,public snackBar: MatSnackBar) { }
   onResize() {
     if (window.innerWidth <= 400){
@@ -44,7 +45,7 @@ export class AddBookComponent implements OnInit {
     this.masterBooksArray.push(result);//change to specific
     this.results = [];
     this.store.dispatch(new fromStore.AddBook(result));
-    this.snackBar.open("Book Added",null,{duration: 1000});
+ 
   }
   goToMyBooks() {
     this.store.dispatch(new fromStore.ChooseMyBooksMain);
@@ -125,10 +126,17 @@ export class AddBookComponent implements OnInit {
           this.doSearch();
         });
         this.userInfoSubscription=this.store.select(fromStore.getUserInfo).subscribe((state)=>{this.userInfo=state;});
-    
+        this.messegeSubscription=this.store.select(fromStore.getMessege).subscribe((state)=>{
+          if (state && state!=='') {
+            this.snackBar.open(state, null, { duration: 1000 });
+            setTimeout(this.store.dispatch(new fromStore.ShowMessege('')),0);
+          }
+        });
+
   }
   ngOnDestroy(){
     this.userInfoSubscription.unsubscribe();
+    this.messegeSubscription.unsubscribe();
   }
 
 }

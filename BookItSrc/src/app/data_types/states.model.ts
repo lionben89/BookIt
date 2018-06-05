@@ -67,6 +67,7 @@ export interface UserState extends Loadable {
     locations,// {'id':Location, 'id':Location}
     myBooks:Book[],
     myRequests:Book[],
+    messege?:string,
 }
 
 export interface Book {
