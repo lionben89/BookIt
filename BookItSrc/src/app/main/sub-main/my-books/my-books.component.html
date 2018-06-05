@@ -25,6 +25,7 @@
                             <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
                                 [attr.src]="book.imagePath" />
                             <div *ngIf="book.currentRequest  && book.currentRequest.pending && !book.currentRequest.approved then requestPending"></div>
+                            <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved then requestApprove"></div>
                         </mat-grid-tile>
                     </mat-grid-list>
                 </div>
@@ -39,31 +40,32 @@
 
     <ng-template #bookNavbar>
         <div class='bookNavbarBox'>
-            <mat-grid-list class="bookNavbarList" rowHeight="50px" cols="5" gutterSize="10">
-                <mat-grid-tile>
-                    <button style="font-size:1em; color:#1AED3A;background-color:#C8C8C8;" (click)="approveRequest()">
-                        <i class="fas fa-check-circle"></i>
+            <mat-grid-list class="bookNavbarList" rowHeight="56px" [cols]="bookNavbarCols" gutterSize="10">
+                <mat-grid-tile item-height="100%">
+                    <button mat-icon-button (click)="hideBookNavbar(bookSelected)">
+                        <mat-icon svgIcon='down-arrow-black' class='icon'></mat-icon>
                     </button>
                 </mat-grid-tile>
-                <mat-grid-tile>
-                    <button style="font-size:1em; color:#ED1A1A;background-color:#C8C8C8;" (click)="rejectRequest()">
-                        <i class="fas fa-times-circle"></i>
-                    </button>
-                </mat-grid-tile>
-                <mat-grid-tile>
-                    <button style="font-size:1em; color:#2B2727;background-color:#C8C8C8;" (click)="startChat()">
-                        <i class="fas fa-comments"></i>
-                    </button>
-                </mat-grid-tile>
-                <mat-grid-tile>
-                    <button style="font-size:1em; color:#2B2727;;background-color:#C8C8C8;" (click)="showUser()">
-                        <i class="fas fa-user"></i>
-                    </button>
-                </mat-grid-tile>
-                <mat-grid-tile>
+
+                <mat-grid-tile item-height="100%">
                     <button style="font-size:1em; color:#2B2727;background-color:#C8C8C8;" (click)="removeBook()">
                         <i class="fas fa-trash-alt"></i>
                     </button>
+                </mat-grid-tile>
+
+                <mat-grid-tile item-height="100%">
+                    <div *ngIf="(bookSelected.currentRequest  && (bookSelected.currentRequest.pending && !bookSelected.currentRequest.approved) || (!bookSelected.currentRequest.pending && bookSelected.currentRequest.approved)) then userButton"></div>
+                </mat-grid-tile>
+
+                <mat-grid-tile item-height="100%">
+                    <div *ngIf="(bookSelected.currentRequest  && (bookSelected.currentRequest.pending && !bookSelected.currentRequest.approved) || (!bookSelected.currentRequest.pending && bookSelected.currentRequest.approved)) then declineButton"></div>
+                </mat-grid-tile>
+
+                <mat-grid-tile item-height="100%">
+                    <ng-container *ngIf="bookSelected.currentRequest  && bookSelected.currentRequest.pending && !bookSelected.currentRequest.approved then acceptButton else elseif1"></ng-container>
+                    <ng-template #elseif1>
+                        <ng-container *ngIf="bookSelected.currentRequest  && !bookSelected.currentRequest.pending && bookSelected.currentRequest.approved then chatButton"></ng-container>
+                    </ng-template>
                 </mat-grid-tile>
             </mat-grid-list>
         </div>
@@ -71,10 +73,10 @@
 </ng-template>
 
 <ng-template #rightArrowIcon>
-    <mat-icon svgIcon='right-arrow' class="arrow-icon"></mat-icon>
+    <mat-icon svgIcon='right-arrow' class="icon"></mat-icon>
 </ng-template>
 <ng-template #leftArrowIcon>
-    <mat-icon svgIcon='left-arrow' class="arrow-icon"></mat-icon>
+    <mat-icon svgIcon='left-arrow' class="icon"></mat-icon>
 </ng-template>
 
 <ng-template #loading>
@@ -85,4 +87,32 @@
 
 <ng-template #requestPending>
     <mat-icon svgIcon='request-pending' class="book-status"></mat-icon>
+</ng-template>
+
+<ng-template #requestApprove>
+    <mat-icon svgIcon='accept' class="book-status"></mat-icon>
+</ng-template>
+
+<ng-template #declineButton>
+    <button mat-icon-button (click)="rejectRequest(bookSelected)">
+        <mat-icon svgIcon='decline' class="icon"></mat-icon>
+    </button>
+</ng-template>
+
+<ng-template #acceptButton>
+    <button mat-icon-button (click)="approveRequest(bookSelected)">
+        <mat-icon svgIcon='accept' class="icon"></mat-icon>
+    </button>
+</ng-template>
+
+<ng-template #chatButton>
+    <button mat-icon-button (click)="startChat()">
+        <mat-icon svgIcon='new-message' class="icon"></mat-icon>
+    </button>
+</ng-template>
+
+<ng-template #userButton>
+    <button style="font-size:1em; color:#2B2727;;background-color:#C8C8C8;" (click)="showUser()">
+        <i class="fas fa-user"></i>
+    </button>
 </ng-template>

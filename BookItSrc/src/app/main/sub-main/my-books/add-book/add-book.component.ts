@@ -102,6 +102,11 @@ export class AddBookComponent implements OnInit {
           categories:item.volumeInfo.categories,
           imagePath:item.volumeInfo.imageLinks.thumbnail,
           description:item.volumeInfo.description,
+          currentRequest:{
+            pending:false,
+            approved:false,
+            
+          }
         };
         this.results.push(book);
       }

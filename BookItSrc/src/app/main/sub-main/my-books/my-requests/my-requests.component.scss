@@ -119,6 +119,18 @@ section {
     border:0;
   }
 
+  .book-status{
+    position:absolute;
+    top:10%;
+    right:10%;
+    border-width: 1.2px;
+    border-style: solid;
+    border-radius:50%;
+    border-color: #2B2727;
+    //transform: translate(150%,150%);
+    transform: scale(2);
+  }
+
   .addbook_title {
     font-size: 50%;
     font-weight: bold;

@@ -33,6 +33,9 @@ export const ActionsUserDataConsts={
         ADD_BOOK:"ADD_BOOK",
         ADD_BOOK_FAIL:"ADD_BOOK_FAIL",
         ADD_BOOK_SUCCESS:"ADD_BOOK_SUCCESS",
+        UPDATE_BOOK:"UPDATE_BOOK",
+        UPDATE_BOOK_FAIL:"UPDATE_BOOK_FAIL",
+        UPDATE_BOOK_SUCCESS:"UPDATE_BOOK_SUCCESS",
         REMOVE_BOOK:"REMOVE_BOOK",
         REMOVE_BOOK_FAIL:"REMOVE_BOOK_FAIL",
         REMOVE_BOOK_SUCCESS:"REMOVE_BOOK_SUCCESS",
@@ -162,6 +165,18 @@ export class AddBookFail implements Action{
     readonly type=ActionsUserDataConsts.ADD_BOOK_FAIL;
     constructor(public payload?:any){}
 }
+export class UpdateBook implements Action{
+    readonly type=ActionsUserDataConsts.UPDATE_BOOK;
+    constructor(public payload?:Book){}
+}
+export class UpdateBookSuccess implements Action{
+    readonly type=ActionsUserDataConsts.UPDATE_BOOK_SUCCESS;
+    constructor(public payload?:any){}
+}
+export class UpdateBookFail implements Action{
+    readonly type=ActionsUserDataConsts.UPDATE_BOOK_FAIL;
+    constructor(public payload?:any){}
+}
 
 export class RemoveBook implements Action{
     readonly type=ActionsUserDataConsts.REMOVE_BOOK;
@@ -214,6 +229,7 @@ LoadLocations | LoadLocationsSuccess |
 UpdateLocation | UpdateLocationSuccess |
 RemoveLocation | RemoveLocationSuccess |
 AddBook|AddBookSuccess|AddBookFail|LoadMyBooks|LoadMyBooksSuccess|LoadMyBooksFail
+|UpdateBook|UpdateBookSuccess|UpdateBookFail
 |RemoveBook|RemoveBookSuccess|RemoveBookFail
 |RequestBook|RequestBookFail|RequestBookSuccess
 |LoadMyRequests|LoadMyRequestsFail|LoadMyRequestsSuccess;

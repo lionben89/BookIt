@@ -26,6 +26,7 @@ export class MyBooksComponent implements OnInit {
   bookNavBarEnabled:boolean;
   bookSelected:Book;
   public status:Loadable;
+  public bookNavbarCols=2;
   goToAddbook() {
     this.store.dispatch(new fromStore.ChooseMyBooksAddBook);
   }
@@ -49,6 +50,14 @@ export class MyBooksComponent implements OnInit {
   showBookNavbar(book:Book){
     this.bookNavBarEnabled=true;
     this.bookSelected=book;
+    this.bookNavbarCols=2;
+    if (book.currentRequest && book.currentRequest.pending && !book.currentRequest.approved){
+      this.bookNavbarCols=5;
+    }
+    else if(book.currentRequest && !book.currentRequest.pending && book.currentRequest.approved){
+      this.bookNavbarCols=5;
+    }
+    return;
   }
   hideBookNavbar(book:Book){
     if(book==this.bookSelected){
@@ -63,11 +72,19 @@ export class MyBooksComponent implements OnInit {
     this.bookSelected=undefined;
     this.snackBar.open("Book Removed",null,{duration: 1000});
   }
-  approveRequest(){
-    console.log('request approved');
+  approveRequest(book:Book){
+    book.currentRequest.pending=false;
+    book.currentRequest.approved=true;
+    this.store.dispatch(new fromStore.UpdateBook(book));
+    this.bookNavBarEnabled=false;
+    this.snackBar.open("Request Approved",null,{duration: 1000});
   }
-  rejectRequest(){
-    console.log('request rejected');
+  rejectRequest(book:Book){
+    book.currentRequest.pending=false;
+    book.currentRequest.approved=false;
+    this.store.dispatch(new fromStore.UpdateBook(book));
+    this.bookNavBarEnabled=false;
+    this.snackBar.open("Request Rejected",null,{duration: 1000});
   }
   showUser(){
     console.log('showing user');

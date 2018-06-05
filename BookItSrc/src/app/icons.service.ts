@@ -115,6 +115,16 @@ export class IconsService {
     );
 
     iconRegistry.addSvgIcon(
+      "accept",
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/accept.svg")
+    );
+    
+    iconRegistry.addSvgIcon(
+      "decline",
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/decline.svg")
+    );
+
+    iconRegistry.addSvgIcon(
       "delete-forever",
       sanitizer.bypassSecurityTrustResourceUrl(
         "/assets/icons/delete-forever.svg"

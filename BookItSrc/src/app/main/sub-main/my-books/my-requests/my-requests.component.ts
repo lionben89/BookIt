@@ -21,6 +21,7 @@ export class MyRequestsComponent implements OnInit {
   numCols;
   bookNavBarEnabled;
   bookSelected:Book;
+  public bookNavbarCols=2;
 
   constructor(private store: Store<fromStore.MainState>,iconService: IconsService,public snackBar: MatSnackBar) { }
 
@@ -36,6 +37,21 @@ export class MyRequestsComponent implements OnInit {
       this.numCols=6;
     }
   }
+
+  removeRequest(){
+    console.log("remove request")
+  }
+
+   
+  showBookNavbar(book:Book){
+    this.bookNavBarEnabled=true;
+    this.bookSelected=book;
+    this.bookNavbarCols=3;
+    if(book.currentRequest && !book.currentRequest.pending && book.currentRequest.approved){
+      this.bookNavbarCols=4;
+    }
+    return;
+  }
   goToMyBooks(){
     this.store.dispatch(new fromStore.ChooseMyBooksMain());
   }
@@ -45,7 +61,6 @@ export class MyRequestsComponent implements OnInit {
     this.onResize();
   }
   ngOnDestroy(){
-    
     this.myRequestsSubscription.unsubscribe();
   }
 

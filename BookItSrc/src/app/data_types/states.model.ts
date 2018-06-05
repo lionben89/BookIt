@@ -77,10 +77,10 @@ export interface Book {
     maxLendDays: number,
     ownerUid:string,
     currentRequest?: {
-        borrowerUid: string,
+        borrowerUid?: string,
         approved:boolean,
         pending:boolean,
-        startTime: Date
+        startTime?: Date
     }
     title: string,
     author: string,
