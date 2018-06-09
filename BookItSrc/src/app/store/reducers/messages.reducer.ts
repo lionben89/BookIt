@@ -9,14 +9,11 @@ let initState: MessagesState = {
 export function UserMessagesReducer(state: MessagesState = initState, action: fromMessages.UserMessagesActions) {
     switch (action.type) {
         case fromMessages.ActionsMessagesConsts.INIT_MESSAGE_THREAD: {
+            let newState = {...state};
             let threadId = action.payload;
-            if (!state[threadId]) {
-                let newState = {...state};
-                newState[threadId] = new Array<Message>();
-                console.log("Initialize new thread");
-                return newState;
-            }
-            return state;
+            newState[threadId] = new Array<Message>();
+            console.log("Initialize new thread");
+            return newState;
         }
         case fromMessages.ActionsMessagesConsts.LOAD_MESSAGES_SUCCESS: {
             let newState = {...state};
@@ -30,7 +27,6 @@ export function UserMessagesReducer(state: MessagesState = initState, action: fr
                         newState[threadId].push(message);
                     }
                 });
-                console.log(newState);
             return newState;
         }
         default: return state;

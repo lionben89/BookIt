@@ -54,8 +54,6 @@ export class ChatComponent implements OnInit, OnDestroy {
       if (state) {
         this.selfUserInfo = state.info;
         this.selfUserId = this.selfUserInfo.uid;
-        console.log("self");
-        console.log(this.selfUserId);
         if (this.bookChat.ownerUid == this.selfUserId) {
           this.otherUserId = this.bookChat.currentRequest.borrowerUid;
         } else {
@@ -72,8 +70,6 @@ export class ChatComponent implements OnInit, OnDestroy {
       .select<any>(fromStore.getThreadMessages(this.bookChat.currentRequest.requestId))
       .subscribe(threadMessages => {
           this.items = threadMessages;
-          console.log(threadMessages);
-          console.log(threadMessages.length);
         });
   }
 
