@@ -11,18 +11,18 @@
 
     <mat-card class="chat-div" #content style="height: 100%;">
       <mat-card-content class="chat-container" *ngFor="let item of items" selected="true" name="msg_list" ngDefaultControl>
-        <container-element class="container-info" [ngSwitch]="item.name">
+        <container-element class="container-info" [ngSwitch]="item.from">
 
 
-          <section class="info-section-1" *ngSwitchCase="firstUser">
+          <section class="info-section-1" *ngSwitchCase="selfUserId">
             <label class="label-msg-1">
-              {{item.message}}
+              {{item.content}}
             </label>
           </section>
 
           <section class="info-section-2" *ngSwitchDefault>
             <label class="label-msg-2">
-              {{item.message}}
+              {{item.content}}
             </label>
           </section>
         </container-element>

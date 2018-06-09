@@ -79,6 +79,7 @@ export interface Book {
     maxLendDays: number,
     ownerUid:string,
     currentRequest?: {
+        requestId?: string,
         borrowerUid?: string,
         approved:boolean,
         pending:boolean,
@@ -91,9 +92,19 @@ export interface Book {
     description:string,
 }
 
-
-
 export enum UserUpdateType {
     SEARCH_RADIUS_KM,
     SHARE_MY_BOOKS,
+}
+
+export interface Message {
+    threadId: string,
+    timeSent: string,
+    from: string,
+    to: string,
+    content: string,
+}
+
+export interface MessagesState {
+    [threadId: string]: Array<Message>,
 }

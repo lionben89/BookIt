@@ -1,5 +1,3 @@
-import { ExploreEffects } from './store/effects/explore.effect';
-
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -55,6 +53,8 @@ import { DialogAddLocationTitleComponent } from './main/sub-main/settings/dialog
 import { AgmCoreModule } from '@agm/core';
 import { EffectsModule } from '@ngrx/effects';
 import { UserDataEffects } from './store/effects/userData.effect';
+import { MessagesEffects } from './store/effects/messages.effect';
+import { ExploreEffects } from './store/effects/explore.effect';
 
 
 
@@ -114,7 +114,7 @@ import { UserDataEffects } from './store/effects/userData.effect';
     MatCheckboxModule,
     MatSnackBarModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([UserDataEffects,ExploreEffects]),
+    EffectsModule.forRoot([UserDataEffects,ExploreEffects,MessagesEffects]),
     AngularFireModule.initializeApp(environment.firebase, 'BookIt'),
     AngularFirestoreModule.enablePersistence(),
     AngularFireDatabaseModule,

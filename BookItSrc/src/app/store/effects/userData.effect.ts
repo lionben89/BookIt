@@ -589,7 +589,9 @@ export class UserDataEffects {
         .pipe(
             map((action: fromUserDataActions.RequestBook) => action.payload),
             switchMap((book: Book) => {
+                let requestId = this.afs.createId();
                 let request = {
+                    requestId: requestId,
                     borrowerUid: this.userDoc.ref.id,
                     approved: false,
                     pending: true,

@@ -3,19 +3,21 @@ import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/s
 import * as fromContext from './context.reducer';
 import * as fromUserData from './userData.reducer';
 import * as fromExplore from './explore.reducer';
-import { ContextState, UserState,ExploreState } from '../../data_types/states.model'
+import * as fromMessages from './messages.reducer';
+import { ContextState, UserState,ExploreState, MessagesState } from '../../data_types/states.model'
 
 export interface MainState {
     context: ContextState,
     userData:UserState,
     explore:ExploreState,
-
+    messages:MessagesState,
 }
 
 export const reducers: ActionReducerMap<MainState> = {
     context: fromContext.contextReducer,
     userData:fromUserData.userDataReducer,
     explore:fromExplore.ExploreReducer,
+    messages:fromMessages.UserMessagesReducer,
 };
 
 //main state selector
@@ -45,3 +47,8 @@ export const getExploreState = createFeatureSelector<ExploreState>('explore');
 export const getUsersNearBy=createSelector(getExploreState,fromExplore.getUsersNearBy);
 export const getBooksNearBy=createSelector(getExploreState,fromExplore.getBooksNearBy);
 export const getExploreStatus=createSelector(getExploreState,fromExplore.getExploreStatus);
+
+// Messages solectors
+export const getMessagesState = createFeatureSelector<MessagesState>('messages');
+export const getAllUserMessages = createSelector(getMessagesState, fromMessages.getAllUserMessages);
+export const getThreadMessages = (threadId: string) => createSelector(getMessagesState, (state: MessagesState) => { return fromMessages.getThreadMessages(state, threadId); });

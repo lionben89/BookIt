@@ -1,9 +1,13 @@
-import { Component, OnInit, ViewChild, Input } from "@angular/core";
+import { Component, OnInit, OnDestroy, Input, ViewChild } from "@angular/core";
+import { Observable } from "rxjs/Observable";
+
 import { Store } from "@ngrx/store";
 import * as fromStore from "../../../store";
 import {
-  UserSettingsState,
-  UserUpdateType
+  ExtendedUserInfo,
+  UserUpdateType,
+  Message,
+  Book
 } from "./../../../data_types/states.model";
 import { MatDialog } from "@angular/material";
 import { DialogOneButtonComponent } from "../settings/dialog-one-button/dialog-one-button.component";
@@ -13,44 +17,74 @@ import { DialogOneButtonComponent } from "../settings/dialog-one-button/dialog-o
   templateUrl: "./chat.component.html",
   styleUrls: ["./chat.component.scss"]
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
+  @Input() bookChat: Book;
   @ViewChild("content") content: any;
   @Input() caller: string;
 
   public which_page = "my_books"; /* options = {my_books, add_book, my_books_chat} */
   public name;
   public msgVal: string = "";
-  public userSettings: UserSettingsState;
+
+  private selfUserInfo: ExtendedUserInfo;
+  private selfUserId: string;
+
+  private otherUserId: string;
+
   private items = new Array<Message>();
-  public firstUser = "Stav";
+
+  private selfUserSubscribtion: any;
+  private threadSubscribtion: any;
   
   constructor(
     private store: Store<fromStore.MainState>,
     public dialog: MatDialog
-  ) {
-    //TODO get messages from DB
-    this.foo();
-  }
+  ) { }
 
   ngOnInit() {
+    console.log(this.bookChat);
+    console.log(this.caller);
     this.store
       .select<any>(fromStore.getContextmybooksOption)
       .subscribe(state => {
         this.which_page = state;
       });
 
-    //TODO get name from DB
+    this.selfUserSubscribtion = this.store.select<any>(fromStore.getUserSettings).subscribe(state => {
+      if (state) {
+        this.selfUserInfo = state.info;
+        this.selfUserId = this.selfUserInfo.uid;
+        console.log("self");
+        console.log(this.selfUserId);
+        if (this.bookChat.ownerUid == this.selfUserId) {
+          this.otherUserId = this.bookChat.currentRequest.borrowerUid;
+        } else {
+          this.otherUserId = this.bookChat.ownerUid;
+        }
+      }
+    });
+
+    console.log("Initialize thread");
+    this.store.dispatch(new fromStore.InitMessageThread(this.bookChat.currentRequest.requestId));
+
+    console.log("subscribe to messages");
+    this.threadSubscribtion = this.store
+      .select<any>(fromStore.getThreadMessages(this.bookChat.currentRequest.requestId))
+      .subscribe(threadMessages => {
+          this.items = threadMessages;
+          console.log(threadMessages);
+          console.log(threadMessages.length);
+        });
   }
 
-  foo() {
-    this.msgVal = "Hello Michael!";
-    this.name = "Stav";
-    this.chatSend();
+  ngOnDestroy() {
+    console.log("Leaving chat screen");
+    this.selfUserSubscribtion.unsubscribe();
+    this.threadSubscribtion.unsubscribe();
+  }
 
-    this.msgVal = "Hey! Whats your name??";
-    this.name = "Michael";
-    this.chatSend();
-
+  orderByDate(item) {
+    return new Date(item.timeSent);
   }
 
   goToMyBooks() {
@@ -62,15 +96,22 @@ export class ChatComponent implements OnInit {
 
   chatSend() {
     if (this.msgVal.length) {
+      let date = new Date();
       console.log("message = " + this.msgVal);
-      console.log("userName = " + this.name);
 
-      var newMsg: any = new Message(this.msgVal, this.name);
+      console.log("AddMessage");
+      let message : Message = {
+        threadId: this.bookChat.currentRequest.requestId,
+        from: this.selfUserId,
+        to: this.otherUserId,
+        timeSent: date.toLocaleString("en-US"),
+        content: this.msgVal
+      };
+      this.store.dispatch(new fromStore.AddMessage(message));
 
-      this.items.push(newMsg);
       this.emptyChatText();
 
-      //this.scrollToBottom1();           
+      //this.scrollToBottom1();
     } else {
       this.openDialog_emptyLocation();
     }
@@ -98,14 +139,4 @@ export class ChatComponent implements OnInit {
       this.content.scrollToBottom();
     });
   }*/
-}
-
-export class Message {
-  public message: string;
-  public name: string;
-
-  constructor(_message, _name) {
-    this.message = _message;
-    this.name = _name;
-  }
 }

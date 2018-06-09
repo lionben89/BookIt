@@ -27,10 +27,7 @@ export class ExploreComponent implements OnInit {
   public status: Loadable;
   messegeSubscription;
 
-
-
   constructor(private store: Store<fromStore.MainState>, iconService: IconsService, public snackBar: MatSnackBar) {
-
   }
   showBookNavbar(book: Book) {
     this.bookNavBarEnabled = true;
