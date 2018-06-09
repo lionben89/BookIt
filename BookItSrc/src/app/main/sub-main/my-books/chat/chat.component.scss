@@ -1,0 +1,114 @@
+left-arrow-icon {
+  align-items: flex-start;
+  width: 65px;
+  height: 65px;
+}
+
+label.header-chat {
+  flex-grow: 2;
+  position: relative;
+  right: 44px;
+  transform: translate(0%, 0%);
+}
+
+.header {
+  background-color: #757575;
+  color: white;
+  width: 100%;
+  flex: auto;
+  display: flex;
+}
+
+.footer-send{
+    min-height: 15%;
+}
+
+.chat-div{
+    background-color: #2B2727;
+    width: 100%;
+}
+
+div{
+    background-color: #2B2727;
+}
+
+.container-info{
+    display: flex;
+}
+
+.chat-input {
+  font-size: 20px;
+  color: #737373;
+  min-width: 250px;
+}
+
+/deep/ .mat-form-field-wrapper {
+  min-width: 250px;
+}
+
+.button-send {
+  align-items: flex-end;
+}
+
+.total-chat-msg-section {
+  padding-right: 38px;
+  padding-left: 38px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+}
+
+.send-msg {
+  width: 100%;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  padding-left: 3px;
+  padding-right: 3px;
+  min-height: 15%;
+}
+
+.send-icon {
+  width: 40px;
+  height: 40px;
+  padding-bottom: 8px;
+}
+
+
+.label-name-1 {
+  font-size: 15px;
+  color: #ff0000;
+  font-weight: 600;
+  align-content: left;
+}
+
+.label-msg-1 {
+  font-size: 12px;
+  color: white;
+}
+
+/deep/ .info-section-1 {
+  max-width: 70%;
+  display: flex-end;
+  border: 1px solid;
+  background-color: #757575;
+}
+
+.label-name-2 {
+  align-content: right;
+  font-size: 15px;
+  color: #03a9f4;
+  font-weight: 600;
+}
+
+.label-msg-2 {
+  font-size: 12px;
+  color: white;
+}
+
+/deep/ .info-section-2 {
+  max-width: 70%;
+  margin-left:auto; margin-right:0;
+  border: 1px solid;
+  background-color: #757575;
+}

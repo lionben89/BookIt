@@ -76,6 +76,11 @@ export class IconsService {
     );
 
     iconRegistry.addSvgIcon(
+      "send",
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/send.svg")
+    );
+
+    iconRegistry.addSvgIcon(
       "left-arrow",
       sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/left_arrow.svg")
     );

@@ -11,6 +11,7 @@ import { Location } from "../../../../data_types/states.model";
 //import { Location } from "@angular/common";
 import {} from "googlemaps";
 import { MapsAPILoader } from "@agm/core";
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: "app-locations",
@@ -60,7 +61,8 @@ export class LocationsComponent implements OnInit {
     private store: Store<fromStore.MainState>,
     iconService: IconsService,
     private mapsAPILoader: MapsAPILoader,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar
   ) {}
 
   setOption(location) {
@@ -82,6 +84,11 @@ export class LocationsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result === "confirm") {
         this.store.dispatch(new fromStore.RemoveLocation(location));
+        
+        console.log("call getCurrentLoc");
+        this.getCurrentLoc();
+
+        this.snackBar.open("Location Removed", null, {duration: 1000});
       }
     });
   }
@@ -113,22 +120,7 @@ export class LocationsComponent implements OnInit {
 
   ngOnDestroy() {}
 
-  userGotCurrLocDefined() {
-    for (let loc of this.locations) {
-      if (loc.label === this.no_remove) {
-        // "Current Location"
-        return true;
-      }
-    }
-    return false;
-  }
-
   getCurrentLoc() {
-    if (this.userGotCurrLocDefined()) {
-      //dont add again
-      return;
-    }
-
     //var currLoc : Location;
     var address: string;
     var lat: number;
@@ -171,7 +163,20 @@ export class LocationsComponent implements OnInit {
                   id: "-1"
                 };
 
-                this.locations.push(this.new_location);
+                /* put "Current Location" first in the array */
+                var temp_locations = new Array<Location>();
+                console.log("add on start current location");
+                temp_locations.push(this.new_location);
+                for(let loc of this.locations){
+                  if (loc.label != this.no_remove){ //dont add Current Location if exists
+                    temp_locations.push(loc);
+                  }
+                  else{
+                    console.log("current location in the locations list");
+                  }
+                }
+                this.locations = temp_locations;
+
               } else {
                 console.log("No results found");
               }

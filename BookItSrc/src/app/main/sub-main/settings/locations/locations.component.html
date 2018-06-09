@@ -9,13 +9,14 @@
     </section>
 
     <mat-card class="locations">
+
       <mat-card-content class="locations-list" *ngFor="let loc of locations" selected="true" name="loc_list" ngDefaultControl>
         <button mat-icon-button (click)="removeOrAddLocation(loc)">
           <div *ngIf="loc.label != no_remove; then deleteForeverIcon; else addIcon"></div>
         </button>
         <div class="loc-div">
           <button mat-icon-button (click)="setOption(loc)">
-            <div *ngIf="loc.active; then leftEnableIcon; else leftDisableIcon"></div>
+            <div *ngIf="loc.active; then leftEnableIcon; else leftDisableIcon;"></div>
           </button>
           <section class="info-section">
             <label class="label-loc">
@@ -32,7 +33,7 @@
         </div>
       </mat-card-content>
     </mat-card>
-    
+
 
     <section class="add-loc">
       <button mat-button label class="button-add-loc" (click)="goToAddLocation()"> Add Location </button>
@@ -72,5 +73,5 @@
 </ng-template>
 
 <ng-template #addIcon>
-    <mat-icon svgIcon='add' class="add-icon"></mat-icon>
-  </ng-template>
+  <mat-icon svgIcon='add' class="add-icon"></mat-icon>
+</ng-template>

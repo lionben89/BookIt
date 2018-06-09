@@ -72,6 +72,14 @@ export function contextReducer(state:ContextState=initState,action:fromContext.C
                     }
                 };
         }
+        case fromContext.ActionsConsts.CHOOSE_MY_BOOKS_CHAT:{
+            return {...state,
+                    navbar:{...state.navbar,
+                        show:true,
+                        myBooksOption:"my_books_chat"
+                    }
+                };
+        }
         case fromContext.ActionsConsts.CHOOSE_SETTINGS:{
             return {...state,
                     navbar:{...state.navbar,

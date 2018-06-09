@@ -8,7 +8,6 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./dialog-add-location-title.component.scss']
 })
 export class DialogAddLocationTitleComponent implements OnInit {
-  public def_val: string = "A location has no name";
   public name: string = "";
   public nameInputControl: FormControl = new FormControl();
 
@@ -28,9 +27,14 @@ export class DialogAddLocationTitleComponent implements OnInit {
   addName(): void {
     if(this.name === ""){
       //send default value
-      this.dialogRef.close(this.def_val);
+      this.dialogRef.close("no name was picked");
     }
     else
       this.dialogRef.close(this.name);
+  }
+
+  clickedCancel(){
+    console.log("called clickedCancel!");
+    this.dialogRef.close("cancel");
   }
 }

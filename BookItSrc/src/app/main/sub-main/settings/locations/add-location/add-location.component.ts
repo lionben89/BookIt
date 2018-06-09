@@ -65,6 +65,15 @@ export class AddLocationComponent implements AfterViewInit {
       var min = 0;
       var temp: string = "";
 
+      if(result.valueOf() == "cancel"){
+        return;
+      }
+
+      if(result.valueOf() == "no name was picked"){
+        //user didnt pick name, put address as label
+        result = this.new_location_address;
+      }
+
       if (result.valueOf() == this.saved_string.valueOf()) {
         //need to change name
         var rand = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -76,6 +85,7 @@ export class AddLocationComponent implements AfterViewInit {
       this.new_location_name = result;
 
       this.addLocation(); //now add location
+
       this.goToLocations();
     });
   }
