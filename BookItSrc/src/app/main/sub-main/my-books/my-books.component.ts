@@ -29,6 +29,8 @@ export class MyBooksComponent implements OnInit {
   bookSelected:Book;
   public status:Loadable;
   public bookNavbarCols=2;
+
+  
   goToAddbook() {
     this.store.dispatch(new fromStore.ChooseMyBooksAddBook);
   }
