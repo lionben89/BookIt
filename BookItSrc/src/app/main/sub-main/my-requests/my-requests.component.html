@@ -3,9 +3,6 @@
     <div *ngSwitchCase="'my_requests'">
       <div class="mybooks">
         <section class="header">
-          <button mat-button label class="button-switch-page" (click)="goToMyBooks()">
-            <div *ngIf="1 === 1; then leftArrowIcon"></div>
-          </button>
           <label class="header-cat">My Requests</label>
         </section>
         <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">

@@ -52,7 +52,7 @@ import { DialogAddLocationTitleComponent } from './main/sub-main/settings/dialog
 import { AgmCoreModule } from '@agm/core';
 import { EffectsModule } from '@ngrx/effects';
 import { UserDataEffects } from './store/effects/userData.effect';
-import { MyRequestsComponent } from './main/sub-main/my-books/my-requests/my-requests.component';
+import { MyRequestsComponent } from './main/sub-main/my-requests/my-requests.component';
 
 
 

@@ -1,17 +1,18 @@
-import { getUserDataStatus } from './../../../../store/reducers/index';
-import { Book, Loadable } from './../../../../data_types/states.model';
+import { getUserDataStatus } from './../../../store/reducers/index';
+import { Book, Loadable } from './../../../data_types/states.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as fromStore from '../../../../store';
+import * as fromStore from '../../../store';
 import { Observable } from 'rxjs/Observable';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSnackBar } from '@angular/material';
-import { IconsService } from '../../../../icons.service';
+import { IconsService } from '../../../icons.service';
 
 @Component({
   selector: 'app-my-requests',
   templateUrl: './my-requests.component.html',
-  styleUrls: ['./my-requests.component.scss']
+  styleUrls: ['./my-requests.component.scss'],
+  providers:[IconsService]
 })
 export class MyRequestsComponent implements OnInit {
 
@@ -61,9 +62,6 @@ export class MyRequestsComponent implements OnInit {
       this.bookNavbarCols = 4;
     }
     return;
-  }
-  goToMyBooks() {
-    this.store.dispatch(new fromStore.ChooseMyBooksMain());
   }
   ngOnInit() {
     this.myRequestsSubscription = this.store.select(fromStore.getUserRequests).subscribe((state) => { this.myRequests = state; })

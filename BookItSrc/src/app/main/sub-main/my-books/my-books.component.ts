@@ -43,9 +43,6 @@ export class MyBooksComponent implements OnInit {
       this.numCols=6;
     }
   }
-  goToMyRequests(){
-    this.store.dispatch(new fromStore.ChooseMyBooksMyRequests());
-  }
 
   
   showBookNavbar(book:Book){
@@ -99,7 +96,6 @@ export class MyBooksComponent implements OnInit {
     this.onResize();
     this.whichPageSubscription=this.store.select<any>(fromStore.getContextmybooksOption).subscribe(state => { this.which_page = state; });
     this.store.dispatch(new fromStore.LoadMyBooks());
-    this.store.dispatch(new fromStore.LoadMyRequests());
     this.userBooksSubscription = this.store.select<any>(fromStore.getUserBooks).subscribe(state => { this.userBooks = state; });
     this.getUserDataStatusSubscription=this.store.select(fromStore.getUserDataStatus).subscribe(state=>{this.status=state;});
     this.messegeSubscription = this.store.select(fromStore.getMessege).subscribe((state) => {

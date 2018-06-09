@@ -35,6 +35,15 @@ export function contextReducer(state:ContextState=initState,action:fromContext.C
                     }
                 };
         }
+        case fromContext.ActionsConsts.CHOOSE_MY_REQUESTS:{
+            return {...state,
+                    navbar:{ ...state.navbar,
+                        show:true,
+                        optionEnabled:"my_requests",
+                        
+                    }
+                };
+        }
 
         case fromUserData.ActionsUserDataConsts.ADD_BOOK_SUCCESS:{
             return {...state,
@@ -55,15 +64,7 @@ export function contextReducer(state:ContextState=initState,action:fromContext.C
                 };
         }
 
-        case fromContext.ActionsConsts.CHOOSE_MY_BOOKS_MY_REQUESTS:{
-            return {...state,
-                    navbar:{ ...state.navbar,
-                        show:true,
-                        optionEnabled:"my_books",
-                        myBooksOption:"my_requests"
-                    }
-                };
-        }
+        
         case fromContext.ActionsConsts.CHOOSE_MY_BOOKS_MAIN:{
             return {...state,
                     navbar:{...state.navbar,
