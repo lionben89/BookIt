@@ -88,7 +88,8 @@ export class ExploreComponent implements OnInit {
   ngOnInit() {
     this.bookNavBarEnabled = false;
     this.onResize();
-    this.booksNearBySubscription = this.store.select<any>(fromStore.getBooksNearBy).subscribe(state => { this.booksNearBy = state; });
+    this.booksNearBySubscription = this.store.select<any>(fromStore.getBooksNearBy).subscribe(state => { 
+      this.booksNearBy = state; });
     this.usersNearBySubscription = this.store.select<any>(fromStore.getUsersNearBy).subscribe(state => {
       this.usersNearBy = state;
       this.store.dispatch(new fromStore.LoadBooksFromUsersNearBy(this.usersNearBy));

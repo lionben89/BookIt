@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 import * as fromContext from '../actions/context.action';
 import * as fromUserData from '../actions/userData.action';
 import * as fromExplore from '../actions/explore.action';
-import { ExploreState } from '../../data_types/states.model'
+import { ExploreState, Book } from '../../data_types/states.model'
 
 export const isBookEquale = (book1, book2) => {
     let eq = true;
@@ -71,6 +71,16 @@ export function ExploreReducer(state: ExploreState = initState, action: fromExpl
 
 
 export const getUsersNearBy = (state: ExploreState) => { return state.usersNearBy; }
-export const getBooksNearBy = (state: ExploreState) => { return state.booksNearBy; }
+export const getBooksNearBy = (state: ExploreState) => {
+    let booksNearBy = [];
+    if (state.booksNearBy) {
+        state.booksNearBy.forEach((book: Book) => {
+            if (!book.currentRequest.approved && !book.currentRequest.pending) {
+                booksNearBy.push(book);
+            }
+        })
+    }
+    return booksNearBy;
+}
 export const getExploreStatus = (state: ExploreState) => { return { loading: state.loading, loaded: state.loaded } }
 

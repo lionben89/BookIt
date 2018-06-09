@@ -101,7 +101,7 @@ export class MyBooksComponent implements OnInit {
     this.bookNavBarEnabled=false;
     this.onResize();
     this.whichPageSubscription=this.store.select<any>(fromStore.getContextmybooksOption).subscribe(state => { this.which_page = state; });
-    this.store.dispatch(new fromStore.LoadMyBooks());
+    
     this.userBooksSubscription = this.store.select<any>(fromStore.getUserBooks).subscribe(state => { this.userBooks = state; });
     this.getUserDataStatusSubscription=this.store.select(fromStore.getUserDataStatus).subscribe(state=>{this.status=state;});
     this.messegeSubscription = this.store.select(fromStore.getMessege).subscribe((state) => {

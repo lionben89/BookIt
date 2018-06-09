@@ -17,6 +17,7 @@ export class SubMainComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(new fromStore.LoadLocations());
     this.store.dispatch(new fromStore.LoadMyRequests());
+    this.store.dispatch(new fromStore.LoadMyBooks());
     this._optionEnabled$ = this.store.select(fromStore.getContextNavbarOptionEnabled);
   }
 
