@@ -298,6 +298,11 @@ export class UserDataEffects {
                         if (!updatedFields.info) updatedFields.info = {};
                         updatedFields.info.shareMyBooks = action.payload;
                         break;
+                    case UserUpdateType.CATEGORIES:{
+                        if (!updatedFields.favoriteCategories) updatedFields.favoriteCategories = {categories:[]};
+                        updatedFields.favoriteCategories.categories=action.payload;
+                        break;
+                    }
                     default:
                         // TODO: ERROR
                         console.error(action.updateType);
