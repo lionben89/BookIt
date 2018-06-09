@@ -26,8 +26,9 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestore, AngularFirestoreModule } from 'angularfire2/firestore';
-import { AngularFireDatabase, AngularFireDatabaseModule } from 'angularfire2/database'
+import { AngularFireDatabase, AngularFireDatabaseModule } from 'angularfire2/database';
 import { environment } from '../environments/environment';
+
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
@@ -53,10 +54,7 @@ import { AgmCoreModule } from '@agm/core';
 import { EffectsModule } from '@ngrx/effects';
 import { UserDataEffects } from './store/effects/userData.effect';
 import { MyRequestsComponent } from './main/sub-main/my-requests/my-requests.component';
-
-
-
-
+import { ChatComponent } from './main/sub-main/my-books/chat/chat.component';
 
 @NgModule({
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
@@ -80,7 +78,7 @@ import { MyRequestsComponent } from './main/sub-main/my-requests/my-requests.com
     CategoryComponent,
     AppComponent,
     MyRequestsComponent,
-   
+    ChatComponent,
   ],
   imports: [
     ClickOutsideModule,

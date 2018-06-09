@@ -7,12 +7,12 @@ export const ActionsConsts={
         CHOOSE_SETTINGS:"CHOOSE_SETTINGS",
         CHOOSE_MY_BOOKS:"CHOOSE_MY_BOOKS",
         CHOOSE_MY_REQUESTS:"CHOOSE_MY_REQUESTS",
+        CHOOSE_MY_BOOKS_CHAT:"CHOOSE_MY_BOOKS_CHAT",
         CHOOSE_SETTINGS_LOCATIONS:"CHOOSE_SETTINGS_LOCATIONS",
         CHOOSE_SETTINGS_ADD_LOCATIONS:"CHOOSE_SETTINGS_ADD_LOCATIONS",
         CHOOSE_SETTINGS_CATEGORIES:"CHOOSE_SETTINGS_CATEGORIES",
         CHOOSE_MY_BOOKS_ADD_BOOK:"CHOOSE_MY_BOOKS_ADD_BOOK",
         CHOOSE_MY_BOOKS_MAIN:"CHOOSE_MY_BOOKS_MAIN",
-
 }; 
 
 
@@ -41,6 +41,9 @@ export class ChooseMyBooksAddBook implements Action{
 export class ChooseMyBooksMain implements Action{
     readonly type =ActionsConsts.CHOOSE_MY_BOOKS_MAIN;
 }
+export class ChooseMyBooksChat implements Action{
+    readonly type =ActionsConsts.CHOOSE_MY_BOOKS_CHAT;
+}
 export class ChooseSettingsLocations implements Action{
     readonly type =ActionsConsts.CHOOSE_SETTINGS_LOCATIONS;
 }
@@ -53,7 +56,7 @@ export class ChooseSettingsCategories implements Action{
     readonly type =ActionsConsts.CHOOSE_SETTINGS_CATEGORIES;
 }
 
-export type ContextActions = ChooseExplorer | ChooseSettings| ChooseMyRequests
+export type ContextActions = ChooseExplorer | ChooseSettings| ChooseMyRequests | ChooseMyBooksChat
  | ChooseSettingsCategories | 
 ChooseSettingsAddLocations | ChooseSettingsLocations|ChooseMyBooks| 
 ChooseMyBooksAddBook;

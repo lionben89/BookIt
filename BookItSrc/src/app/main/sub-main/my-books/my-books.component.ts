@@ -17,10 +17,11 @@ import { IconsService } from '../../../icons.service';
 export class MyBooksComponent implements OnInit {
   getUserDataStatusSubscription;
   whichPageSubscription;
-  public which_page = 'my_books'; /* options = {my_books, add_book} */
+  public which_page = 'my_books'; /* options = {my_books, add_book, my_books_chat} */
   messegeSubscription;
 
   constructor(private store: Store<fromStore.MainState>,iconService: IconsService,public snackBar: MatSnackBar) { }
+  public mybooksOption$: Observable<string>;
   userBooks: Book[];
   userBooksSubscription;
   numCols;
@@ -90,6 +91,7 @@ export class MyBooksComponent implements OnInit {
   }
   startChat(){
     console.log('opening chat');
+    this.store.dispatch(new fromStore.ChooseMyBooksChat);
   }
   ngOnInit() {
     this.bookNavBarEnabled=false;
