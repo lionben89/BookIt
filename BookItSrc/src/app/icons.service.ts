@@ -18,6 +18,18 @@ export class IconsService {
         "/assets/icons/book-closed-blue.svg"
       )
     );
+    iconRegistry.addSvgIcon(
+      "waste-bin",
+      sanitizer.bypassSecurityTrustResourceUrl(
+        "/assets/icons/waste-bin.svg"
+      )
+    );
+    iconRegistry.addSvgIcon(
+      "people-gray",
+      sanitizer.bypassSecurityTrustResourceUrl(
+        "/assets/icons/people-gray.svg"
+      )
+    );
 
     iconRegistry.addSvgIcon(
       "book-open-gray",
