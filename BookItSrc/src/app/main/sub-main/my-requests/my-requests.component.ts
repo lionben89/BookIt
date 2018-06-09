@@ -43,8 +43,8 @@ export class MyRequestsComponent implements OnInit {
 
   startChat(){
     console.log('opening chat');
-    this.hideBookNavbar(this.bookSelected);
     this.store.dispatch(new fromStore.ChooseMyRequestsChat);
+    
   }
 
   hideBookNavbar(book: Book) {
@@ -81,11 +81,13 @@ export class MyRequestsComponent implements OnInit {
     this.bookNavBarEnabled = false;
     this.whichPageSubscription=this.store.select<any>(fromStore.getContextmyRequestsOption).subscribe(state => { this.which_page = state; });
     this.onResize();
+    
   }
   ngOnDestroy() {
     this.myRequestsSubscription.unsubscribe();
     this.messegeSubscription.unsubscribe();
     this.whichPageSubscription.unsubscribe();
+    this.hideBookNavbar(this.bookSelected);
   }
 
 }

@@ -93,8 +93,8 @@ export class MyBooksComponent implements OnInit {
 
   startChat(){
     console.log('opening chat');
-    this.hideBookNavbar(this.bookSelected);
     this.store.dispatch(new fromStore.ChooseMyBooksChat);
+    
   }
 
   ngOnInit() {
@@ -110,6 +110,7 @@ export class MyBooksComponent implements OnInit {
         setTimeout(this.store.dispatch(new fromStore.ShowMessege('')),0);
       }
     });
+    
   }
 
   ngOnDestroy() {
@@ -117,6 +118,7 @@ export class MyBooksComponent implements OnInit {
     this.userBooksSubscription.unsubscribe();
     this.getUserDataStatusSubscription.unsubscribe();
     this.messegeSubscription.unsubscribe();
+    this.hideBookNavbar(this.bookSelected);
   }
 
 }
