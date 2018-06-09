@@ -59,6 +59,7 @@ export class LocationsComponent implements OnInit {
     private store: Store<fromStore.MainState>,
     iconService: IconsService,
     private mapsAPILoader: MapsAPILoader,
+    public dialog: MatDialog
   ) {}
 
   setOption(location) {
@@ -148,6 +149,7 @@ export class LocationsComponent implements OnInit {
                   id: "-1"
                 };
 
+                this.locations.push(this.new_location);
               } else {
                 console.log("No results found");
               }

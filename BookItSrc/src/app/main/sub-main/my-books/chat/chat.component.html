@@ -1,41 +1,39 @@
 <container-element [ngSwitch]="this.which_page">
   <div *ngSwitchCase="'my_books_chat'">
 
-      <section class="header">
-          <button mat-button label class="button-switch-page" (click)="goToMyBooks()">
-            <div *ngIf="1 === 1; then leftArrowIcon"></div>
-          </button>
-          <label class="header-chat" ngDefaultControl>Chat</label>
-        </section>
+    <section class="header">
+      <button mat-button label class="button-switch-page" (click)="goToMyBooks()">
+        <div *ngIf="1 === 1; then leftArrowIcon"></div>
+      </button>
+      <label class="header-chat" ngDefaultControl>Chat</label>
+    </section>
 
-    <div class="chat-div">
+
+    <mat-card class="chat-div" #content style="height: 100%;">
       <mat-card-content class="chat-container" *ngFor="let item of items" selected="true" name="msg_list" ngDefaultControl>
         <container-element class="container-info" [ngSwitch]="item.name">
+
+
           <section class="info-section-1" *ngSwitchCase="firstUser">
-            <label class="label-name-1">
-              {{item.name}}:
-            </label>
             <label class="label-msg-1">
               {{item.message}}
             </label>
           </section>
+
+          <section class="info-section-2" *ngSwitchDefault>
+            <label class="label-msg-2">
+              {{item.message}}
+            </label>
+          </section>
         </container-element>
+          
       </mat-card-content>
-    </div>
+
+
+    </mat-card>
 
     <div class="chat-msg">
-      <section class="info-section-2" *ngSwitchDefault>
-        <label class="label-name-2">
-          {{item.name}}:
-        </label>
-        <label class="label-msg-2">
-          {{item.message}}
-        </label>
-      </section>
-    </div>
-
-    <div class="chat-msg">
-    <mat-card class="send-msg">
+      <mat-card class="send-msg">
         <section class="total-chat-msg-section">
           <mat-form-field class="add-msg">
             <input matInput class="chat-input" placeholder="Enter message here..." autocorrect="off" autocapitalize="off" spellcheck="off"
@@ -49,8 +47,8 @@
           </button>
         </section>
       </mat-card>
-      </div>
-      
+    </div>
+
   </div>
 </container-element>
 
