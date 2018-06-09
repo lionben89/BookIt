@@ -4,6 +4,7 @@ import * as fromStore from "../../../../store";
 import { Observable } from "rxjs/Observable";
 import { MatDialog } from "@angular/material";
 import { DialogOneButtonComponent } from "../dialog-one-button/dialog-one-button.component";
+import { UserUpdateType } from "../../../../data_types/states.model";
 
 @Component({
   selector: "app-categories",
@@ -29,6 +30,7 @@ export class CategoriesComponent implements OnInit {
     for (var _i = 0; _i < this.bookCategories.length; _i++) {
       if (this.bookCategories[_i].name === name) {
         this.bookCategories[_i].active = !this.bookCategories[_i].active;
+        this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.CATEGORIES,this.bookCategories));
       }
     }
   }

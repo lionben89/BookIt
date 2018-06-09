@@ -3,7 +3,7 @@ import { getUsersNearBy } from './../../../store/reducers/index';
 import { Component, OnInit, Output, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../../store';
-import { Book, Loadable } from './../../../data_types/states.model';
+import { Book, Loadable, UserSettingsState } from './../../../data_types/states.model';
 import { IconsService } from '../../../icons.service';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material';
@@ -29,6 +29,8 @@ export class ExploreComponent implements OnInit {
   categories = {};
   categoriesNames;
   currentCategory;
+  userSettingsSubscription;
+  userSettings: UserSettingsState;
 
   constructor(private store: Store<fromStore.MainState>, iconService: IconsService, public snackBar: MatSnackBar) {
   }
@@ -54,16 +56,16 @@ export class ExploreComponent implements OnInit {
     return eq;
   }
   goToPrevCategory() {
-    let c=(this.currentCategory-1);
-    if (c<0){
-      c=this.categoriesNames.length-1;
+    let c = (this.currentCategory - 1);
+    if (c < 0) {
+      c = this.categoriesNames.length - 1;
     }
     this.store.dispatch(new fromStore.ChooseCurrentCategory(c));
   }
   goToNextCategory() {
-    let c=(this.currentCategory+1);
-    if (c===this.categoriesNames.length){
-      c=0;
+    let c = (this.currentCategory + 1);
+    if (c === this.categoriesNames.length) {
+      c = 0;
     }
     this.store.dispatch(new fromStore.ChooseCurrentCategory(c));
   }
@@ -91,24 +93,32 @@ export class ExploreComponent implements OnInit {
 
   sortBooksByCategories(books) {
 
-    this.categories={};
-    this.categories["All"]=books;
+    this.categories = {};
+    this.categories["All"] = books;
     books.forEach((book: Book) => {
       book.categories.forEach((cat) => {
         if (this.categories && this.categories[cat]) {
           this.categories[cat].push(book);
         }
         else {
-          this.categories[cat] = [];
-          this.categories[cat].push(book);
+          let ex = false;
+          this.userSettings.favoriteCategories.categories.forEach((c) => {
+            if (cat === c.name && c.active) {
+              ex = true;
+            }
+          })
+          if (ex) {
+            this.categories[cat] = [];
+            this.categories[cat].push(book);
+          }
         }
       })
 
     });
-    
-    this.categoriesNames=Object.keys(this.categories);
-    
-    
+
+    this.categoriesNames = Object.keys(this.categories);
+
+
   }
   getAutoCompleteValue(bookSelected) {
     if (bookSelected && bookSelected.title) {
@@ -121,6 +131,11 @@ export class ExploreComponent implements OnInit {
   ngOnInit() {
     this.bookNavBarEnabled = false;
     this.onResize();
+    this.userSettingsSubscription = this.store.select<any>(fromStore.getUserSettings).subscribe(state => {
+       this.userSettings = state; 
+       //this.sortBooksByCategories(this.categories["All"]);
+      }
+    );
     this.booksNearBySubscription = this.store.select<any>(fromStore.getBooksNearBy).subscribe(state => {
       this.sortBooksByCategories(state);
     });
@@ -135,8 +150,8 @@ export class ExploreComponent implements OnInit {
         setTimeout(this.store.dispatch(new fromStore.ShowMessege('')), 0);
       }
     })
-    this.store.select(fromStore.getContextCurrentCategory).subscribe(state=>{
-      this.currentCategory=state;
+    this.store.select(fromStore.getContextCurrentCategory).subscribe(state => {
+      this.currentCategory = state;
     })
 
   }
@@ -144,6 +159,7 @@ export class ExploreComponent implements OnInit {
     this.usersNearBySubscription.unsubscribe();
     this.booksNearBySubscription.unsubscribe();
     this.messegeSubscription.unsubscribe();
+    this.userSettingsSubscription.unsubscribe();
   }
 
 }

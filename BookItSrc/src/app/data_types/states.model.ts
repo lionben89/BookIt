@@ -54,7 +54,7 @@ export interface Category {
     active: boolean
 }
 
-export interface FavoriteCategories extends Loadable {
+export interface FavoriteCategories {
     categories: Category[],
 }
 
@@ -96,6 +96,7 @@ export interface Book {
 export enum UserUpdateType {
     SEARCH_RADIUS_KM,
     SHARE_MY_BOOKS,
+    CATEGORIES,
 }
 
 export interface Message {

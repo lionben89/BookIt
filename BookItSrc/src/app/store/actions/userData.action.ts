@@ -3,9 +3,6 @@ import { Category, ExtendedUserInfo, UserUpdateType, Location, Book } from '../.
 
 export const ActionsUserDataConsts={
 
-        //LOAD_FAVORITE_CATEGORIES:"LOAD_FAVORITE_CATEGORIES",
-        //LOAD_FAVORITE_CATEGORIES_SUCCESS:"LOAD_FAVORITE_CATEGORIES_SUCCESS",
-        //LOAD_FAVORITE_CATEGORIES_FAIL:"LOAD_FAVORITE_CATEGORIES_FAIL",
         //ADD_FAVORITE_CATEGORY:"ADD_FAVORITE_CATEGORY",
         //ADD_FAVORITE_CATEGORY_SUCCESS:"ADD_FAVORITE_CATEGORY_SUCSESS",
         //REMOVE_FAVORITE_CATEGORY:"REMOVE_FAVORITE_CATEGORY",
@@ -52,6 +49,7 @@ export const ActionsUserDataConsts={
         REMOVE_REQUEST_BOOK:"REMOVE_REQUEST_BOOK",
         REMOVE_REQUEST_BOOK_SUCCESS:"REMOVE_REQUEST_BOOK_SUCCESS",
         REMOVE_REQUEST_BOOK_FAIL:"REMOVE_REQUEST_BOOK_FAIL",
+        
 
 }; 
 
@@ -200,6 +198,7 @@ export class RemoveBookFail implements Action{
     readonly type=ActionsUserDataConsts.REMOVE_BOOK_FAIL;
     constructor(public payload?:any){}
 }
+
 
 export class LoadMyRequests implements Action{
     readonly type=ActionsUserDataConsts.LOAD_MY_REQUESTS;

@@ -1,5 +1,5 @@
 
-import { UserSettingsState, UserUpdateType, Book } from './../../../data_types/states.model';
+import { UserSettingsState, UserUpdateType, Book, Category } from './../../../data_types/states.model';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/auth.service';
 import { Store } from '@ngrx/store';
@@ -17,10 +17,10 @@ import { MatDialog } from "@angular/material";
 export class SettingsComponent implements OnInit {
   public which_page = "settings"; /* options = {settings, categories, locations, add_location} */
   public settingsOption$: Observable<string>;
-  public userSettings:UserSettingsState;
+  public userSettings: UserSettingsState;
   booksNearBySubscription;
 
-  categories : string[];
+  categories: string[];
 
   /* global */
   checked = false;
@@ -35,18 +35,20 @@ export class SettingsComponent implements OnInit {
   min = 0.5;
   step = 0.5;
   thumbLabel = true;
-  
+
   /* Slide */
   slide_checked = true;
   share_enabled = true;
-  categoriesNames;
+  categoriesNames =[];
 
-  
+
   sortBooksByCategories(books) {
 
-    let categories={};
-    this.categoriesNames=[];
-    
+    let categories = {};
+    if (this.userSettings && this.userSettings.favoriteCategories && this.userSettings.favoriteCategories.categories) {
+      this.categoriesNames = this.userSettings.favoriteCategories.categories;
+    }
+
     books.forEach((book: Book) => {
       book.categories.forEach((cat) => {
         if (categories && categories[cat]) {
@@ -55,18 +57,26 @@ export class SettingsComponent implements OnInit {
         else {
           categories[cat] = [];
           categories[cat].push(book);
-          this.categoriesNames.push({name:cat,active:true})
+          let ex = false;
+          this.categoriesNames.forEach((c: Category) => {
+            if (c.name === cat) {
+              ex = true;
+            }
+          });
+          if (!ex) {
+            this.categoriesNames.push({ name: cat, active: false })
+          }
         }
       })
 
     });
-    
-    
-    
-    
+
+
+
+
   }
 
-  logout(){
+  logout() {
     this.userSettingsSubscription.unsubscribe();
     this.store.dispatch(new fromStore.Logout());
   }
@@ -80,14 +90,14 @@ export class SettingsComponent implements OnInit {
     this.store.dispatch(new fromStore.ChooseSettingsCategories);
   }
 
-  updateSearchRadiusKm(){
+  updateSearchRadiusKm() {
     let newValue = this.userSettings.locationSettings.searchRadiusKm;
     this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.SEARCH_RADIUS_KM, newValue));
   }
 
-  updateShareMyBooks(){
+  updateShareMyBooks() {
     let newValue = this.userSettings.info.shareMyBooks;
-    this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.SHARE_MY_BOOKS,newValue ));
+    this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.SHARE_MY_BOOKS, newValue));
   }
 
   constructor(private store: Store<fromStore.MainState>, public auth: AuthService, public dialog: MatDialog) { }
@@ -95,13 +105,13 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {
     this.settingsOption$ = this.store.select(fromStore.getContextSettingsOption);
     this.store.select<any>(fromStore.getContextSettingsOption).subscribe(state => { this.which_page = state; });
-    this.userSettingsSubscription=this.store.select<any>(fromStore.getUserSettings).subscribe(state => { this.userSettings = state; });
+    this.userSettingsSubscription = this.store.select<any>(fromStore.getUserSettings).subscribe(state => { this.userSettings = state; });
     this.booksNearBySubscription = this.store.select<any>(fromStore.getBooksNearBy).subscribe(state => {
       this.sortBooksByCategories(state);
     });
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.userSettingsSubscription.unsubscribe();
     this.booksNearBySubscription.unsubscribe();
   }

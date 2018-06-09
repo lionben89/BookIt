@@ -27,8 +27,6 @@ let initState: UserState = {
         },
         favoriteCategories: {
             categories: [],
-            loading: false,
-            loaded: false,
         },
 
     },
