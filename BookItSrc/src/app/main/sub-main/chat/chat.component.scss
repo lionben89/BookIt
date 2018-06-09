@@ -3,7 +3,13 @@ left-arrow-icon {
   width: 65px;
   height: 65px;
 }
-
+.back-pic{
+  position: fixed;
+    top: 45%;
+    left: 17%;
+    opacity: 0.5;
+    transform:scale(1.5);
+}
 label.header-chat {
   flex-grow: 2;
   position: relative;
