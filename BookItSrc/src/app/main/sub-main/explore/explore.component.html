@@ -25,22 +25,37 @@
 
     <ng-template #bookNavbar>
         <div class='bookNavbarBox'>
-            <mat-grid-list class="bookNavbarList" rowHeight="56px" cols="2" gutterSize="10">
-                <mat-grid-tile item-height="100%">
+            <mat-grid-list class="bookNavbarList" rowHeight="35px" cols="1">
+                <mat-grid-tile>
                     <button mat-icon-button (click)="hideBookNavbar(bookSelected)">
                         <mat-icon svgIcon='down-arrow-black' class="arrow-icon"></mat-icon>
                     </button>
                 </mat-grid-tile>
-                <mat-grid-tile >
-
-                    <button mat-icon-button class="arrow-icon" (click)="requestBook(bookSelected)">
-                        <mat-icon svgIcon='request-book-black'></mat-icon>
-                    </button>
-
-                </mat-grid-tile>
-
             </mat-grid-list>
+            
+               <mat-card style="margin-top: 1%;text-align: left;overflow-y: auto;background-color: #fafafa;height: 100%;border-radius: 0px;border: 0%;">
+                    <mat-card-content>
+                            <div style="display:inline-block;vertical-align:bottom;">
+                                    <img class="detailCover" style="vertical-align:bottom;margin-left: 1%;height: 240px;width: 150px;box-sizing: border-box;" [attr.src]="bookSelected.imagePath"/>
+
+                            </div>
+                            <div style="box-sizing: border-box;display:inline-block;margin-left: 5%;">
+                                    <span style="vertical-align:bottom;">Located Xkm. from you<br>Borrowed X times<br></span>
+                                    <button  class="request-icon" (click)="requestBook(bookSelected)">
+                                            <mat-icon style="display:inline-block;" svgIcon='request-book-black'></mat-icon>
+                                            <span style="display:inline-block;color: #2f3842;top:50%;transform: translate(0%, -40%);">&nbsp;Request Book</span>
+                                    </button>
+                            </div>
+                        </mat-card-content>
+                    <mat-card-title>{{bookSelected.title}}</mat-card-title>
+                    <mat-card-subtitle>by {{bookSelected.author}}</mat-card-subtitle>
+                    <mat-card-content>{{bookSelected.description}}</mat-card-content>
+                </mat-card>
+                        
+                
+            
         </div>
+        
     </ng-template>
 </ng-template>
 
@@ -53,6 +68,7 @@
 
 <ng-template #loading>
     <div class="centered">
-        <mat-spinner [color]="'accent'"></mat-spinner>
+        <!-- <mat-spinner [color]="'accent'"></mat-spinner> -->
+        <img class="heart" src="assets/images/panda.png"/>
     </div>
 </ng-template>
