@@ -1,5 +1,5 @@
 
-import { UserSettingsState, UserUpdateType } from './../../../data_types/states.model';
+import { UserSettingsState, UserUpdateType, Book } from './../../../data_types/states.model';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/auth.service';
 import { Store } from '@ngrx/store';
@@ -18,6 +18,7 @@ export class SettingsComponent implements OnInit {
   public which_page = "settings"; /* options = {settings, categories, locations, add_location} */
   public settingsOption$: Observable<string>;
   public userSettings:UserSettingsState;
+  booksNearBySubscription;
 
   categories : string[];
 
@@ -38,51 +39,38 @@ export class SettingsComponent implements OnInit {
   /* Slide */
   slide_checked = true;
   share_enabled = true;
+  categoriesNames;
+
+  
+  sortBooksByCategories(books) {
+
+    let categories={};
+    this.categoriesNames=[];
+    
+    books.forEach((book: Book) => {
+      book.categories.forEach((cat) => {
+        if (categories && categories[cat]) {
+          categories[cat].push(book);
+        }
+        else {
+          categories[cat] = [];
+          categories[cat].push(book);
+          this.categoriesNames.push({name:cat,active:true})
+        }
+      })
+
+    });
+    
+    
+    
+    
+  }
 
   logout(){
     this.userSettingsSubscription.unsubscribe();
     this.store.dispatch(new fromStore.Logout());
   }
 
-  /*slideClicked() {
-    console.log("1 slide_checked = " + this.slide_checked);
-    this.slide_checked = !this.slide_checked;
-    if (this.share_enabled === true) {
-      //this.slide_checked = false; //prevent slide from going to unchecked
-      console.log("2 slide_checked = " + this.slide_checked);
-      //check if user is sure he wish to not share his books
-      let dialogRef = this.dialog.open(DialogTwoButtonComponent, {
-        width: "250px",
-        data: "We're sorry to see you chose not to share your books! We hope to see you book sharing very soon."
-      });
-      
-      dialogRef.afterClosed().subscribe(result => {
-        if (result === "confirm") {
-          console.log("confirm -> set stop sharing");
-          this.share_enabled = false;
-          this.slide_checked = true;
-        } else {
-          console.log("cancel -> set share");
-          this.share_enabled = true;
-          this.slide_checked = false;
-        }
-      });;
-    }
-    else{
-      console.log("3 slide_checked = " + this.slide_checked);
-      let dialogRef = this.dialog.open(DialogOneButtonComponent, {
-        width: "250px",
-        data:
-          "We're glad to see you chose to share your books again!"
-      });
-  
-      dialogRef.afterClosed().subscribe(result => {
-        console.log("The start sharing dialog was closed"); 
-        this.share_enabled = true;
-        this.slide_checked = true;
-      });
-    }
-  }*/
 
   goToLocations() {
     this.store.dispatch(new fromStore.ChooseSettingsLocations);
@@ -108,9 +96,13 @@ export class SettingsComponent implements OnInit {
     this.settingsOption$ = this.store.select(fromStore.getContextSettingsOption);
     this.store.select<any>(fromStore.getContextSettingsOption).subscribe(state => { this.which_page = state; });
     this.userSettingsSubscription=this.store.select<any>(fromStore.getUserSettings).subscribe(state => { this.userSettings = state; });
+    this.booksNearBySubscription = this.store.select<any>(fromStore.getBooksNearBy).subscribe(state => {
+      this.sortBooksByCategories(state);
+    });
   }
 
   ngOnDestroy(){
     this.userSettingsSubscription.unsubscribe();
+    this.booksNearBySubscription.unsubscribe();
   }
 }

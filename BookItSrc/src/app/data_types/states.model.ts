@@ -8,6 +8,7 @@ export interface NavbarState {
 
 export interface ContextState {
     navbar: NavbarState,
+    currentCategory:number,
 }
 
 export interface ExploreState extends Loadable {

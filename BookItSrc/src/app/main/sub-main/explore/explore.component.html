@@ -3,7 +3,7 @@
     <button mat-button label class="button-switch-page" (click)="goToNextCategory()">
         <div *ngIf="1 === 1; then leftArrowIcon"></div>
     </button>
-    <label class="header-cat">Main Category</label>
+    <label class="header-cat">{{this.categoriesNames[this.currentCategory]}}</label>
     <button mat-button label class="button-switch-page" (click)="goToPrevCategory()">
         <div *ngIf="1 === 1; then rightArrowIcon"></div>
     </button>
@@ -12,10 +12,10 @@
 <ng-template #loaded>
 
     <div class="mybooks">
-        <app-auto-complete [books]="booksNearBy" [(activeOption)]="this.bookSelected" (getBookSelected)="showBookNavbar($event)"
+        <app-auto-complete [books]="this.categories[this.categoriesNames[this.currentCategory]]" [(activeOption)]="this.bookSelected" (getBookSelected)="showBookNavbar($event)"
             id="auto-complete"></app-auto-complete>
         <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
-            <mat-grid-tile *ngFor="let book of booksNearBy" (click)="showBookNavbar(book)">
+            <mat-grid-tile *ngFor="let book of this.categories[this.categoriesNames[this.currentCategory]]" (click)="showBookNavbar(book)">
                 <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!==book) , 'regular': (this.bookNavBarEnabled===false || this.isBookEquale(this.bookSelected,book)) }"
                     [attr.src]="book.imagePath" />
             </mat-grid-tile>

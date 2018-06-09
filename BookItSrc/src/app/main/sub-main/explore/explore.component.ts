@@ -26,6 +26,9 @@ export class ExploreComponent implements OnInit {
   public bookSelected: Book;
   public status: Loadable;
   messegeSubscription;
+  categories = {};
+  categoriesNames;
+  currentCategory;
 
   constructor(private store: Store<fromStore.MainState>, iconService: IconsService, public snackBar: MatSnackBar) {
   }
@@ -51,19 +54,27 @@ export class ExploreComponent implements OnInit {
     return eq;
   }
   goToPrevCategory() {
-    console.log("Prev Category");
+    let c=(this.currentCategory-1);
+    if (c<0){
+      c=this.categoriesNames.length-1;
+    }
+    this.store.dispatch(new fromStore.ChooseCurrentCategory(c));
   }
   goToNextCategory() {
-    console.log("Next Category");
+    let c=(this.currentCategory+1);
+    if (c===this.categoriesNames.length){
+      c=0;
+    }
+    this.store.dispatch(new fromStore.ChooseCurrentCategory(c));
   }
   bookInfo() {
     console.log(this.bookSelected.description);
   }
   requestBook(book) {
-    
+
     this.store.dispatch(new fromStore.RequestBook(book));
     this.hideBookNavbar(book);
-    
+
 
   }
   onResize() {//TODO add font resize
@@ -77,6 +88,28 @@ export class ExploreComponent implements OnInit {
       this.numCols = 6;
     }
   }
+
+  sortBooksByCategories(books) {
+
+    this.categories={};
+    this.categories["All"]=books;
+    books.forEach((book: Book) => {
+      book.categories.forEach((cat) => {
+        if (this.categories && this.categories[cat]) {
+          this.categories[cat].push(book);
+        }
+        else {
+          this.categories[cat] = [];
+          this.categories[cat].push(book);
+        }
+      })
+
+    });
+    
+    this.categoriesNames=Object.keys(this.categories);
+    
+    
+  }
   getAutoCompleteValue(bookSelected) {
     if (bookSelected && bookSelected.title) {
       return bookSelected
@@ -88,8 +121,9 @@ export class ExploreComponent implements OnInit {
   ngOnInit() {
     this.bookNavBarEnabled = false;
     this.onResize();
-    this.booksNearBySubscription = this.store.select<any>(fromStore.getBooksNearBy).subscribe(state => { 
-      this.booksNearBy = state; });
+    this.booksNearBySubscription = this.store.select<any>(fromStore.getBooksNearBy).subscribe(state => {
+      this.sortBooksByCategories(state);
+    });
     this.usersNearBySubscription = this.store.select<any>(fromStore.getUsersNearBy).subscribe(state => {
       this.usersNearBy = state;
       this.store.dispatch(new fromStore.LoadBooksFromUsersNearBy(this.usersNearBy));
@@ -101,10 +135,9 @@ export class ExploreComponent implements OnInit {
         setTimeout(this.store.dispatch(new fromStore.ShowMessege('')), 0);
       }
     })
-    //if (this.usersNearBy.length > 0) {
-
-    //this.numCols=1;
-    //}
+    this.store.select(fromStore.getContextCurrentCategory).subscribe(state=>{
+      this.currentCategory=state;
+    })
 
   }
   ngOnDestroy() {

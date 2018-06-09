@@ -75,7 +75,7 @@
 
   <!--###############  END OF SETTINGS  ###################-->
 
-  <app-categories *ngSwitchCase="'categories'"></app-categories>
+  <app-categories *ngSwitchCase="'categories'" [bookCategories]="this.categoriesNames"></app-categories>
 
   <app-locations *ngSwitchCase="'locations'" [locations]="locations" (changed)="locations=$event;"> </app-locations>
 

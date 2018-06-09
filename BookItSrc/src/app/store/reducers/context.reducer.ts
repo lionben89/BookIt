@@ -12,12 +12,16 @@ let initState:ContextState={
         myBooksOption:"my_books",
         myRequestsOption:"my_requests",
         show:true,
-    }
+    },
+    currentCategory:0,
 };
 export function contextReducer(state:ContextState=initState,action:fromContext.ContextActions){
     
 
     switch (action.type){
+        case fromContext.ActionsConsts.CHOOSE_CURRENT_CATEGORY:{
+            return {...state,currentCategory:action.payload};
+        }
         case fromContext.ActionsConsts.CHOOSE_EXPLORER:{
             return {...state,
                     navbar:{ ...state.navbar,
@@ -152,3 +156,4 @@ export const getContextNavbar=(state:ContextState)=>{return state.navbar;}
 export const getContextSettingsOption=(state:ContextState)=>{return state.navbar.settingsOption;}
 export const getContextmybooksOption=(state:ContextState)=>{return state.navbar.myBooksOption;}
 export const getContextmyRequestsOption=(state:ContextState)=>{return state.navbar.myRequestsOption;}
+export const getContextCurrentCategory=(state:ContextState)=>{return state.currentCategory;}

@@ -30,6 +30,7 @@ export const getContextNavbarOptionEnabled=createSelector(getContextState,fromCo
 export const getContextSettingsOption=createSelector(getContextState,fromContext.getContextSettingsOption);
 export const getContextmybooksOption=createSelector(getContextState,fromContext.getContextmybooksOption);
 export const getContextmyRequestsOption=createSelector(getContextState,fromContext.getContextmyRequestsOption);
+export const getContextCurrentCategory=createSelector(getContextState,fromContext.getContextCurrentCategory);
 
 //userData selectors
 export const getUserDataState = createFeatureSelector<UserState>('userData');

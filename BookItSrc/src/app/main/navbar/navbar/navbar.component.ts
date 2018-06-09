@@ -24,18 +24,18 @@ export class NavbarComponent implements OnInit,OnDestroy {
   }
 
   setSetting() {
-    this.store.dispatch(new fromStore.ChooseSettings);
+    this.store.dispatch(new fromStore.ChooseSettings());
   }
 
   setExplorer() {
-    this.store.dispatch(new fromStore.ChooseExplorer);
+    this.store.dispatch(new fromStore.ChooseExplorer());
   }
   setMyBooks() {
-    this.store.dispatch(new fromStore.ChooseMyBooks);
+    this.store.dispatch(new fromStore.ChooseMyBooks());
   }
 
   setMyRequests() {
-    this.store.dispatch(new fromStore.ChooseMyRequests);
+    this.store.dispatch(new fromStore.ChooseMyRequests());
   }
 
   ngOnInit() {

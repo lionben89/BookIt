@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit ,Input} from "@angular/core";
 import { Store } from "@ngrx/store";
 import * as fromStore from "../../../../store";
 import { Observable } from "rxjs/Observable";
@@ -19,40 +19,7 @@ export class CategoriesComponent implements OnInit {
   public randNums = [0, 0, 0, 0, 0, 0, 0]; /* lucky number 7 */
 
   /* mat chips */
-  bookCategories = [
-    { name: 'Love', active: false},
-    { name: 'Food', active: false},
-    { name: 'Hate', active: false},
-    { name: 'Computers', active: false},
-    { name: 'History', active: false},
-    { name: 'Music', active: false},
-    { name: 'Biographies', active: false},
-    { name: 'Cooking', active: false },
-    { name: 'Health', active: false},
-    { name: 'Arts', active: false },
-    { name: 'Business', active: false},
-    { name: 'Kids', active: false},
-    { name: 'Comics', active: false},
-    { name: 'Hobbies', active: false },
-    { name: 'Reference', active: false}, 
-    { name: 'Home', active: false},
-    { name: 'Garden', active: false },
-    { name: 'Horror', active: false},
-    { name: 'Entertainment', active: false},
-    { name: 'Medical', active: false},
-    { name: 'Social Sciences', active: false },
-    { name: 'Religion', active: false },
-    { name: 'Teen', active: false },
-    { name: 'Self-Help', active: false },
-    { name: 'Sports', active: false },
-    { name: 'Romance', active: false },
-    { name: 'Mysteries', active: false },
-    { name: 'Parenting', active: false },
-    { name: 'Travel', active: false },
-    { name: 'Fantasy', active: false },
-    { name: 'True Crime', active: false },
-    { name: 'Westerns', active: false },
-    { name: 'Other', active: false }];
+  @Input() bookCategories;
 
   goToSettings() {
     this.store.dispatch(new fromStore.ChooseSettings());
