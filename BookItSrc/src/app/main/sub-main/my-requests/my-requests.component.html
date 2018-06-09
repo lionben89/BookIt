@@ -6,15 +6,15 @@
           <label class="header-cat">My Requests</label>
         </section>
         <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
-          <mat-grid-tile *ngFor="let book of myRequests" (click)="showBookNavbar(book)">
+          <mat-grid-tile *ngFor="let book of myRequests" (click)="showBookNavbar(book)" style="overflow: visible;">
               <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
               [attr.src]="book.imagePath" />
               <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved then requestApprove"></div>
-            <div class='book-bottom'>
+            <!-- <div class='book-bottom'>
               <span class='addbook_title'>{{book.title}}</span>
               <br>
               <span class='addbook_author'>by {{book.author}}</span>
-            </div>
+            </div> -->
           </mat-grid-tile>
         </mat-grid-list>
       </div>

@@ -6,12 +6,10 @@ body{
     position: absolute;
     border-radius: 0px;
     filter: drop-shadow(rgb(43, 39, 39) 1px 1px 2px);
-    max-width:75%;
-    max-height:75%;
-    min-width: 75%;
-    min-height: 75%;
-    --h:height;
-    --w:width;
+    max-width:97%;
+    max-height:97%;
+    min-width: 97%;
+    min-height: 97%;
     background-color: #ebebeb;
   }
   .my-books{
@@ -29,38 +27,37 @@ body{
 
   .book-status{
     position:absolute;
-    top:10%;
-    right:10%;
-    border-width: 1.2px;
+    top:-5%;
+    right:-5%;
+    border-width: 1px;
     border-style: solid;
     border-radius:50%;
-    border-color: #2B2727;
-    //transform: translate(150%,150%);
-    transform: scale(2);
+    border-color: #fafafa;
+    transform: scale(1.2);
   }
 
   //switch categories
-.header {
-  background-color: #757575; 
-  color: white;
-  width: 100%;
+  .header {
+    background-color: #00b1b8; 
+    color: #FAFAFA;
+    width: 100%;
+    border-top: 2px solid #FAFAFA;
+    border-radius: 0px 0px 40px 40px;
+    //border-top: 2px solid #757575;
+    //border-bottom: 2px solid #757575;
+    flex: auto;
+    display: flex;
+  }
   
-  //border-top: 2px solid #757575;
-  //border-bottom: 2px solid #757575;
-  flex: auto;
-  display: flex;
-}
-button-switch-page {
-  flex: start;
-}
-
-label.header-cat {
-  flex-grow: 2;
-  position: relative;
-  right:0%;
   
-  transform: translate(0%,0%);
-}
+  label.header-cat {
+    flex-grow: 2;
+    position: relative;
+    right:0%;
+    margin-top: 2%;
+    
+    transform: translate(0%,0%);
+  }
 .arrow-icon{
   height:35px;
 }
@@ -99,10 +96,9 @@ section {
     position:fixed;
     bottom:0%;
     color:white;
-    background-color: #C8C8C8;
-    border-top: 6px solid #2B2727;
+    background-color: #2f3842;
+    border-radius:30px 30px 0px 0px ;
     font-size: 32px;
-    height: 70px;
     width: 100%;
 
   }
@@ -119,17 +115,6 @@ section {
     border:0;
   }
 
-  .book-status{
-    position:absolute;
-    top:10%;
-    right:10%;
-    border-width: 1.2px;
-    border-style: solid;
-    border-radius:50%;
-    border-color: #2B2727;
-    //transform: translate(150%,150%);
-    transform: scale(2);
-  }
 
   .addbook_title {
     font-size: 50%;

@@ -14,12 +14,12 @@
                                 <i class="fas fa-plus"></i>
                             </button>
                         </mat-grid-tile>
-                        <mat-grid-tile *ngFor="let book of userBooks" (click)="showBookNavbar(book)">
-                            <div class='book-bottom'>
+                        <mat-grid-tile *ngFor="let book of userBooks" (click)="showBookNavbar(book)" style="overflow: visible;">
+                            <!-- <div class='book-bottom'>
                                 <span class='addbook_title'>{{book.title}}</span>
                                 <br>
                                 <span class='addbook_author'>by {{book.author}}</span>
-                            </div>
+                            </div> -->
                             <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
                                 [attr.src]="book.imagePath" />
                             <div *ngIf="book.currentRequest  && book.currentRequest.pending && !book.currentRequest.approved then requestPending"></div>
@@ -78,9 +78,9 @@
 </ng-template>
 
 <ng-template #loading>
-    <div class="centered">
-        <mat-spinner [color]="'accent'"></mat-spinner>
-    </div>
+        <div class="centered">
+            <img class="heart" src="assets/images/panda.png"/>
+        </div>
 </ng-template>
 
 <ng-template #requestPending>
