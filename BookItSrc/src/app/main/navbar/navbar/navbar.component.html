@@ -14,6 +14,11 @@
       <button mat-icon-button (click)="setMyBooks()">
         <div *ngIf="navbar.optionEnabled ==='my_books'; then myBooksEnableIcon; else myBooksDisableIcon"></div>
       </button>
+
+      <button mat-icon-button (click)="setMyRequests()">
+        <div *ngIf="navbar.optionEnabled ==='my_requests'; then myRequestsEnableIcon; else myRequestsDisableIcon"></div>
+      </button>
+
     </mat-toolbar-row>
 
 
@@ -47,6 +52,14 @@
 
 <ng-template #explorerDisableIcon>
   <mat-icon svgIcon='book-open-gray' class=blue-icon></mat-icon>
+</ng-template>
+
+<ng-template #myRequestsEnableIcon>
+  <mat-icon svgIcon='book-request-blue' class=gray-icon></mat-icon>
+</ng-template>
+
+<ng-template #myRequestsDisableIcon>
+  <mat-icon svgIcon='book-request-gray' class=blue-icon></mat-icon>
 </ng-template>
 
 

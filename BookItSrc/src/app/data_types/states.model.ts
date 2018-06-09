@@ -2,6 +2,7 @@ export interface NavbarState {
     optionEnabled: string,
     settingsOption: string,
     myBooksOption: string,
+    myRequestsOption: string,
     show: boolean,
 }
 

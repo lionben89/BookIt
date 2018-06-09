@@ -6,9 +6,7 @@
                 <div class="mybooks">
                     <section class="header">
                         <label class="header-cat">My Books</label>
-                        <button mat-button label class="button-switch-page" (click)="goToMyRequests()">
-                            <div *ngIf="1 === 1; then rightArrowIcon"></div>
-                        </button>
+                      
                     </section>
                     <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
                         <mat-grid-tile>
@@ -34,8 +32,9 @@
 
             </div>
             <app-add-book *ngSwitchCase="'add_book'" [masterBooksArray]="userBooks"></app-add-book>
-            <app-my-requests *ngSwitchCase="'my_requests'"></app-my-requests>
-            <app-chat *ngSwitchCase="'my_books_chat'"></app-chat>
+           
+            <app-chat [caller]="'my_books'" *ngSwitchCase="'my_books_chat'"></app-chat>
+           
         </container-element>
     </div>
 

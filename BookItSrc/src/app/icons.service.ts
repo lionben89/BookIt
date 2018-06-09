@@ -81,6 +81,16 @@ export class IconsService {
     );
 
     iconRegistry.addSvgIcon(
+      "send-gray",
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/send-gray.svg")
+    );
+
+    iconRegistry.addSvgIcon(
+      "add-gray",
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/add-gray.svg")
+    );
+
+    iconRegistry.addSvgIcon(
       "left-arrow",
       sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/left_arrow.svg")
     );
@@ -106,10 +116,6 @@ export class IconsService {
     );
 
     iconRegistry.addSvgIcon(
-      "request-book-black",
-      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/download-ebook-black.svg")
-    );
-    iconRegistry.addSvgIcon(
       "request-pending",
       sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/request-pending.svg")
     );
@@ -127,6 +133,16 @@ export class IconsService {
     iconRegistry.addSvgIcon(
       "decline",
       sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/decline.svg")
+    );
+
+    iconRegistry.addSvgIcon(
+      "book-request-blue",
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/book-request-blue.svg")
+    );
+
+    iconRegistry.addSvgIcon(
+      "book-request-gray",
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/book-request-gray.svg")
     );
 
     iconRegistry.addSvgIcon(

@@ -28,7 +28,9 @@ export class MyBooksComponent implements OnInit {
   bookNavBarEnabled:boolean;
   bookSelected:Book;
   public status:Loadable;
-  public bookNavbarCols=2;
+  public bookNavbarCols=2;  
+
+
   goToAddbook() {
     this.store.dispatch(new fromStore.ChooseMyBooksAddBook);
   }
@@ -43,9 +45,6 @@ export class MyBooksComponent implements OnInit {
     else{
       this.numCols=6;
     }
-  }
-  goToMyRequests(){
-    this.store.dispatch(new fromStore.ChooseMyBooksMyRequests());
   }
 
   
@@ -92,16 +91,18 @@ export class MyBooksComponent implements OnInit {
     console.log('showing user');
 
   }
+
   startChat(){
     console.log('opening chat');
+    this.hideBookNavbar(this.bookSelected);
     this.store.dispatch(new fromStore.ChooseMyBooksChat);
   }
+
   ngOnInit() {
     this.bookNavBarEnabled=false;
     this.onResize();
     this.whichPageSubscription=this.store.select<any>(fromStore.getContextmybooksOption).subscribe(state => { this.which_page = state; });
     this.store.dispatch(new fromStore.LoadMyBooks());
-    this.store.dispatch(new fromStore.LoadMyRequests());
     this.userBooksSubscription = this.store.select<any>(fromStore.getUserBooks).subscribe(state => { this.userBooks = state; });
     this.getUserDataStatusSubscription=this.store.select(fromStore.getUserDataStatus).subscribe(state=>{this.status=state;});
     this.messegeSubscription = this.store.select(fromStore.getMessege).subscribe((state) => {

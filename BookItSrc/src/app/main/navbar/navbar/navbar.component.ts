@@ -34,6 +34,10 @@ export class NavbarComponent implements OnInit,OnDestroy {
     this.store.dispatch(new fromStore.ChooseMyBooks);
   }
 
+  setMyRequests() {
+    this.store.dispatch(new fromStore.ChooseMyRequests);
+  }
+
   ngOnInit() {
     this.navbarSubscription = this.store.select<any>(fromStore.getContextNavbar).subscribe(state=>this.navbar=state);
   }

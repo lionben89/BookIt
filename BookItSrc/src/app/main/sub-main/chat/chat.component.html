@@ -1,5 +1,5 @@
 <container-element [ngSwitch]="this.which_page">
-  <div *ngSwitchCase="'my_books_chat'">
+  <div>
 
     <section class="header">
       <button mat-button label class="button-switch-page" (click)="goToMyBooks()">
@@ -43,7 +43,7 @@
             </button>
           </mat-form-field>
           <button mat-icon-button class="button-send" (click)="chatSend()">
-            <div *ngIf="1 === 1; then sendIcon"></div>
+            <div *ngIf="msgVal; then sendIcon; else sendIconGray;"></div>
           </button>
         </section>
       </mat-card>
@@ -59,3 +59,7 @@
 <ng-template #sendIcon>
   <mat-icon svgIcon='send' class="send-icon"></mat-icon>
 </ng-template>
+
+<ng-template #sendIconGray>
+    <mat-icon svgIcon='send-gray' class="send-icon"></mat-icon>
+  </ng-template>

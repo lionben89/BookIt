@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, Input } from "@angular/core";
 import { Store } from "@ngrx/store";
-import * as fromStore from "../../../../store";
+import * as fromStore from "../../../store";
 import {
   UserSettingsState,
   UserUpdateType
-} from "./../../../../data_types/states.model";
+} from "./../../../data_types/states.model";
 import { MatDialog } from "@angular/material";
-import { DialogOneButtonComponent } from "../../settings/dialog-one-button/dialog-one-button.component";
+import { DialogOneButtonComponent } from "../settings/dialog-one-button/dialog-one-button.component";
 
 @Component({
   selector: "app-chat",
@@ -15,6 +15,7 @@ import { DialogOneButtonComponent } from "../../settings/dialog-one-button/dialo
 })
 export class ChatComponent implements OnInit {
   @ViewChild("content") content: any;
+  @Input() caller: string;
 
   public which_page = "my_books"; /* options = {my_books, add_book, my_books_chat} */
   public name;
@@ -22,8 +23,7 @@ export class ChatComponent implements OnInit {
   public userSettings: UserSettingsState;
   private items = new Array<Message>();
   public firstUser = "Stav";
-
-  //
+  
   constructor(
     private store: Store<fromStore.MainState>,
     public dialog: MatDialog
@@ -47,29 +47,17 @@ export class ChatComponent implements OnInit {
     this.name = "Stav";
     this.chatSend();
 
-    this.msgVal = "Hey hottie! Whats your name??";
+    this.msgVal = "Hey! Whats your name??";
     this.name = "Michael";
     this.chatSend();
 
-    this.msgVal = "Stav Streshko <3 <3 <3";
-    this.name = "Stav";
-    this.chatSend();
-
-    this.msgVal = "Owwww god im a big big big fan!!!";
-    this.name = "Michael";
-    this.chatSend();
-
-    this.msgVal = "Free today at 11pm for a big fun??";
-    this.name = "Stav";
-    this.chatSend();
-
-    this.msgVal = "Owwwwww YEA!!!!!!!!";
-    this.name = "Michael";
-    this.chatSend();
   }
 
   goToMyBooks() {
-    this.store.dispatch(new fromStore.ChooseMyBooksMain());
+    if(this.caller==="my_books")
+      this.store.dispatch(new fromStore.ChooseMyBooksMain());
+    else
+    this.store.dispatch(new fromStore.ChooseMyRequests());
   }
 
   chatSend() {
@@ -82,7 +70,7 @@ export class ChatComponent implements OnInit {
       this.items.push(newMsg);
       this.emptyChatText();
 
-      this.scrollToBottom1();      
+      //this.scrollToBottom1();           
     } else {
       this.openDialog_emptyLocation();
     }
@@ -105,15 +93,11 @@ export class ChatComponent implements OnInit {
     this.msgVal = "";
   }
 
-  ionViewWillEnter(): void {
-    this.scrollToBottom1();
-  }
-
-  scrollToBottom1() {
+  /*scrollToBottom1() {
     setTimeout(() => {
       this.content.scrollToBottom();
     });
-  }
+  }*/
 }
 
 export class Message {
