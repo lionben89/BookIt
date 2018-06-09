@@ -13,6 +13,8 @@
     background-color: #2f3842;
     display: flex;
     justify-content: space-between;
+    position: fixed;
+    z-index: 9;
   }
   .mat-toolbar-row2{
     background-color: #fafafa;
@@ -27,6 +29,7 @@
   .mat-toolbar{
     display:flex;
     flex-direction: column-reverse;
+    
   }
 
  
