@@ -46,8 +46,9 @@
                 </mat-grid-tile>
 
                 <mat-grid-tile item-height="100%">
-                    <button style="font-size:1em; color:#2B2727;background-color:#C8C8C8;" (click)="removeBook()">
-                        <i class="fas fa-trash-alt"></i>
+                    <button style="font-size:1em;background-color: #2f3842;" (click)="removeBook()">
+                            <mat-icon svgIcon='waste-bin' class='icon'></mat-icon>
+                       
                     </button>
                 </mat-grid-tile>
 
@@ -110,7 +111,7 @@
 </ng-template>
 
 <ng-template #userButton>
-    <button style="font-size:1em; color:#2B2727;;background-color:#C8C8C8;" (click)="showUser()">
-        <i class="fas fa-user"></i>
+    <button style="font-size:1em;background-color: #2f3842;" (click)="showUser()">
+         <mat-icon svgIcon='people-gray' class='icon'></mat-icon>
     </button>
 </ng-template>
