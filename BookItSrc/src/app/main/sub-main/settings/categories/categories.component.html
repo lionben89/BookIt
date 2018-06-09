@@ -2,11 +2,11 @@
   <div class="container" *ngSwitchCase="'categories'">
 
     <section class="header">
-      <button mat-button label class="button-switch-page" (click)="goToSettings()">
-        <div *ngIf="1 === 1; then leftArrowIcon"></div>
-      </button>
-      <label class="header-cat" ngDefaultControl>Categories</label>
-    </section>
+        <button mat-button label class="button-switch-page" (click)="goToSettings()">
+          <div *ngIf="1 === 1; then leftArrowIcon"></div>
+        </button>
+        <label class="header-cat">Categories</label>
+      </section>
 
     <mat-card class="location-categories">
       <mat-chip-list [aria-orientation]="horizontal">

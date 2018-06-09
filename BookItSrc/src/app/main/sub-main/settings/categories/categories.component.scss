@@ -4,6 +4,37 @@
   padding-left: 0px;
 }
 
+.header {
+  background-color: #2f3842; 
+  color: white;
+  width: 100%;
+  flex: auto;
+  display: flex;
+}
+
+button-switch-page {
+  flex: start;
+  float: left;
+}
+
+label.header-cat {
+  flex-grow: 2;
+  position: absolute;
+  margin: 0;
+  left: 50%;
+  transform: translate(-50%,0%);
+}
+
+.left-arrow-icon{
+  height:56px;
+}
+
+section {
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+}
+
 location-categories {
   width: 85%;
 }
@@ -62,34 +93,6 @@ pick-buttons {
   display: flex;
 }
 
-.header {
-  background-color: black;
-  color: white;
-  width: 100%;
-  height: 80px;
-  flex: auto;
-  display: flex;
-}
-
-button-switch-page {
-  flex: start;
-  float: left;
-}
-
-label.header-cat {
-  flex-grow: 2;
-  position: relative;
-  right: 44px;
-  margin: 0;
-}
-
-section {
-  display: flex;
-  align-items: center;
-  justify-content: stretch;
-}
-
-// /deep/ = force (to override mat design settings)
 /deep/ .mat-chip-list-wrapper {
   display: flex;
   flex-direction: row;

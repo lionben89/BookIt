@@ -32,7 +32,7 @@
 
             </div>
             <app-add-book *ngSwitchCase="'add_book'" [masterBooksArray]="userBooks"></app-add-book>
-            <app-chat *ngSwitchCase="'my_books_chat'"></app-chat>
+            <app-chat [caller]="'my_books'" *ngSwitchCase="'my_books_chat'"></app-chat>
         </container-element>
     </div>
 

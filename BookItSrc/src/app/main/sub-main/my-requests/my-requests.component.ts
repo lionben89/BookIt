@@ -18,12 +18,13 @@ export class MyRequestsComponent implements OnInit {
 
   myRequests: Book[];
   myRequestsSubscription;
-  public which_page = 'my_requests';
+  public which_page = 'my_requests'; /* option = {my_requests, my_requests_chat} */
   numCols;
   bookNavBarEnabled;
   bookSelected: Book;
   public bookNavbarCols = 2;
   messegeSubscription;
+  whichPageSubscription;
 
   constructor(private store: Store<fromStore.MainState>, iconService: IconsService, public snackBar: MatSnackBar) { }
 
@@ -40,6 +41,12 @@ export class MyRequestsComponent implements OnInit {
     }
   }
 
+  startChat(){
+    console.log('opening chat');
+    this.hideBookNavbar(this.bookSelected);
+    this.store.dispatch(new fromStore.ChooseMyRequestsChat);
+  }
+
   hideBookNavbar(book: Book) {
     if (book == this.bookSelected) {
       this.bookNavBarEnabled = false;
@@ -53,7 +60,6 @@ export class MyRequestsComponent implements OnInit {
 
   }
 
-
   showBookNavbar(book: Book) {
     this.bookNavBarEnabled = true;
     this.bookSelected = book;
@@ -63,6 +69,7 @@ export class MyRequestsComponent implements OnInit {
     }
     return;
   }
+
   ngOnInit() {
     this.myRequestsSubscription = this.store.select(fromStore.getUserRequests).subscribe((state) => { this.myRequests = state; })
     this.messegeSubscription = this.store.select(fromStore.getMessege).subscribe((state) => {
@@ -72,11 +79,13 @@ export class MyRequestsComponent implements OnInit {
       }
     })
     this.bookNavBarEnabled = false;
+    this.whichPageSubscription=this.store.select<any>(fromStore.getContextmyRequestsOption).subscribe(state => { this.which_page = state; });
     this.onResize();
   }
   ngOnDestroy() {
     this.myRequestsSubscription.unsubscribe();
     this.messegeSubscription.unsubscribe();
+    this.whichPageSubscription.unsubscribe();
   }
 
 }

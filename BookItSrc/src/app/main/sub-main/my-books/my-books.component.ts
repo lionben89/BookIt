@@ -30,7 +30,6 @@ export class MyBooksComponent implements OnInit {
   public status:Loadable;
   public bookNavbarCols=2;
 
-  
   goToAddbook() {
     this.store.dispatch(new fromStore.ChooseMyBooksAddBook);
   }
@@ -91,10 +90,13 @@ export class MyBooksComponent implements OnInit {
     console.log('showing user');
 
   }
+
   startChat(){
     console.log('opening chat');
+    this.hideBookNavbar(this.bookSelected);
     this.store.dispatch(new fromStore.ChooseMyBooksChat);
   }
+
   ngOnInit() {
     this.bookNavBarEnabled=false;
     this.onResize();
