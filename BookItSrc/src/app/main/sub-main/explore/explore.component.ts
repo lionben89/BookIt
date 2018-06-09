@@ -63,7 +63,7 @@ export class ExploreComponent implements OnInit {
     console.log(this.bookSelected.description);
   }
   requestBook(book) {
-    console.log("book requested");
+    
     this.store.dispatch(new fromStore.RequestBook(book));
     this.hideBookNavbar(book);
     

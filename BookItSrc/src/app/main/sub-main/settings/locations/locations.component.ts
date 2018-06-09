@@ -19,8 +19,7 @@ import { MapsAPILoader } from "@agm/core";
   providers: [IconsService]
 })
 export class LocationsComponent implements OnInit {
-  public which_page = "locations"; /* options = {settings, categories, locations, add_location} */
-  public settingsOption$: Observable<string>;
+  public which_page = "locations";
   public no_remove = "Current Location";
   public new_location: Location;
 
@@ -52,7 +51,7 @@ export class LocationsComponent implements OnInit {
     dialogRef.disableClose = true; //disable default close operation
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log("The dialog was closed"); //nothing else to do
+      //console.log("The dialog was closed"); //nothing else to do
     });
   }
 
@@ -87,9 +86,6 @@ export class LocationsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.settingsOption$ = this.store.select(
-      fromStore.getContextSettingsOption
-    );
     this.store
       .select<any>(fromStore.getContextSettingsOption)
       .subscribe(state => {
@@ -99,16 +95,11 @@ export class LocationsComponent implements OnInit {
     this.store
       .select<any>(fromStore.getUserLocations)
       .subscribe((locations: Location[]) => {
-        this.locations = new Array<Location>();
-        for (let location of locations) {
-          this.locations.push(location);
-        }
+        this.locations=locations.slice();
       });
 
-    this.store.dispatch(new fromStore.LoadLocations());
-
-    console.log("call getCurrentLoc");
-    this.getCurrentLoc();
+    
+    //this.getCurrentLoc();
   }
 
   ngOnDestroy() {}
@@ -123,16 +114,13 @@ export class LocationsComponent implements OnInit {
     return false;
   }
 
-  getCurrentLoc() {
+ /* getCurrentLoc() {
     if (this.userGotCurrLocDefined()) {
-      //dont add again
       return;
     }
-
-    //var currLoc : Location;
-    var address: string;
-    var lat: number;
-    var lng: number;
+    let address: string;
+    let lat: number;
+    let lng: number;
 
     //set current position
     if ("geolocation" in navigator) {
@@ -143,7 +131,7 @@ export class LocationsComponent implements OnInit {
 
           console.log("lat = " + lat + ", long = " + lng);
 
-          /* get the formated address */
+       
           var geocoder = new google.maps.Geocoder();
           var latlng = { lat, lng };
           var splited;
@@ -182,5 +170,5 @@ export class LocationsComponent implements OnInit {
         });
       });
     }
-  }
+  }*/
 }

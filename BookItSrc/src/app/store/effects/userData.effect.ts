@@ -25,6 +25,8 @@ import * as GeoFire from 'geofire';
 import * as fromUserDataActions from '../actions/userData.action';
 import * as fromExploreActions from '../actions/explore.action';
 import { getLocaleFirstDayOfWeek } from '@angular/common';
+import { } from "googlemaps";
+import { MapsAPILoader } from "@agm/core";
 
 @Injectable()
 export class UserDataEffects {
@@ -33,6 +35,7 @@ export class UserDataEffects {
     private geoFire: any;
     private geoQueries = new Array<any>();
     private searchRadius;
+    private firstLoactionsLoad = true;
 
     private userDoc: AngularFirestoreDocument<UserSettingsState>;
 
@@ -42,7 +45,8 @@ export class UserDataEffects {
         private router: Router,
         private afs: AngularFirestore,
         private afdb: AngularFireDatabase,
-        private store: Store<MainState>) {
+        private store: Store<MainState>,
+        private mapsAPILoader: MapsAPILoader) {
         this.dbRef = this.afdb.database.ref('locations/');
         this.geoFire = new GeoFire(this.dbRef);
     }
@@ -80,6 +84,56 @@ export class UserDataEffects {
                 return userRef.set(data, { merge: true });
 
             });
+    }
+
+    private addCurrentLocation() {
+        let lat;
+        let lng;
+        let address;
+        if ("geolocation" in navigator) {
+            this.mapsAPILoader.load().then(() => {
+                navigator.geolocation.getCurrentPosition(position => {
+                    lat = position.coords.latitude;
+                    lng = position.coords.longitude;
+                    /* get the formated address */
+                    var geocoder = new google.maps.Geocoder();
+                    var latlng = { lat, lng };
+                    var splited;
+
+                    geocoder.geocode({ location: latlng }, (results, status) => {
+                        if (status.toString() === "OK") {
+                            if (results[0]) {
+                                splited = results[0].formatted_address.split(",");
+                                console.log(splited);
+
+                                address = splited[0];
+                                if (splited.length > 2) {
+                                    address = address.concat(", ");
+                                    address = address.concat(splited[1]);
+                                }
+
+                                console.log("address = " + address);
+
+                                this.store.dispatch(new fromStore.AddLocation({
+                                    label: "My Current Location",
+                                    address: address,
+                                    lat: lat,
+                                    long: lng,
+                                    active: true,
+                                    id: "-1"
+                                }));
+
+
+                            } else {
+                                console.log("No results found");
+                            }
+                        } else {
+                            console.log("Geocoder failed due to: " + status);
+                        }
+                    });
+                });
+            });
+        }
     }
 
     private updateRealtimeDBLocations(location: Location) {
@@ -329,9 +383,14 @@ export class UserDataEffects {
                 return this.afs.collection(`${userPath}/Locations`).valueChanges();
             }),
             map(locations => {
+               
+                if (locations.length === 0 && this.firstLoactionsLoad) {
+                    this.addCurrentLocation();
+                }
+                this.firstLoactionsLoad = false;
                 return new fromUserDataActions.LoadLocationsSuccess(locations);
             })
-            //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
+
         );
 
     @Effect({ dispatch: false })
@@ -512,13 +571,13 @@ export class UserDataEffects {
                 book.currentRequest.pending = false;
                 book.currentRequest.approved = false;
                 let userPath = this.userDoc.ref.path;
-                return this.afs.doc(`Users/${book.ownerUid}/Books/${book.id}`).set(book, { merge: true }).then(()=>{
+                return this.afs.doc(`Users/${book.ownerUid}/Books/${book.id}`).set(book, { merge: true }).then(() => {
                     return book;
                 });
-                
+
             }),
             map((book: Book) => {
-                 this.afs.doc(`Users/${book.currentRequest.borrowerUid}/Requests/${book.id}`).delete().then(() => {
+                this.afs.doc(`Users/${book.currentRequest.borrowerUid}/Requests/${book.id}`).delete().then(() => {
                     this.store.dispatch(new fromUserDataActions.ShowMessege("Request Removed"));
                 });
                 return new fromUserDataActions.RemoveRequestBookSuccess(book);
@@ -540,7 +599,7 @@ export class UserDataEffects {
                 console.log(book);
                 let bookDocRef = this.afs.collection('Users/' + book.ownerUid + '/Books').doc(book.id);
                 if (book.currentRequest && (book.currentRequest.pending) || (book.currentRequest.approved)) {
-                   
+
                     this.store.dispatch(new fromUserDataActions.ShowMessege("Book Was Already Requested"));
                     return Observable.of(null);
                 }
@@ -549,9 +608,10 @@ export class UserDataEffects {
                 return bookDocRef.valueChanges();
             }),
             map((book) => {
-                if (book&&(book.currentRequest) && (book.currentRequest.borrowerUid)){
+                if (book && (book.currentRequest) && (book.currentRequest.borrowerUid)) {
                     let bookDocRef = this.afs.collection('Users/' + book.currentRequest.borrowerUid + '/Requests').doc(book.id);
                     return bookDocRef.set(book, { merge: true }).then(() => {
+                        if (book && (book.currentRequest) && (book.currentRequest.pending && !book.currentRequest.approved))
                         this.store.dispatch(new fromStore.ShowMessege("Book Requested"));
                     });
                 }
