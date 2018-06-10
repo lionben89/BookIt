@@ -29,20 +29,21 @@
 
 <ng-template #bookNavbar>
     <div class='bookNavbarBox'>
-        <mat-grid-list class="bookNavbarList" rowHeight="56px" [cols]="bookNavbarCols" gutterSize="10">
+        <mat-grid-list class="bookNavbarList" rowHeight="56px" [cols]="bookNavbarCols" gutterSize="10" style="max-height: 56px;">
             <mat-grid-tile item-height="100%">
                 <button mat-icon-button (click)="hideBookNavbar(bookSelected)">
                     <mat-icon svgIcon='down-arrow-black' class='icon'></mat-icon>
                 </button>
             </mat-grid-tile>
             <mat-grid-tile item-height="100%">
-                <button style="font-size:1em; color:#2B2727;background-color:#C8C8C8;" (click)="removeRequest()">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
+                    <button style="font-size:1em;" (click)="removeBook()">
+                            <mat-icon svgIcon='waste-bin' class='icon'></mat-icon>
+                       
+                    </button>
             </mat-grid-tile>
             <mat-grid-tile item-height="100%">
-                <button style="font-size:1em; color:#2B2727;;background-color:#C8C8C8;" (click)="showUser()">
-                    <i class="fas fa-user"></i>
+                <button style="font-size:1em; " (click)="showUser()">
+                        <mat-icon svgIcon='people-gray' class='icon'></mat-icon>
                 </button>
             </mat-grid-tile>
             <mat-grid-tile item-height="100%">

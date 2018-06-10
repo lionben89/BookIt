@@ -11,17 +11,20 @@ left-arrow-icon {
     transform:scale(1.5);
     z-index: 9;
 }
-label.header-chat {
+.header-chat {
   flex-grow: 2;
-  position: relative;
-  right: 44px;
-  transform: translate(0%, 0%);
+  position: absolute;
+  left:50%;
+  //margin-top: 2%;
+  transform: translate(-50%,50%);
 }
 
 .header {
-  background-color: #757575;
-  color: white;
+  background-color: #00b1b8; 
+  color: #FAFAFA;
   width: 100%;
+  border-top: 2px solid #FAFAFA;
+  border-radius: 0px 0px 40px 40px;
   flex: auto;
   display: flex;
 }
@@ -89,29 +92,68 @@ mat-card{
 
 .label-msg-1 {
   font-size: 12px;
+  color: black;
+  padding: 5px;
+  word-wrap: break-word;
+  max-width: 100%;
+  white-space: pre-line;
 }
 
 /deep/ .info-section-1 {
-  position: relative;
-	background: #03a9f4;
   border-radius: .4em;
   max-width: 70%;
+  margin: 40px;
+  display: inline-block;
+  position: relative;
+	height: auto;
+  background-color: #03a9f4;
+}
+.info-section-1:before{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+	left: 0px;
+  right: auto;
+  top: auto;
+	bottom: -5px;
+	border: 10px solid;
+  border-color: transparent transparent transparent #03a9f4;
 }
 
 
 .label-msg-2 {
   font-size: 12px;
   color: black;
+  padding: 5px;
+  word-wrap: break-word;
+  max-width: 100%;
+  white-space: pre-line;
 }
 
 
 /deep/ .info-section-2 {
-  position: relative;
-	background: #eceff1;
   border-radius: .4em;
   max-width: 70%;
+  margin: 40px;
+  display: inline-block;
+  position: relative;
+	height: auto;
+	background: #eceff1;
   margin-left:auto; margin-right:0;
-  color: black;
+}
+.info-section-2:before{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+	left: auto;
+  right: auto;
+  top: auto;
+	bottom: -5px;
+  border: 10px solid;
+  right:0%;
+  border-color: transparent #eceff1 transparent transparent;
 }
 
 .chat-msg{
@@ -123,36 +165,12 @@ mat-card{
 
 
 
-/*
 
-.info-section-1:after {
-	content: '';
-	position: absolute;
-	bottom: 0;
-	left: 5%;
-	width: 0;
-	height: 0;
-	border: 20px solid transparent;
-	border-top-color: #03a9f4;
-	border-bottom: 0;
-	border-left: 0;
-	margin-left: -10px;
-	margin-bottom: -20px;
-}
 
-.info-section-2:after {
-	content: '';
-	position: absolute;
-	bottom: 0;
-	left: 5%;
-	width: 0;
-	height: 0;
-	border: 20px solid transparent;
-	border-top-color: #eceff1;
-	border-bottom: 0;
-	border-left: 0;
-	margin-left: -10px;
-  margin-bottom: -20px;
-}
 
-*/
+
+
+
+
+
+

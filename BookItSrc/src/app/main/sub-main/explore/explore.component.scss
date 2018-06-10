@@ -121,6 +121,8 @@ section {
   }
 
   .centered {
+    margin: 0%;
+    padding: 0%;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -128,6 +130,8 @@ section {
   }
 
   .heart {
+    margin: 0%;
+    padding: 0%;
     font-size: 150px;
     animation: beat .40s infinite alternate;
     transform-origin: center;
