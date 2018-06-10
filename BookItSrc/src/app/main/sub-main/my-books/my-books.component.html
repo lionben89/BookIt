@@ -38,7 +38,7 @@
 
     <ng-template #bookNavbar>
         <div class='bookNavbarBox'>
-            <mat-grid-list class="bookNavbarList" rowHeight="56px" [cols]="bookNavbarCols" gutterSize="10">
+            <mat-grid-list class="bookNavbarList" rowHeight="56px" [cols]="bookNavbarCols" gutterSize="10" style="max-height: 56px;">
                 <mat-grid-tile item-height="100%">
                     <button mat-icon-button (click)="hideBookNavbar(bookSelected)">
                         <mat-icon svgIcon='down-arrow-black' class='icon'></mat-icon>

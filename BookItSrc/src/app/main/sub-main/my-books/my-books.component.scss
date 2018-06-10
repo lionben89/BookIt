@@ -20,6 +20,8 @@ body{
 
 //loader
   .centered {
+    margin: 0%;
+    padding: 0%;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -27,6 +29,8 @@ body{
   }
 
   .heart {
+    margin: 0%;
+    padding: 0%;
     font-size: 150px;
     animation: beat .40s infinite alternate;
     transform-origin: center;
@@ -60,8 +64,6 @@ body{
   width: 100%;
   border-top: 2px solid #FAFAFA;
   border-radius: 0px 0px 40px 40px;
-  //border-top: 2px solid #757575;
-  //border-bottom: 2px solid #757575;
   flex: auto;
   display: flex;
 }
@@ -72,7 +74,6 @@ label.header-cat {
   position: relative;
   right:0%;
   margin-top: 2%;
-  
   transform: translate(0%,0%);
 }
 .icon{
