@@ -55,6 +55,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { UserDataEffects } from './store/effects/userData.effect';
 import { MessagesEffects } from './store/effects/messages.effect';
 import { ExploreEffects } from './store/effects/explore.effect';
+import { PushNotificationModule } from 'ng-push-notification';
 
 
 
@@ -121,7 +122,7 @@ import { ExploreEffects } from './store/effects/explore.effect';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4',
       libraries: ['places']
-    })
+    }),
   ],
   entryComponents: [
     DialogOneButtonComponent,

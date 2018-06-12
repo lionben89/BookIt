@@ -7,9 +7,9 @@
         </section>
         <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
           <mat-grid-tile *ngFor="let book of myRequests" (click)="showBookNavbar(book)" style="overflow: visible;">
-              <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
+            <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
               [attr.src]="book.imagePath" />
-              <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved then requestApprove"></div>
+            <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved then requestApprove"></div>
             <!-- <div class='book-bottom'>
               <span class='addbook_title'>{{book.title}}</span>
               <br>
@@ -18,7 +18,7 @@
           </mat-grid-tile>
         </mat-grid-list>
       </div>
-      
+
       <div *ngIf="this.bookNavBarEnabled===true; then bookNavbar"></div>
 
     </div>
@@ -28,29 +28,29 @@
 </div>
 
 <ng-template #bookNavbar>
-    <div class='bookNavbarBox'>
-        <mat-grid-list class="bookNavbarList" rowHeight="56px" [cols]="bookNavbarCols" gutterSize="10" style="max-height: 56px;">
-            <mat-grid-tile item-height="100%">
-                <button mat-icon-button (click)="hideBookNavbar(bookSelected)">
-                    <mat-icon svgIcon='down-arrow-black' class='icon'></mat-icon>
-                </button>
-            </mat-grid-tile>
-            <mat-grid-tile item-height="100%">
-                    <button style="font-size:1em;" (click)="removeBook()">
-                            <mat-icon svgIcon='waste-bin' class='icon'></mat-icon>
-                       
-                    </button>
-            </mat-grid-tile>
-            <mat-grid-tile item-height="100%">
-                <button style="font-size:1em; " (click)="showUser()">
-                        <mat-icon svgIcon='people-gray' class='icon'></mat-icon>
-                </button>
-            </mat-grid-tile>
-            <mat-grid-tile item-height="100%">
-                <div *ngIf="bookSelected.currentRequest  && !bookSelected.currentRequest.pending && bookSelected.currentRequest.approved then chatButton"></div>
-            </mat-grid-tile>
-        </mat-grid-list>
-    </div>
+  <div class='bookNavbarBox'>
+    <mat-grid-list class="bookNavbarList" rowHeight="56px" [cols]="bookNavbarCols" gutterSize="10" style="max-height: 56px;">
+      <mat-grid-tile item-height="100%">
+        <button mat-icon-button (click)="hideBookNavbar(bookSelected)">
+          <mat-icon svgIcon='down-arrow-black' class='icon'></mat-icon>
+        </button>
+      </mat-grid-tile>
+      <mat-grid-tile item-height="100%">
+        <button style="font-size:1em;" (click)="removeRequest()">
+          <mat-icon svgIcon='waste-bin' class='icon'></mat-icon>
+
+        </button>
+      </mat-grid-tile>
+      <mat-grid-tile item-height="100%">
+        <button style="font-size:1em; " (click)="showUser()">
+          <mat-icon svgIcon='people-gray' class='icon'></mat-icon>
+        </button>
+      </mat-grid-tile>
+      <mat-grid-tile item-height="100%">
+        <div *ngIf="bookSelected.currentRequest  && !bookSelected.currentRequest.pending && bookSelected.currentRequest.approved then chatButton"></div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
 </ng-template>
 
 
@@ -68,11 +68,11 @@
 </ng-template>
 
 <ng-template #requestApprove>
-    <mat-icon svgIcon='accept' class="book-status"></mat-icon>
+  <mat-icon svgIcon='accept' class="book-status"></mat-icon>
 </ng-template>
 
 <ng-template #chatButton>
-    <button mat-icon-button (click)="startChat()">
-        <mat-icon svgIcon='new-message' class="icon"></mat-icon>
-    </button>
+  <button mat-icon-button (click)="startChat()">
+    <mat-icon svgIcon='new-message' class="icon"></mat-icon>
+  </button>
 </ng-template>

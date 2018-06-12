@@ -49,18 +49,21 @@ export class CategoriesComponent implements OnInit {
         _i++;
       }
     }
+    this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.CATEGORIES,this.bookCategories));
   }
 
   pickAll() {
     for (var _i = 0; _i < this.bookCategories.length; _i++) {
       this.bookCategories[_i].active = true;
     }
+    this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.CATEGORIES,this.bookCategories));
   }
 
   unpickAll() {
     for (var _i = 0; _i < this.bookCategories.length; _i++) {
       this.bookCategories[_i].active = false;
     }
+    this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.CATEGORIES,this.bookCategories));
   }
 
   chipColor(active: boolean) {

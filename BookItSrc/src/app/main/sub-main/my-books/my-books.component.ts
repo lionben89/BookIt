@@ -94,6 +94,8 @@ export class MyBooksComponent implements OnInit {
   startChat(){
     console.log('opening chat');
     this.store.dispatch(new fromStore.ChooseMyBooksChat);
+    this.bookNavBarEnabled=false;
+    //this.hideBookNavbar(this.bookSelected);
     
   }
 
