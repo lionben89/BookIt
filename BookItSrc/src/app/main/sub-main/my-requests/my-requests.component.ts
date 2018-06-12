@@ -44,6 +44,7 @@ export class MyRequestsComponent implements OnInit {
   startChat(){
     console.log('opening chat');
     this.store.dispatch(new fromStore.ChooseMyRequestsChat);
+    this.bookNavBarEnabled = false;
     
   }
 
