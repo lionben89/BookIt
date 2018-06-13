@@ -9,7 +9,7 @@
     </section>
 <img src="assets/images/panda2.png"  class="back-pic"/> 
 
-    <mat-card class="chat-div" #content style="height: 100%;">
+    <mat-card class="chat-div"  style="height: 100%;">
       <mat-card-content class="chat-container" *ngFor="let item of items" selected="true" name="msg_list" ngDefaultControl>
         <container-element class="container-info" [ngSwitch]="item.from">
 
@@ -28,7 +28,10 @@
         </container-element>
           
       </mat-card-content>
-      <div class="chat-msg-spacer">
+      <div  class="chat-msg-spacer">
+      </div>
+
+      <div #spacer style="height: 50px;" >
       </div>
 
 
@@ -46,7 +49,7 @@
             </button>
           </mat-form-field>
 
-          <button mat-icon-button class="button-send" (click)="chatSend()">
+          <button mat-icon-button class="button-send" (click)="chatSend(spacer)">
             <div *ngIf="msgVal; then sendIcon; else sendIconGray;"></div>
           </button>
         </section>
