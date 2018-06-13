@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, ViewChild } from "@angular/core";
+import { Component, OnInit, OnDestroy, Input, ViewChild ,ElementRef} from "@angular/core";
 import { Observable } from "rxjs/Observable";
 
 import { Store } from "@ngrx/store";
@@ -19,7 +19,7 @@ import { DialogOneButtonComponent } from "../settings/dialog-one-button/dialog-o
 })
 export class ChatComponent implements OnInit, OnDestroy {
   @Input() bookChat: Book;
-  @ViewChild("content") content: any;
+  @ViewChild("spacer") spacer: ElementRef;
   @Input() caller: string;
 
   public which_page = "my_books"; /* options = {my_books, add_book, my_books_chat} */
@@ -71,6 +71,11 @@ export class ChatComponent implements OnInit, OnDestroy {
       .subscribe(threadMessages => {
           this.items = threadMessages;
         });
+       
+        setTimeout(() => {
+          this.spacer.nativeElement.scrollIntoView({behavior: 'smooth'});
+        },300);
+      
   }
 
   ngOnDestroy() {
@@ -90,7 +95,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromStore.ChooseMyRequests());
   }
 
-  chatSend() {
+  chatSend(spacer) {
     if (this.msgVal.length) {
       let date = new Date();
       console.log("message = " + this.msgVal);
@@ -106,8 +111,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.store.dispatch(new fromStore.AddMessage(message));
 
       this.emptyChatText();
-
-      //this.scrollToBottom1();
+      spacer.scrollIntoView({behavior: 'smooth'});
     } else {
       this.openDialog_emptyLocation();
     }
@@ -129,10 +133,4 @@ export class ChatComponent implements OnInit, OnDestroy {
   emptyChatText() {
     this.msgVal = "";
   }
-
-  /*scrollToBottom1() {
-    setTimeout(() => {
-      this.content.scrollToBottom();
-    });
-  }*/
 }

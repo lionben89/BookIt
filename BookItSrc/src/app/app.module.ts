@@ -55,7 +55,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { UserDataEffects } from './store/effects/userData.effect';
 import { MessagesEffects } from './store/effects/messages.effect';
 import { ExploreEffects } from './store/effects/explore.effect';
-import { PushNotificationModule } from 'ng-push-notification';
+
 
 
 
