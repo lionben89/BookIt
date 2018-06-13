@@ -98,10 +98,16 @@ pick-buttons {
   align-items: center;
   
 }
+
 mat-chip {
   max-width: 135px;
   margin: 0 0 0 8px;
 }
+
+/deep/ .mat-chip.mat-chip-selected.mat-accent {
+  background-color: #00b1b8;
+}
+
 .mat-chip {
   margin: 3px 0 0 0 !important;
   padding: 8px !important;

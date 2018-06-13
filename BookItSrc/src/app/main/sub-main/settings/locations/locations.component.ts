@@ -97,68 +97,8 @@ export class LocationsComponent implements OnInit {
       .subscribe((locations: Location[]) => {
         this.locations=locations.slice();
       });
-
-    
-    //this.getCurrentLoc();
   }
 
   ngOnDestroy() {}
 
- /* getCurrentLoc() {
-    if (this.userGotCurrLocDefined()) {
-      return;
-    }
-    let address: string;
-    let lat: number;
-    let lng: number;
-
-    //set current position
-    if ("geolocation" in navigator) {
-      this.mapsAPILoader.load().then(() => {
-        navigator.geolocation.getCurrentPosition(position => {
-          lat = position.coords.latitude;
-          lng = position.coords.longitude;
-
-          console.log("lat = " + lat + ", long = " + lng);
-
-       
-          var geocoder = new google.maps.Geocoder();
-          var latlng = { lat, lng };
-          var splited;
-
-          geocoder.geocode({ location: latlng }, (results, status) => {
-            if (status.toString() === "OK") {
-              if (results[0]) {
-                splited = results[0].formatted_address.split(",");
-                console.log(splited);
-
-                address = splited[0];
-                if (splited.length > 2) {
-                  address = address.concat(", ");
-                  address = address.concat(splited[1]);
-                }
-
-                console.log("address = " + address);
-
-                this.new_location = {
-                  label: this.no_remove,
-                  address: address,
-                  lat: lat,
-                  long: lng,
-                  active: true,
-                  id: "-1"
-                };
-
-                this.locations.push(this.new_location);
-              } else {
-                console.log("No results found");
-              }
-            } else {
-              console.log("Geocoder failed due to: " + status);
-            }
-          });
-        });
-      });
-    }
-  }*/
 }

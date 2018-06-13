@@ -4,7 +4,7 @@ import * as fromStore from "../../../../store";
 import { Observable } from "rxjs/Observable";
 import { MatDialog } from "@angular/material";
 import { DialogOneButtonComponent } from "../dialog-one-button/dialog-one-button.component";
-import { UserUpdateType } from "../../../../data_types/states.model";
+import { UserUpdateType, UserSettingsState } from "../../../../data_types/states.model";
 
 @Component({
   selector: "app-categories",
@@ -17,16 +17,34 @@ export class CategoriesComponent implements OnInit {
   public userDataSubscription;
   public userData;
   color: string;
-  public randNums = [0, 0, 0, 0, 0, 0, 0]; /* lucky number 7 */
+  userSettingsSubscription;
+  userSettings: UserSettingsState;
 
   /* mat chips */
   @Input() bookCategories;
 
   goToSettings() {
-    this.store.dispatch(new fromStore.ChooseSettings());
+    for (var _i = 0; _i < this.bookCategories.length; _i++) {
+      if(this.bookCategories[_i].active){
+        this.store.dispatch(new fromStore.ChooseSettings());
+        return;
+      }
+    }
+
+    if(this.bookCategories.length == 0){ 
+      /* no categories to pick from, dont inform */
+      this.store.dispatch(new fromStore.ChooseSettings());
+      return;
+    }
+
+    /* user didnt pick any categories inform him */
+    this.openDialog();    
   }
 
   chipClicked(name) {
+
+    console.log("bookCategories.length = " + this.bookCategories.length);
+
     for (var _i = 0; _i < this.bookCategories.length; _i++) {
       if (this.bookCategories[_i].name === name) {
         this.bookCategories[_i].active = !this.bookCategories[_i].active;
@@ -36,13 +54,35 @@ export class CategoriesComponent implements OnInit {
   }
 
   pickForUser() {
-    var max = this.bookCategories.length - 1;
-    var min = 0;
+    let max = this.bookCategories.length - 1;
+    let min = 0;
+    let num_active = 0;
+
+    switch(this.bookCategories.length)
+    {
+        case 0:
+        {
+          console.log("no categories. do nothing.");
+          return;
+        }
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        {
+          num_active = (this.bookCategories.length + 2) / 3;
+          break;
+        }
+        default:
+          num_active = this.bookCategories.length / 3;
+    }
 
     for (var _i = 0; _i < this.bookCategories.length; _i++) {
       this.bookCategories[_i].active = false;
     }
-    for (var _i = 0; _i < 7; ) {
+    for (var _i = 0; _i < num_active; ) {
       var rand = Math.floor(Math.random() * (max - min + 1)) + min;
       if (!this.bookCategories[rand].active) {
         this.bookCategories[rand].active = true;
@@ -78,13 +118,14 @@ export class CategoriesComponent implements OnInit {
   openDialog(): void {
     let dialogRef = this.dialog.open(DialogOneButtonComponent, {
       width: '250px',
-      data: "You didnt pick any category! please pick one before you leave page."
+      data: "Pay attention, you didnt pick any category."
     });
 
     dialogRef.disableClose = true;//disable default close operation
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed'); //nothing else to do
+      console.log('The dialog was closed'); 
+      this.store.dispatch(new fromStore.ChooseSettings());
     });
   }
 
@@ -97,7 +138,25 @@ export class CategoriesComponent implements OnInit {
       .subscribe(state => {
         this.userData = state;
       });
+      this.userSettingsSubscription = this.store.select<any>(fromStore.getUserSettings).subscribe(state => {
+        this.userSettings = state; 
+       }
+     );
+
+
+    this.initCategories();
   }
+
+  initCategories(){
+    if(this.userSettings.favoriteCategories){
+      console.log("favoriteCategories init already");
+      return;
+    }
+
+    /* In case user didnt pick categories yet, pick all for him */
+    this.pickAll();
+  }
+
   ngOnChanges() {
     console.log("categories changed");
   }
