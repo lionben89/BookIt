@@ -9,10 +9,11 @@ exports.fcmSend = functions.database.ref('/messages/{messageId}').onCreate(event
     const userId = val.to;
     const payload = {
         notification: {
-            title: val.from,
-            body: message,
-            icon: "https://placeimg.com/250/250/people"
-        }
+            title: "BamBook! books share app",
+            body: "Hi! you have a new message",
+            icon: "https://placeimg.com/250/250/people",
+            data: val.from,
+        },
     };
     console.log("payload: ", payload);
     admin.database()

@@ -58,7 +58,7 @@ export class MessagingService {
       this.store.select(fromStore.getContextNavbar).subscribe((state) => {
         this.isInChat = (state.myBooksOption === "my_books_chat" || state.myRequestsOption === "my_requests_chat");
       })
-      const fromDoc = this.afStore.doc('Users/' + payload.data.from).ref.get().then((user) => {
+      const fromDoc = this.afStore.doc('Users/' + payload.data["gcm.notification.data"]).ref.get().then((user) => {
         payload.notification.title = "New Message From: " + user.data().info.displayName;
         this.currentMessage.next(payload);
         if (!this.isInChat) {
