@@ -130,15 +130,54 @@ section {
   }
 
   .heart {
-    margin: 0%;
-    padding: 0%;
-    font-size: 150px;
-    animation: beat .40s infinite alternate;
-    transform-origin: center;
+    //beat
+    // margin: 0%;
+    // padding: 0%;
+    // font-size: 150px;
+    // animation: shake 3s infinite alternate;
+    // transform-origin: center;
+    
+    //square
+    // /* Start the shake animation and make the animation last for 0.5 seconds */
+    // animation: square 2s; 
+    // /* When the animation is finished, start again */
+    // animation-iteration-count: infinite; 
+  
+  //bounce
+   animation: bounce 0.5s;
+   animation-direction: alternate;
+   animation-timing-function: cubic-bezier(.5,0.05,1,.5);
+   animation-iteration-count: infinite;
   }
   
   /* Heart beat animation */
   @keyframes beat{
     to { transform: scale(1.4); }
   }
+
+  @keyframes square {
+    12.5% { transform: translate(50px, 0px) rotate(0deg); }
+    37.5% { transform: translate(50px, 100px) rotate(0deg); }
+    62.5% { transform: translate(-50px, 100px) rotate(0deg); }
+    87.5%  { transform: translate(-50px, 0px) rotate(0deg); }
+    100% { transform: translate(0px, 0px) rotate(0deg); }
+}
   
+@keyframes bounce {
+  from { transform: translate3d(0, 0, 0);     }
+  to   { transform: translate3d(0, 200px, 0); }
+}
+
+/* Prefix Support */
+ball {
+  -webkit-animation-name: bounce;
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-direction: alternate;
+  -webkit-animation-timing-function: cubic-bezier(.5,0.05,1,.5);
+  -webkit-animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes bounce {
+  from { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); }
+  to   { -webkit-transform: translate3d(0, 200px, 0); transform: translate3d(0, 200px, 0); }
+}

@@ -4,12 +4,13 @@ left-arrow-icon {
   height: 65px;
 }
 .back-pic{
+  
   position: fixed;
-    top: 45%;
-    left: 17%;
-    opacity: 0.1;
-    transform:scale(1.5);
-    z-index: 9;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.5);
+  opacity: 0.1;
+  z-index: 9;
 }
 .header-chat {
   flex-grow: 2;
@@ -105,7 +106,7 @@ mat-card{
 /deep/ .info-section-1 {
   border-radius: .4em;
   max-width: 70%;
-  margin: 40px;
+  //margin: 40px;
   display: inline-block;
   position: relative;
 	height: auto;
@@ -138,7 +139,7 @@ mat-card{
 /deep/ .info-section-2 {
   border-radius: .4em;
   max-width: 70%;
-  margin: 40px;
+  //margin: 40px;
   display: inline-block;
   position: relative;
 	height: auto;

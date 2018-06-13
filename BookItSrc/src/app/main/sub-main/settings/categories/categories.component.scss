@@ -39,10 +39,7 @@ location-categories {
   width: 85%;
 }
 
-mat-chip {
-  max-width: 135px;
-  margin: 0 0 0 8px;
-}
+
 
 pick-buttons {
   width: 90%;
@@ -99,13 +96,20 @@ pick-buttons {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  
 }
-
+mat-chip {
+  max-width: 135px;
+  margin: 0 0 0 8px;
+}
 .mat-chip {
   margin: 3px 0 0 0 !important;
   padding: 8px !important;
   justify-content: center;
   width: 110px;
+  //added to straighten matchips
+  height: 60px;
+  display: inline-block !important;
 }
 
 
