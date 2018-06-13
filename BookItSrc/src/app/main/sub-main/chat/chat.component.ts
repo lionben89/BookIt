@@ -11,7 +11,7 @@ import {
 } from "./../../../data_types/states.model";
 import { MatDialog } from "@angular/material";
 import { DialogOneButtonComponent } from "../settings/dialog-one-button/dialog-one-button.component";
-
+//import { Content } from '@ionic/angular';
 @Component({
   selector: "app-chat",
   templateUrl: "./chat.component.html",
@@ -19,7 +19,7 @@ import { DialogOneButtonComponent } from "../settings/dialog-one-button/dialog-o
 })
 export class ChatComponent implements OnInit, OnDestroy {
   @Input() bookChat: Book;
-  @ViewChild("content") content: any;
+  @ViewChild("contents") contents: any;
   @Input() caller: string;
 
   public which_page = "my_books"; /* options = {my_books, add_book, my_books_chat} */
@@ -71,6 +71,10 @@ export class ChatComponent implements OnInit, OnDestroy {
       .subscribe(threadMessages => {
           this.items = threadMessages;
         });
+        
+       
+          //this.contents.scrollToBottom();
+        
   }
 
   ngOnDestroy() {
@@ -107,7 +111,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
       this.emptyChatText();
 
-      //this.scrollToBottom1();
+      //this.contents.scrollToBottom();
     } else {
       this.openDialog_emptyLocation();
     }
