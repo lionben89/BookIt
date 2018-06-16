@@ -34,7 +34,7 @@ export class AutoCompleteComponent implements OnInit {
 
   filterStates(name: string) {
     return this.books.filter(book =>
-      book.title.toLowerCase().indexOf(name.toLowerCase()) === 0);
+      book.title.toLowerCase().indexOf(name.toLowerCase()));
   }
 
 

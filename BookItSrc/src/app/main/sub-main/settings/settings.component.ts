@@ -40,7 +40,7 @@ export class SettingsComponent implements OnInit {
 
   /* Slide */
   slide_checked = true;
-  share_enabled = true;
+  //share_enabled = true;
   categoriesNames =[];
 
 
@@ -97,10 +97,10 @@ export class SettingsComponent implements OnInit {
     this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.SEARCH_RADIUS_KM, newValue));
   }
 
-  updateShareMyBooks() {
+  /*updateShareMyBooks() {
     let newValue = this.userSettings.info.shareMyBooks;
     this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.SHARE_MY_BOOKS, newValue));
-  }
+  }*/
 
   constructor( public snackBar: MatSnackBar,private store: Store<fromStore.MainState>, public auth: AuthService, public dialog: MatDialog) { }
 

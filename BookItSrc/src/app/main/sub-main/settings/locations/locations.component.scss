@@ -28,7 +28,6 @@ label.header-loc {
 }
 
 section {
-  display: flex;
   align-items: center;
   justify-content: stretch;
 }
@@ -83,6 +82,7 @@ section {
 .label-loc {
   font: 12px;
   font-weight: 600;
+  display: inline;
 }
 
 .label-loc-city-street {

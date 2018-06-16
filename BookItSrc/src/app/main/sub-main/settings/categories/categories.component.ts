@@ -43,8 +43,6 @@ export class CategoriesComponent implements OnInit {
 
   chipClicked(name) {
 
-    console.log("bookCategories.length = " + this.bookCategories.length);
-
     for (var _i = 0; _i < this.bookCategories.length; _i++) {
       if (this.bookCategories[_i].name === name) {
         this.bookCategories[_i].active = !this.bookCategories[_i].active;

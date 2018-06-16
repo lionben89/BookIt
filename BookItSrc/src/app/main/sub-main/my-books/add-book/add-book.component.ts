@@ -26,6 +26,11 @@ export class AddBookComponent implements OnInit {
   public mybooksOption$: Observable<string>;
   numCols;
   messegeSubscription;
+  public startIndex = 0;
+  public numRuns = 0;
+  public maxRuns = 7;
+  public maxResults = 18;
+  public cntBooksFound = 0;
   constructor(private httpClient: HttpClient, private store: Store<fromStore.MainState>,public snackBar: MatSnackBar) { }
   onResize() {
     if (window.innerWidth <= 400){
@@ -75,25 +80,38 @@ export class AddBookComponent implements OnInit {
     //send book search request to Book API
     
 
-    let url = this.apiRoot + '/?q=' + encodeURIComponent(this.searchTerm) + '&maxResults=25&printType=books&fields=items(id%2CvolumeInfo(authors%2Ccategories%2Cdescription%2CimageLinks%2CmainCategory%2CratingsCount%2Ctitle))%2Ckind%2CtotalItems';//&key=AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4
+    let url = this.apiRoot + '/?q=' + encodeURIComponent(this.searchTerm) + '&startIndex=' + this.startIndex + '&maxResults=' + this.maxResults + '&printType=books&fields=items(id%2CvolumeInfo(authors%2Ccategories%2Cdescription%2CimageLinks%2CmainCategory%2CratingsCount%2Ctitle))%2Ckind%2CtotalItems&key=AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4';
+    this.startIndex += this.maxResults;
+
     this.httpClient.get(url).subscribe(res => {
       if (res['items'] === undefined) {
         this.results = [];
         return;
       }
+
+      this.cntBooksFound = 0;
       for (let item of res['items']) {
+        this.cntBooksFound++;
+
         if (item.volumeInfo === undefined ||
           item.volumeInfo.categories === undefined ||
           item.volumeInfo.authors === undefined ||
           item.volumeInfo.imageLinks === undefined ||
-          item.volumeInfo.imageLinks.thumbnail === undefined) {
+          item.volumeInfo.imageLinks.thumbnail === undefined ||
+          item.id === undefined) {
           continue;
         }
-        //let title = item.volumeInfo.title;
-        /*let category: string = item.volumeInfo.categories;
-        let author: string = item.volumeInfo.authors[0];
-        let imagePath: string = item.volumeInfo.imageLinks.thumbnail;
-        let description: string = item.volumeInfo.description;*/
+
+        let _description = "Book has no description.";
+        let _title = "Book has no title.";
+
+        if(item.volumeInfo.description){
+          _description = item.volumeInfo.description;
+        }
+        if(item.volumeInfo.title){
+          _title = item.volumeInfo.title;
+        }
+
         let book: Book = {
           id:item.id,
           visible:true,
@@ -101,22 +119,31 @@ export class AddBookComponent implements OnInit {
           lendCount:0,
           maxLendDays:30,
           ownerUid:this.userInfo.uid,
-          title:item.volumeInfo.title,
+          title: _title,
           author:item.volumeInfo.authors[0],
           categories:item.volumeInfo.categories,
           imagePath:item.volumeInfo.imageLinks.thumbnail,
-          description:item.volumeInfo.description,
+          description: _description,
           currentRequest:{
             pending:false,
             approved:false,
-            
           }
         };
         this.results.push(book);
       }
       this.searched=true;
+      
+      if(!this.cntBooksFound){
+        //did not find any books in last run -> return
+        console.log("did not find any books in last run -> return, numRuns = " + this.numRuns);
+        return;
+      }
     });
-    
+    if(this.numRuns < this.maxRuns){ //keep fetching results
+      console.log("run another search, startIndex = " + this.startIndex);     
+      this.numRuns++;
+      this.doSearch();
+    }
   }
 
   ngOnInit() {
