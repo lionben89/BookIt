@@ -26,6 +26,7 @@ import * as fromMessagesActions from '../actions/messages.action';
 export class MessagesEffects {
     // members
     private dbRef: any;
+    private added_subscribe: any;
 
     constructor(
         private actions: Actions,
@@ -51,13 +52,20 @@ export class MessagesEffects {
                 return Observable.of(null);
             }
 
-            this.dbRef.limitToLast(12).orderByChild('threadId').equalTo(threadId).on('child_added', function(self) {
+            this.dbRef.limitToLast(100).orderByChild('threadId').equalTo(threadId).on('child_added', function(self) {
                 return function(messageSnap) {
                     let message : Message = messageSnap.val();
                     self.store.dispatch(new fromMessagesActions.LoadMessagesSuccess([message]));
                     };
-            }(this));
-            this.dbRef.limitToLast(12).orderByChild('threadId').equalTo(threadId).on('child_changed', this.setMessage);
+                }(this));
+            return Observable.of(null);
+        });
+
+    @Effect({ dispatch: false })
+    DiactivateMessageThread: Observable<Action> = this.actions.ofType(fromMessagesActions.ActionsMessagesConsts.DEACTIVATE_MESSAGE_THREAD)
+        .map((action: fromMessagesActions.DeactivateMessageThread) => action.payload)
+        .switchMap((threadId: string) => {
+            this.dbRef.off('child_added');
             return Observable.of(null);
         });
 

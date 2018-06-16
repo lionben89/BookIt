@@ -3,6 +3,7 @@ import { Message } from '../../data_types/states.model';
 
 export const ActionsMessagesConsts={
     INIT_MESSAGE_THREAD:"INIT_MESSAGE_THREAD",
+    DEACTIVATE_MESSAGE_THREAD:"DEACTIVATE_MESSAGE_THREAD",
     LOAD_MESSAGES_SUCCESS:"LOAD_MESSAGES_SUCCESS",
     LOAD_MESSAGES_FAIL:"LOAD_MESSAGES_FAIL",
     ADD_MESSAGE:"ADD_MESSAGE",
@@ -11,6 +12,10 @@ export const ActionsMessagesConsts={
 
 export class InitMessageThread implements Action{
     readonly type=ActionsMessagesConsts.INIT_MESSAGE_THREAD;
+    constructor(public payload?:string){}
+}
+export class DeactivateMessageThread implements Action{
+    readonly type=ActionsMessagesConsts.DEACTIVATE_MESSAGE_THREAD;
     constructor(public payload?:string){}
 }
 
@@ -34,5 +39,6 @@ export class AddMessageFail implements Action{
     constructor(public payload?:any){}
 }
 
-export type UserMessagesActions = InitMessageThread | LoadMessagesFail | LoadMessagesSuccess |
+export type UserMessagesActions = InitMessageThread | DeactivateMessageThread |
+    LoadMessagesFail | LoadMessagesSuccess |
     AddMessage | AddMessageFail;

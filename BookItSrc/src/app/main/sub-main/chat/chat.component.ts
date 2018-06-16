@@ -80,6 +80,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     console.log("Leaving chat screen");
+    this.store.dispatch(new fromStore.DeactivateMessageThread(this.bookChat.currentRequest.requestId));
+
     this.selfUserSubscribtion.unsubscribe();
     this.threadSubscribtion.unsubscribe();
   }
