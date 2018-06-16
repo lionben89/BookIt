@@ -114,6 +114,12 @@ mat-chip {
   display: inline-block !important;
 }
 
+.category-name{
+  top: 50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  position: relative;
+}
 
 @media (max-width: 200px) {
   .container {

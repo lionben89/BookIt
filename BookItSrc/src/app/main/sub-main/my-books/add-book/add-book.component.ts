@@ -75,7 +75,7 @@ export class AddBookComponent implements OnInit {
     //send book search request to Book API
     
 
-    let url = this.apiRoot + '/?q=' + encodeURIComponent(this.searchTerm) + '&maxResults=15&printType=books&fields=items(id%2CvolumeInfo(authors%2Ccategories%2Cdescription%2CimageLinks%2CmainCategory%2CratingsCount%2Ctitle))%2Ckind%2CtotalItems&key=AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4';
+    let url = this.apiRoot + '/?q=' + encodeURIComponent(this.searchTerm) + '&maxResults=25&printType=books&fields=items(id%2CvolumeInfo(authors%2Ccategories%2Cdescription%2CimageLinks%2CmainCategory%2CratingsCount%2Ctitle))%2Ckind%2CtotalItems';//&key=AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4
     this.httpClient.get(url).subscribe(res => {
       if (res['items'] === undefined) {
         this.results = [];
