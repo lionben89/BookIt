@@ -15,6 +15,8 @@ body{
   //border-bottom: 2px solid #757575;
   flex: auto;
   display: flex;
+  position: fixed;
+  z-index: 100; 
 }
 button-switch-page {
   flex: start;
@@ -65,10 +67,9 @@ section {
     min-height: 97%;
     background-color: #ebebeb;
   }
-  .my-books{
-    margin-top: 5%;
-    margin-left:  5%;
-    margin-right: 5%;
+
+  .mybooks{
+    padding-top: 40px;
   }
 
   .fas{
