@@ -18,7 +18,7 @@ export const isBookEquale = (book1, book2) => {
 }
 let initState: ExploreState = {
     usersNearBy: [],
-    booksNearBy: [],
+    booksNearBy: {},
     loading: false,
     loaded: false,
 };
@@ -51,15 +51,11 @@ export function ExploreReducer(state: ExploreState = initState, action: fromExpl
         }
 
         case fromExplore.ActionsExploreConsts.LOAD_BOOKS_FROM_USERS_NEAR_BY_SUCCESS: {
-
-            //console.log(action.payload);
-
-            return {
-                ...state,
-                booksNearBy: action.payload,
-                loading: false,
-                loaded: true
-            };
+            let newState = {...state, loading: false, loaded: true};
+            
+            let userId = action.payload.userId;
+            newState.booksNearBy[userId] = action.payload.books;
+            return newState;
         }
         case fromExplore.ActionsExploreConsts.DELETE_ALL_USERS_NEARBY: {
             return { ...state, usersNearBy: new Array<any>() };
@@ -72,13 +68,16 @@ export function ExploreReducer(state: ExploreState = initState, action: fromExpl
 
 export const getUsersNearBy = (state: ExploreState) => { return state.usersNearBy; }
 export const getBooksNearBy = (state: ExploreState) => {
-    let booksNearBy = [];
+    let booksNearBy = new Array<Book>();
     if (state.booksNearBy) {
-        state.booksNearBy.forEach((book: Book) => {
-            if (!book.currentRequest.approved && !book.currentRequest.pending) {
-                booksNearBy.push(book);
-            }
-        })
+        Object.entries(state.booksNearBy).forEach(elem => {
+            let userBooks = elem[1];
+            userBooks.forEach((book: Book) => {
+                if (!book.currentRequest.approved && !book.currentRequest.pending) {
+                    booksNearBy.push(book);
+                }
+            });
+        });
     }
     return booksNearBy;
 }

@@ -13,7 +13,9 @@ export interface ContextState {
 
 export interface ExploreState extends Loadable {
     usersNearBy:string[],
-    booksNearBy:Book[],
+    booksNearBy: {
+        [userId: string]: Array<Book>,
+    }
 }
 
 export interface Loadable {

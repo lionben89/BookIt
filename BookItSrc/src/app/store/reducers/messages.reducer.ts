@@ -12,7 +12,6 @@ export function UserMessagesReducer(state: MessagesState = initState, action: fr
             let newState = {...state};
             let threadId = action.payload;
             newState[threadId] = new Array<Message>();
-            console.log("Initialize new thread");
             return newState;
         }
         case fromMessages.ActionsMessagesConsts.DEACTIVATE_MESSAGE_THREAD: {

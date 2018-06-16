@@ -564,7 +564,6 @@ export class UserDataEffects {
             })
             //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
         );
-    @Effect()
 
     @Effect()
     RemoveRequest: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.REMOVE_REQUEST_BOOK)
