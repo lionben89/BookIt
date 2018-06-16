@@ -27,6 +27,7 @@ import * as fromExploreActions from '../actions/explore.action';
 import { getLocaleFirstDayOfWeek } from '@angular/common';
 import { } from "googlemaps";
 import { MapsAPILoader } from "@agm/core";
+import { delay } from 'q';
 
 @Injectable()
 export class UserDataEffects {
@@ -283,7 +284,7 @@ export class UserDataEffects {
             //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
         )
 
-   
+
 
     @Effect()
     UpdateUserInfo: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.UPDATE_USER_INFO)
@@ -460,12 +461,18 @@ export class UserDataEffects {
                 let requestDocRef = this.afs.doc(`Users/${book.currentRequest.borrowerUid}/Requests/${book.id}`);
                 if (book.currentRequest.borrowerUid) {
                     if (!book.currentRequest.approved && !book.currentRequest.pending) {
-                        requestDocRef.delete().then(() => {
-                            this.store.dispatch(new fromStore.ShowMessege("Request Rejected"));
+                        console.log("delete 1");
+                        delay(10000).then(() => {
+                            requestDocRef.delete().then(() => {
+                                this.store.dispatch(new fromStore.ShowMessege("Request Rejected"));
+                                console.log("delete 2");
+                            }
+                            )
                         });
                     }
                     else {
                         requestDocRef.update(book).then(() => {
+                            console.log("add 1");
                             this.store.dispatch(new fromStore.ShowMessege("Request Approved"));
                         });
                     }
