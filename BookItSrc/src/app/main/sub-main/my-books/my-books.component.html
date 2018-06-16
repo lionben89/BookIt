@@ -27,7 +27,8 @@
                         </mat-grid-tile>
                     </mat-grid-list>
                 </div>
-                <p>add books to share!</p>
+                <div *ngIf="!userBooks.length then noBooks"></div>
+                
                 <div *ngIf="this.bookNavBarEnabled===true; then bookNavbar"></div>
 
             </div>
@@ -115,3 +116,9 @@
          <mat-icon svgIcon='people-gray' class='icon'></mat-icon>
     </button>
 </ng-template>
+
+
+<ng-template #noBooks>
+    <p>add books to share!</p>
+</ng-template>
+
