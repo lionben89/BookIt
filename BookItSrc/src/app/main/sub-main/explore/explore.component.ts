@@ -7,6 +7,8 @@ import { Book, Loadable, UserSettingsState } from './../../../data_types/states.
 import { IconsService } from '../../../icons.service';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material';
+import { MatDialog } from "@angular/material";
+import { DialogOneButtonComponent } from "../settings/dialog-one-button/dialog-one-button.component";
 
 
 
@@ -32,9 +34,11 @@ export class ExploreComponent implements OnInit {
   currentCategory;
   userSettingsSubscription;
   userSettings: UserSettingsState;
-  
+  private IsAllowToRequest;
+  private IsAllowToRequestSubscription;
 
-  constructor(private store: Store<fromStore.MainState>, iconService: IconsService, public snackBar: MatSnackBar,) {
+
+  constructor(private store: Store<fromStore.MainState>, iconService: IconsService, public snackBar: MatSnackBar,public dialog: MatDialog ) {
   }
   showBookNavbar(book: Book) {
     this.bookNavBarEnabled = true;
@@ -75,9 +79,18 @@ export class ExploreComponent implements OnInit {
     console.log(this.bookSelected.description);
   }
   requestBook(book) {
-
-    this.store.dispatch(new fromStore.RequestBook(book));
-    this.hideBookNavbar(book);
+    if (this.IsAllowToRequest) {
+      this.store.dispatch(new fromStore.RequestBook(book));
+      this.hideBookNavbar(book);
+    }
+    else{
+      let dialogRef = this.dialog.open(DialogOneButtonComponent, {
+        width: '250px',
+        data: "You reached the maximum requests number, please share more books or return the others"
+      });
+  
+      dialogRef.disableClose = true;//disable default close operation
+    }
 
 
   }
@@ -157,7 +170,12 @@ export class ExploreComponent implements OnInit {
     this.store.select(fromStore.getContextCurrentCategory).subscribe(state => {
       this.currentCategory = state;
     });
-    
+    this.IsAllowToRequestSubscription = this.store.select(fromStore.IsAllowToRequest).subscribe(
+      (state) => {
+        this.IsAllowToRequest = state;
+      }
+    );
+
 
   }
   ngOnDestroy() {
@@ -165,6 +183,7 @@ export class ExploreComponent implements OnInit {
     this.booksNearBySubscription.unsubscribe();
     this.messegeSubscription.unsubscribe();
     this.userSettingsSubscription.unsubscribe();
+    this.IsAllowToRequestSubscription.unsubscribe();
   }
 
 }

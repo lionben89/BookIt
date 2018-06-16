@@ -211,3 +211,7 @@ export const getUserSearchRadius = (state: UserState) => {
 }
 export const getUserDataStatus = (state: UserState) => { return { loading: state.loading, loaded: state.loaded } }
 export const getMessege=(state:UserState)=>{ return state.messege;}
+
+export const IsAllowToRequest= (state:UserState)=>{
+    return (state.myRequests.length<state.myBooks.length+1);
+}
