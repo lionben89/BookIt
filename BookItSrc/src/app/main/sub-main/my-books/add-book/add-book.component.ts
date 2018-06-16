@@ -22,6 +22,7 @@ export class AddBookComponent implements OnInit {
   searchTerm: string;
   userInfo:ExtendedUserInfo;
   userInfoSubscription;
+  searched:boolean;
   public mybooksOption$: Observable<string>;
   numCols;
   messegeSubscription;
@@ -51,28 +52,30 @@ export class AddBookComponent implements OnInit {
     this.store.dispatch(new fromStore.ChooseMyBooksMain);
   }
   doSearch() {
+    this.searched=false;
+    this.results = [];
     if (this.searchTerm === "") {
       this.results = [];
       return;
     }
     
-    let splited = this.searchTerm.split(" ");
-    let final_search_term : string = "";
+    // let splited = this.searchTerm.split(" ");
+    // let final_search_term : string = "";
 
-    for(let i = 0; i < splited.length; i++){
-      if(splited[i] == "")
-        return;
+    // for(let i = 0; i < splited.length; i++){
+    //   if(splited[i] == "")
+    //     return;
 
-      if(i!= 0 && i != splited.length - 1){
-        final_search_term = final_search_term.concat("+");
-      }
-      final_search_term = final_search_term.concat(splited[i]);
-    }    
+    //   if(i!= 0 && i != splited.length - 1){
+    //     final_search_term = final_search_term.concat("+");
+    //   }
+    //   final_search_term = final_search_term.concat(splited[i]);
+    // }    
 
     //send book search request to Book API
-    this.results = [];
+    
 
-    let url = this.apiRoot + '/?q=' + encodeURIComponent(this.searchTerm) + '&maxResults=15&printType=books&fields=items(id%2CvolumeInfo(authors%2Ccategories%2Cdescription%2CimageLinks%2CmainCategory%2CratingsCount%2Ctitle))%2Ckind%2CtotalItems&key=AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4';
+    let url = this.apiRoot + '/?q=' + encodeURIComponent(this.searchTerm) + '&maxResults=25&printType=books&fields=items(id%2CvolumeInfo(authors%2Ccategories%2Cdescription%2CimageLinks%2CmainCategory%2CratingsCount%2Ctitle))%2Ckind%2CtotalItems';//&key=AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4
     this.httpClient.get(url).subscribe(res => {
       if (res['items'] === undefined) {
         this.results = [];
@@ -84,7 +87,7 @@ export class AddBookComponent implements OnInit {
           item.volumeInfo.authors === undefined ||
           item.volumeInfo.imageLinks === undefined ||
           item.volumeInfo.imageLinks.thumbnail === undefined) {
-          return;
+          continue;
         }
         //let title = item.volumeInfo.title;
         /*let category: string = item.volumeInfo.categories;
@@ -111,19 +114,24 @@ export class AddBookComponent implements OnInit {
         };
         this.results.push(book);
       }
+      this.searched=true;
     });
+    
   }
 
   ngOnInit() {
-    
+      this.searched=false;
       this.onResize();
       this.searchField = new FormControl();
       this.searchField.valueChanges
-        .debounceTime(400)
+        .debounceTime(500)
         .distinctUntilChanged()
         .subscribe(term => {
           this.searchTerm = term;
-          this.doSearch();
+          if(this.searchTerm===''){
+            this.searched=false;
+          }
+          else this.doSearch();
         });
         this.userInfoSubscription=this.store.select(fromStore.getUserInfo).subscribe((state)=>{this.userInfo=state;});
         this.messegeSubscription=this.store.select(fromStore.getMessege).subscribe((state)=>{

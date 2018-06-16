@@ -17,7 +17,7 @@ left-arrow-icon {
   position: absolute;
   left:50%;
   //margin-top: 2%;
-  transform: translate(-50%,50%);
+  transform: translate(-50%,100%);
 }
 
 .header {
@@ -28,6 +28,8 @@ left-arrow-icon {
   border-radius: 0px 0px 40px 40px;
   flex: auto;
   display: flex;
+  z-index:1000;
+  position:fixed;
 }
 
 .footer-send{
@@ -40,6 +42,7 @@ left-arrow-icon {
     background-color: #fafafa;
     display: flex;
     flex-direction: column;
+    padding-top: 45px;
     
 
 }

@@ -11,8 +11,8 @@
 </div>
 
 <hr />
-
-<mat-grid-list [cols]="numCols" rowHeight="5:10" gutterSize="10" (window:resize)="onResize()">
+<div *ngIf="((!results.length) && searched) then noBooks"></div>
+<mat-grid-list [cols]="numCols" rowHeight="5:12" gutterSize="10" (window:resize)="onResize()">
   <mat-grid-tile *ngFor="let result of results">
     <div class='book-bottom'>
       <span class='addbook_title' >{{result.title}}</span><br>
@@ -32,4 +32,7 @@
 <ng-template #leftArrowIcon>
     <mat-icon svgIcon='left-arrow' class="left-arrow-icon"></mat-icon>
   </ng-template>
-  
+
+  <ng-template #noBooks>
+    <span>Sorry we couldn't find your book</span>
+  </ng-template>
