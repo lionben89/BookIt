@@ -81,6 +81,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.otherUserSettingsSubscription=
       this.store.select<any>(fromStore.getOtherUserInfo(this.otherUserId)).subscribe((state)=>{
         console.log(state);
+        this.otherUserSettings=state;
       });
   }
 

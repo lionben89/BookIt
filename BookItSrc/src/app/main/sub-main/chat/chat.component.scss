@@ -16,9 +16,51 @@ left-arrow-icon {
   flex-grow: 2;
   position: absolute;
   left:50%;
-  //margin-top: 2%;
-  transform: translate(-50%,100%);
+  top: 50%;
+  transform: translate(-50%,-50%);
 }
+.user-photo-div{
+  width: 48%;
+  left:0%;
+  display: inline-block;
+  position: relative;
+  padding:0%;
+  margin:0%;
+}
+.user-photo{
+  border-radius: 50%;
+  border-style: inset;
+  border-width: 2px;
+  border-color: #00b1b8;
+  max-height: 12%;
+  min-width: 22.5%;
+  min-height: 12%;
+  max-width: 22.5%;
+  transform: translate(-100%, 5%);
+}
+.user-info{
+  margin-top:40px;
+  width: 100%;
+  max-height: 15%;
+  min-height: 15%;
+}
+.user-name{
+  font-weight: bold;
+}
+hr{
+       margin-top: 10px !important; 
+    margin-bottom: 10px !important; 
+}
+.user-name-div{
+  text-align: center;
+  transform: translate(-50%, 50%);
+  width:48%;
+  position: relative;
+  padding:0%;
+  margin:0%;
+  display: inline-block; 
+}
+
 
 .header {
   background-color: #00b1b8; 
@@ -99,7 +141,7 @@ mat-card{
 
 .label-msg-1 {
   text-align: left;
-  font-size: 12px;
+  font-size: 18px;
   color: black;
   padding: 5px;
   word-wrap: break-word;
@@ -132,7 +174,7 @@ mat-card{
 
 .label-msg-2 {
   text-align: left;
-  font-size: 12px;
+  font-size: 18px;
   color: black;
   padding: 5px;
   word-wrap: break-word;

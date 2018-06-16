@@ -1,15 +1,24 @@
 <container-element [ngSwitch]="this.which_page">
   
-  <div>
+  <div style="top:56px;position: absolute;width:100%; ">
     <section class="header">
       <button mat-button label class="button-switch-page" (click)="goToMyBooks()">
         <div *ngIf="1 === 1; then leftArrowIcon"></div>
       </button>
       <span class="header-chat" ngDefaultControl>Chat</span>
     </section>
+    <div class="user-info">
+      <div class="user-photo-div">
+          <img [attr.src]="otherUserSettings.photoURL+'?type=large'" class="user-photo"/> 
+      </div>
+      <div class="user-name-div">
+          <span class="user-name">{{otherUserSettings.displayName}}</span>
+      </div>
+    </div>
+  <hr/>
 <img src="assets/images/panda2.png"  class="back-pic"/> 
 
-    <mat-card class="chat-div"  style="height: 100%;">
+    <mat-card class="chat-div"  style="height: 100%;padding-top:0%;">
       <mat-card-content class="chat-container" *ngFor="let item of items" selected="true" name="msg_list" ngDefaultControl>
         <container-element class="container-info" [ngSwitch]="item.from">
 

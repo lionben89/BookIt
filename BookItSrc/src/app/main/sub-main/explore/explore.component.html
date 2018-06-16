@@ -40,7 +40,7 @@
 
                             </div>
                             <div style="box-sizing: border-box;display:inline-block;margin-left: 5%;">
-                                    <span style="vertical-align:bottom;">Located Xkm. from you<br>Borrowed X times<br></span>
+                                    <span style="vertical-align:bottom;">Located 3km. from you<br><br>Borrowed 3 times<br><br></span>
                                     <button  class="request-icon" (click)="requestBook(bookSelected)">
                                             <mat-icon style="display:inline-block;" svgIcon='book-request-gray'></mat-icon>
                                             <span style="display:inline-block;color: #2f3842;top:50%;transform: translate(0%, -40%);">&nbsp;Request Book</span>
@@ -48,8 +48,8 @@
                             </div>
                         </mat-card-content>
                     <mat-card-title>{{bookSelected.title}}</mat-card-title>
-                    <mat-card-subtitle>by {{bookSelected.author}}</mat-card-subtitle>
-                    <mat-card-content>{{bookSelected.description}}</mat-card-content>
+                    <mat-card-subtitle style="font-size: 18px;color: rgba(0, 0, 0, 0.54);line-height: 1;">by {{bookSelected.author}}</mat-card-subtitle>
+                    <mat-card-content style="font-size: 18px;line-height: 1.2;">{{bookSelected.description}}</mat-card-content>
                 </mat-card>
                         
                 
