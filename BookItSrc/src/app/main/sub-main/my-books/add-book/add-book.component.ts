@@ -49,6 +49,7 @@ export class AddBookComponent implements OnInit {
     //TODO need to add book to DB
     //TODO add dialog book added
     this.masterBooksArray.push(result);//change to specific
+    this.searched=false;
     this.results = [];
     this.store.dispatch(new fromStore.AddBook(result));
  
