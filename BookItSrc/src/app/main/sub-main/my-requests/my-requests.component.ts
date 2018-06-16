@@ -1,5 +1,5 @@
 import { getUserDataStatus } from './../../../store/reducers/index';
-import { Book, Loadable } from './../../../data_types/states.model';
+import { Book, Loadable, Message } from './../../../data_types/states.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../../store';
@@ -14,7 +14,7 @@ import { MatDialog } from "@angular/material";
   selector: 'app-my-requests',
   templateUrl: './my-requests.component.html',
   styleUrls: ['./my-requests.component.scss'],
-  providers:[IconsService]
+  providers: [IconsService]
 })
 export class MyRequestsComponent implements OnInit {
 
@@ -27,8 +27,11 @@ export class MyRequestsComponent implements OnInit {
   public bookNavbarCols = 2;
   messegeSubscription;
   whichPageSubscription;
+  selfUserSubscribtion;
+  selfUserId;
+  otherUserId;
 
-  constructor(private store: Store<fromStore.MainState>, iconService: IconsService, public snackBar: MatSnackBar, 
+  constructor(private store: Store<fromStore.MainState>, iconService: IconsService, public snackBar: MatSnackBar,
     public dialog: MatDialog) { }
 
 
@@ -44,11 +47,11 @@ export class MyRequestsComponent implements OnInit {
     }
   }
 
-  startChat(){
+  startChat() {
     console.log('opening chat');
     this.store.dispatch(new fromStore.ChooseMyRequestsChat);
     this.bookNavBarEnabled = false;
-    
+
   }
 
   hideBookNavbar(book: Book) {
@@ -59,20 +62,35 @@ export class MyRequestsComponent implements OnInit {
   }
 
   removeRequest() {
-    let dialogRef = this.dialog.open(DialogTwoButtonComponent, {
-      width: "250px",
-      data: "Are you sure you want to remove this request?"
-    });
-    //check if user is sure he wish to remove this request
-    dialogRef.afterClosed().subscribe(result => {
-      if (result != "cancel" && result != "cancelAndDontShowAgain") {
-        this.store.dispatch(new fromStore.RemoveRequestBook(this.bookSelected));
-        this.hideBookNavbar(this.bookSelected);
-      }
-      if(result == "confirmAndDontShowAgain" || result == "cancelAndDontShowAgain"){
-        //this.store.dispatch(new fromStore.DontShowAgainRemoveRequestMsg()); YUVAL
-      }
-    });
+    let date = new Date();
+    if (this.bookSelected && this.bookSelected.currentRequest && this.bookSelected.currentRequest.approved) {
+      let dialogRef = this.dialog.open(DialogTwoButtonComponent, {
+        width: "250px",
+        data: "Request was already approved, Do you want to send cancel message to book owner?"
+      });
+      //check if user is sure he wish to remove this request
+      dialogRef.afterClosed().subscribe(result => {
+        if (result !== "cancel") {
+          if (this.bookSelected && this.bookSelected.ownerUid === this.selfUserId) {
+            this.otherUserId = this.bookSelected.currentRequest.borrowerUid;
+          } else {
+            this.otherUserId = this.bookSelected.ownerUid;
+          }
+          let message : Message = {
+            threadId: this.bookSelected.currentRequest.requestId,
+            from: this.selfUserId,
+            to: this.otherUserId,
+            timeSent: date.toLocaleString("en-US"),
+            content: "Request was canceled by other user, reject request if book was returned."
+          };
+          this.store.dispatch(new fromStore.AddMessage(message));
+        }
+      });
+    }
+    else{
+      this.store.dispatch(new fromStore.RemoveRequestBook(this.bookSelected));
+          this.hideBookNavbar(this.bookSelected);
+    }
   }
 
   showBookNavbar(book: Book) {
@@ -88,20 +106,27 @@ export class MyRequestsComponent implements OnInit {
   ngOnInit() {
     this.myRequestsSubscription = this.store.select(fromStore.getUserRequests).subscribe((state) => { this.myRequests = state; })
     this.messegeSubscription = this.store.select(fromStore.getMessege).subscribe((state) => {
-      if (state && state!=='') {
-        this.snackBar.open(state, null, { duration:3000 });
-        setTimeout(this.store.dispatch(new fromStore.ShowMessege('')),0);
+      if (state && state !== '') {
+        this.snackBar.open(state, null, { duration: 3000 });
+        setTimeout(this.store.dispatch(new fromStore.ShowMessege('')), 0);
+      }
+    });
+    this.selfUserSubscribtion = this.store.select<any>(fromStore.getUserSettings).subscribe(state => {
+      if (state) {
+        this.selfUserId = state.info.uid;
+        
       }
     });
     this.bookNavBarEnabled = false;
-    this.whichPageSubscription=this.store.select<any>(fromStore.getContextmyRequestsOption).subscribe(state => { this.which_page = state; });
+    this.whichPageSubscription = this.store.select<any>(fromStore.getContextmyRequestsOption).subscribe(state => { this.which_page = state; });
     this.onResize();
-    
+
   }
   ngOnDestroy() {
     this.myRequestsSubscription.unsubscribe();
     this.messegeSubscription.unsubscribe();
     this.whichPageSubscription.unsubscribe();
+    this.selfUserSubscribtion.unsubscribe();
     this.hideBookNavbar(this.bookSelected);
   }
 
