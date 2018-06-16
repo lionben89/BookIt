@@ -128,7 +128,7 @@ export class AddBookComponent implements OnInit {
         this.userInfoSubscription=this.store.select(fromStore.getUserInfo).subscribe((state)=>{this.userInfo=state;});
         this.messegeSubscription=this.store.select(fromStore.getMessege).subscribe((state)=>{
           if (state && state!=='') {
-            this.snackBar.open(state, null, { duration: 1000 });
+            this.snackBar.open(state, null, { duration: 3000 });
             setTimeout(this.store.dispatch(new fromStore.ShowMessege('')),0);
           }
         });

@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { DialogTwoButtonComponent } from "./dialog-two-button/dialog-two-button.component";
 import { DialogOneButtonComponent } from "./dialog-one-button/dialog-one-button.component";
 import { MatDialog } from "@angular/material";
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: "app-settings",
@@ -23,6 +24,7 @@ export class SettingsComponent implements OnInit {
   categories: string[];
 
   /* global */
+  messegeSubscription;
   checked = false;
   indeterminate = false;
   align = "start";
@@ -100,7 +102,7 @@ export class SettingsComponent implements OnInit {
     this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.SHARE_MY_BOOKS, newValue));
   }
 
-  constructor(private store: Store<fromStore.MainState>, public auth: AuthService, public dialog: MatDialog) { }
+  constructor( public snackBar: MatSnackBar,private store: Store<fromStore.MainState>, public auth: AuthService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.settingsOption$ = this.store.select(fromStore.getContextSettingsOption);
@@ -109,10 +111,17 @@ export class SettingsComponent implements OnInit {
     this.booksNearBySubscription = this.store.select<any>(fromStore.getBooksNearBy).subscribe(state => {
       this.sortBooksByCategories(state);
     });
+    this.messegeSubscription = this.store.select(fromStore.getMessege).subscribe((state) => {
+      if (state && state!=='') {
+        this.snackBar.open(state, null, { duration:3000 });
+        setTimeout(this.store.dispatch(new fromStore.ShowMessege('')),0);
+      }
+    });
   }
 
   ngOnDestroy() {
     this.userSettingsSubscription.unsubscribe();
     this.booksNearBySubscription.unsubscribe();
+    this.messegeSubscription.unsubscribe();
   }
 }

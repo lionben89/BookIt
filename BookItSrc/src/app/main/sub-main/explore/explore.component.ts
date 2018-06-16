@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material';
 
 
 
+
 @Component({
   selector: 'app-explore',
   templateUrl: './explore.component.html',
@@ -31,8 +32,9 @@ export class ExploreComponent implements OnInit {
   currentCategory;
   userSettingsSubscription;
   userSettings: UserSettingsState;
+  
 
-  constructor(private store: Store<fromStore.MainState>, iconService: IconsService, public snackBar: MatSnackBar) {
+  constructor(private store: Store<fromStore.MainState>, iconService: IconsService, public snackBar: MatSnackBar,) {
   }
   showBookNavbar(book: Book) {
     this.bookNavBarEnabled = true;
@@ -102,11 +104,13 @@ export class ExploreComponent implements OnInit {
         }
         else {
           let ex = false;
-          this.userSettings.favoriteCategories.categories.forEach((c) => {
-            if (cat === c.name && c.active) {
-              ex = true;
-            }
-          })
+          if (this.userSettings && this.userSettings.favoriteCategories && this.userSettings.favoriteCategories.categories) {
+            this.userSettings.favoriteCategories.categories.forEach((c) => {
+              if (cat === c.name && c.active) {
+                ex = true;
+              }
+            })
+          }
           if (ex) {
             this.categories[cat] = [];
             this.categories[cat].push(book);
@@ -132,9 +136,9 @@ export class ExploreComponent implements OnInit {
     this.bookNavBarEnabled = false;
     this.onResize();
     this.userSettingsSubscription = this.store.select<any>(fromStore.getUserSettings).subscribe(state => {
-       this.userSettings = state; 
-       //this.sortBooksByCategories(this.categories["All"]);
-      }
+      this.userSettings = state;
+      //this.sortBooksByCategories(this.categories["All"]);
+    }
     );
     this.booksNearBySubscription = this.store.select<any>(fromStore.getBooksNearBy).subscribe(state => {
       this.sortBooksByCategories(state);
@@ -146,13 +150,14 @@ export class ExploreComponent implements OnInit {
     this.store.select(fromStore.getExploreStatus).subscribe(state => { this.status = state; });
     this.messegeSubscription = this.store.select(fromStore.getMessege).subscribe((state) => {
       if (state && state !== '') {
-        this.snackBar.open(state, null, { duration: 1000 });
+        this.snackBar.open(state, null, { duration: 3000 });
         setTimeout(this.store.dispatch(new fromStore.ShowMessege('')), 0);
       }
     })
     this.store.select(fromStore.getContextCurrentCategory).subscribe(state => {
       this.currentCategory = state;
-    })
+    });
+    
 
   }
   ngOnDestroy() {

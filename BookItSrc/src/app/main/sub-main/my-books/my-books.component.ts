@@ -108,7 +108,7 @@ export class MyBooksComponent implements OnInit {
     this.getUserDataStatusSubscription=this.store.select(fromStore.getUserDataStatus).subscribe(state=>{this.status=state;});
     this.messegeSubscription = this.store.select(fromStore.getMessege).subscribe((state) => {
       if (state && state!=='') {
-        this.snackBar.open(state, null, { duration: 1000 });
+        this.snackBar.open(state, null, { duration: 3000 });
         setTimeout(this.store.dispatch(new fromStore.ShowMessege('')),0);
       }
     });
