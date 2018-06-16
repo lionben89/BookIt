@@ -18,4 +18,11 @@
   .auto-complete-chosen{
     color:#64B5F6;
   }
+
+  /deep/ .mat-form-field-wrapper {
+    min-width: 250px;
+    max-width: 80%;
+    padding-left: 8%;
+    padding-right: 10%;
+}
  
