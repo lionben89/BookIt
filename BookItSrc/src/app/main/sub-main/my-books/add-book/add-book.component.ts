@@ -28,8 +28,7 @@ export class AddBookComponent implements OnInit {
   messegeSubscription;
   public startIndex = 0;
   public numRuns = 0;
-  public maxRuns = 7;
-  public maxResults = 18;
+  public maxResults = 12;
   public cntBooksFound = 0;
   constructor(private httpClient: HttpClient, private store: Store<fromStore.MainState>,public snackBar: MatSnackBar) { }
   onResize() {
@@ -66,12 +65,12 @@ export class AddBookComponent implements OnInit {
     //send book search request to Book API
     
 
-    let url = this.apiRoot + '/?q=' + encodeURIComponent(this.searchTerm) + '&startIndex=' + this.startIndex + '&maxResults=' + this.maxResults + '&printType=books&fields=items(id%2CvolumeInfo(authors%2Ccategories%2Cdescription%2CimageLinks%2CmainCategory%2CratingsCount%2Ctitle))%2Ckind%2CtotalItems';//&key=AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4
+    let url = this.apiRoot + '/?q=' + encodeURIComponent(this.searchTerm) + '&startIndex=' + this.startIndex + '&maxResults=' + this.maxResults + '&printType=books&fields=items(id%2CvolumeInfo(authors%2Ccategories%2Cdescription%2CimageLinks%2CmainCategory%2CratingsCount%2Ctitle))%2Ckind%2CtotalItems&key=AIzaSyCSIkOfp54J7oPZ-lrkxyswdpBxb8t3d0U';//&key=AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4
     this.startIndex += this.maxResults;
 
     this.httpClient.get(url).subscribe(res => {
       if (res['items'] === undefined) {
-        this.results = [];
+        this.searched=true;
         return;
       }
 
@@ -122,30 +121,32 @@ export class AddBookComponent implements OnInit {
       
       if(!this.cntBooksFound){
         //did not find any books in last run -> return
-        console.log("did not find any books in last run -> return, numRuns = " + this.numRuns);
+        console.log("did not find any books in last run -> return, numRuns = " + this.numRuns++);
         return;
       }
     });
-    if(this.numRuns < this.maxRuns){ //keep fetching results
-      console.log("run another search, startIndex = " + this.startIndex);     
-      this.numRuns++;
-      this.doSearch();
-    }
   }
-
+  onScroll(){	
+       if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight-40) {
+         console.log("near bottom! add more books");
+         this.doSearch();
+       } 
+  }
   ngOnInit() {
       this.searched=false;
       this.onResize();
       this.searchField = new FormControl();
       this.searchField.valueChanges
-        .debounceTime(300)
+        .debounceTime(1000)
         .distinctUntilChanged()
         .subscribe(term => {
           this.searchTerm = term;
           if(this.searchTerm===''){
+            this.results = [];
             this.searched=false;
           }
           else {
+            this.startIndex=0;
             this.results=[];
             this.doSearch();
           }
