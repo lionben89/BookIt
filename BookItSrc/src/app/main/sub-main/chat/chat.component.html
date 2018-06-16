@@ -10,7 +10,7 @@
 <img src="assets/images/panda2.png"  class="back-pic"/> 
 
     <mat-card class="chat-div"  style="height: 100%;">
-      <mat-card-content class="chat-container" *ngFor="let item of items;"  selected="true" name="msg_list" ngDefaultControl>
+      <mat-card-content class="chat-container" *ngFor="let item of items" selected="true" name="msg_list" ngDefaultControl>
         <container-element class="container-info" [ngSwitch]="item.from">
 
 
@@ -21,7 +21,7 @@
           </section>
 
           <section class="info-section-2" *ngSwitchDefault>
-            <label  class="label-msg-2">
+            <label class="label-msg-2">
               {{item.content}}
             </label>
           </section>
