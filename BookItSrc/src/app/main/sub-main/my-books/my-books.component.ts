@@ -1,5 +1,5 @@
 import { getUserDataStatus } from './../../../store/reducers/index';
-import { Book, Loadable } from './../../../data_types/states.model';
+import { Book, Loadable, Message } from './../../../data_types/states.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../../store';
@@ -31,7 +31,11 @@ export class MyBooksComponent implements OnInit {
   bookSelected: Book;
   public status: Loadable;
   public bookNavbarCols = 2;
+  selfUserSubscribtion;
+  selfUserId;
+  otherUserId;
 
+  
   goToAddbook() {
     this.store.dispatch(new fromStore.ChooseMyBooksAddBook);
   }
@@ -105,6 +109,20 @@ export class MyBooksComponent implements OnInit {
     }
   }
   approveRequest(book: Book) {
+    let date = new Date();
+    if (this.bookSelected && this.bookSelected.ownerUid === this.selfUserId) {
+      this.otherUserId = this.bookSelected.currentRequest.borrowerUid;
+    } else {
+      this.otherUserId = this.bookSelected.ownerUid;
+    }
+    let message : Message = {
+      threadId: this.bookSelected.currentRequest.requestId,
+      from: this.selfUserId,
+      to: this.otherUserId,
+      timeSent: date.toLocaleString("en-US"),
+      content: "Request was approved by book owner."
+    };
+    this.store.dispatch(new fromStore.AddMessage(message));
     book.currentRequest.pending = false;
     book.currentRequest.approved = true;
     this.store.dispatch(new fromStore.UpdateBook(book));
@@ -160,6 +178,12 @@ export class MyBooksComponent implements OnInit {
         setTimeout(this.store.dispatch(new fromStore.ShowMessege('')), 0);
       }
     });
+    this.selfUserSubscribtion = this.store.select<any>(fromStore.getUserSettings).subscribe(state => {
+      if (state) {
+        this.selfUserId = state.info.uid;
+        
+      }
+    });
 
   }
 
@@ -168,6 +192,7 @@ export class MyBooksComponent implements OnInit {
     this.userBooksSubscription.unsubscribe();
     this.getUserDataStatusSubscription.unsubscribe();
     this.messegeSubscription.unsubscribe();
+    this.selfUserSubscribtion.unsubscribe();
     this.hideBookNavbar(this.bookSelected);
   }
 
