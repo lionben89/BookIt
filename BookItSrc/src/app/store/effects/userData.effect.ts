@@ -600,6 +600,7 @@ export class UserDataEffects {
                     approved: false,
                     pending: true,
                     startTime: null,
+                    hasNewMessages: false,
                 };
 
                 console.log(book);

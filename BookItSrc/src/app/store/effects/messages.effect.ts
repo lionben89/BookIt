@@ -19,6 +19,7 @@ import * as fromStore from '../../store';
 import * as firebase from 'firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFirestore } from 'angularfire2/firestore';
 
 import * as fromMessagesActions from '../actions/messages.action';
 
@@ -32,6 +33,7 @@ export class MessagesEffects {
         private actions: Actions,
         private afAuth: AngularFireAuth,
         private afdb: AngularFireDatabase,
+        private afs: AngularFirestore,
         private store: Store<MainState>) {
         this.dbRef = this.afdb.database.ref('messages/');
     }
@@ -64,22 +66,57 @@ export class MessagesEffects {
     @Effect({ dispatch: false })
     DiactivateMessageThread: Observable<Action> = this.actions.ofType(fromMessagesActions.ActionsMessagesConsts.DEACTIVATE_MESSAGE_THREAD)
         .map((action: fromMessagesActions.DeactivateMessageThread) => action.payload)
-        .switchMap((threadId: string) => {
+        .switchMap((payload: any) => {
             this.dbRef.off('child_added');
-            return Observable.of(null);
+
+            let ownerUid = payload.ownerUid;
+            let borrowerUid = payload.borrowerUid;
+            let bookId = payload.bookId;
+
+            let bookDocRef;
+            if (this.afAuth.auth.currentUser.uid == ownerUid) {
+                bookDocRef = this.afs.collection('Users/' + ownerUid + '/Books').doc(bookId);
+            } else {
+                bookDocRef = this.afs.collection('Users/' + borrowerUid + '/Requests').doc(bookId);
+            }
+
+            let update = {
+                currentRequest: {
+                    hasNewMessages: false
+                }
+            };
+            return bookDocRef.set(update, { merge: true });
         });
 
     @Effect({ dispatch: false })
     AddMessage: Observable<Action> = this.actions.ofType(fromMessagesActions.ActionsMessagesConsts.ADD_MESSAGE)
         .map((action: fromMessagesActions.AddMessage) => action.payload)
-        .switchMap((message: Message) => {
+        .switchMap((payload: any) => {
             if (!this.afAuth.authState) {
                 this.store.dispatch(new fromMessagesActions.AddMessageFail());
                 return Observable.of(null);
             }
 
+            let message = payload.message;
+            let bookId = payload.bookId;
+            let ownerUid = payload.ownerUid;
+            let borrowerUid = payload.borrowerUid;
+            
             this.dbRef.push(message);
-            return Observable.of(null);
+
+            let bookDocRef;
+            if (this.afAuth.auth.currentUser.uid == ownerUid) {
+                bookDocRef = this.afs.collection('Users/' + borrowerUid + '/Requests').doc(bookId);
+            } else {
+                bookDocRef = this.afs.collection('Users/' + ownerUid + '/Books').doc(bookId);
+            }
+
+            let update = {
+                currentRequest: {
+                    hasNewMessages: true
+                }
+            };
+            return bookDocRef.set(update, { merge: true });
         });
     
 }

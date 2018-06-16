@@ -86,7 +86,8 @@ export interface Book {
         borrowerUid?: string,
         approved:boolean,
         pending:boolean,
-        startTime?: Date
+        startTime?: Date,
+        hasNewMessages: boolean,
     }
     title: string,
     author: string,

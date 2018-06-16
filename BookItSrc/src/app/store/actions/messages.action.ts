@@ -16,7 +16,7 @@ export class InitMessageThread implements Action{
 }
 export class DeactivateMessageThread implements Action{
     readonly type=ActionsMessagesConsts.DEACTIVATE_MESSAGE_THREAD;
-    constructor(public payload?:string){}
+    constructor(public payload?:any){}
 }
 
 export class LoadMessagesSuccess implements Action{
@@ -31,7 +31,7 @@ export class LoadMessagesFail implements Action{
 
 export class AddMessage implements Action{
     readonly type=ActionsMessagesConsts.ADD_MESSAGE;
-    constructor(public payload?:Message){}
+    constructor(public payload?:any){}
 }
 
 export class AddMessageFail implements Action{

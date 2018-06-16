@@ -78,7 +78,14 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     console.log("Leaving chat screen");
-    this.store.dispatch(new fromStore.DeactivateMessageThread(this.bookChat.currentRequest.requestId));
+    this.store.dispatch(new fromStore.DeactivateMessageThread(
+      {
+        ownerUid: this.bookChat.ownerUid,
+        borrowerUid: this.bookChat.currentRequest.borrowerUid,
+        bookId: this.bookChat.id,
+        threadId: this.bookChat.currentRequest.requestId
+      }
+    ));
 
     this.selfUserSubscribtion.unsubscribe();
     this.threadSubscribtion.unsubscribe();
@@ -113,7 +120,14 @@ export class ChatComponent implements OnInit, OnDestroy {
         timeSent: date.toLocaleString("en-US"),
         content: this.msgVal
       };
-      this.store.dispatch(new fromStore.AddMessage(message));
+      this.store.dispatch(new fromStore.AddMessage(
+        {
+          bookId: this.bookChat.id,
+          ownerUid: this.bookChat.ownerUid,
+          borrowerUid: this.bookChat.currentRequest.borrowerUid,
+          message: message,
+        }
+      ));
 
       this.emptyChatText();
     } else {
