@@ -17,7 +17,7 @@ import {MatSnackBar} from '@angular/material';
 export class AddBookComponent implements OnInit {
   @Input() masterBooksArray: Book[];
   searchField: FormControl;
-  results: Book[] = [];
+  results: Book[];
   apiRoot: string = "https://www.googleapis.com/books/v1/volumes";
   searchTerm: string;
   userInfo:ExtendedUserInfo;
@@ -30,6 +30,7 @@ export class AddBookComponent implements OnInit {
   public numRuns = 0;
   public maxResults = 12;
   public cntBooksFound = 0;
+  searching: boolean;
   constructor(private httpClient: HttpClient, private store: Store<fromStore.MainState>,public snackBar: MatSnackBar) { }
   onResize() {
     if (window.innerWidth <= 400){
@@ -56,6 +57,8 @@ export class AddBookComponent implements OnInit {
     this.store.dispatch(new fromStore.ChooseMyBooksMain);
   }
   doSearch() {
+    if(this.searching)return;
+    else this.searching=true;
     this.searched=false;
     if (this.searchTerm === "") {
       return;
@@ -71,6 +74,7 @@ export class AddBookComponent implements OnInit {
     this.httpClient.get(url).subscribe(res => {
       if (res['items'] === undefined) {
         this.searched=true;
+        this.searching=false;
         return;
       }
 
@@ -117,11 +121,13 @@ export class AddBookComponent implements OnInit {
         };
         this.results.push(book);
       }
+      this.searching=false;
       this.searched=true;
       
       if(!this.cntBooksFound){
         //did not find any books in last run -> return
         console.log("did not find any books in last run -> return, numRuns = " + this.numRuns++);
+        this.searching=false;
         return;
       }
     });
@@ -133,6 +139,9 @@ export class AddBookComponent implements OnInit {
        } 
   }
   ngOnInit() {
+      this.searching=false;
+      this.results=[];
+      this.searchTerm='';
       this.searched=false;
       this.onResize();
       this.searchField = new FormControl();
