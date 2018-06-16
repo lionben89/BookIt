@@ -1,15 +1,36 @@
-/*
-import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
+const functions = require('firebase-functions');
+const admin = require("firebase-admin");
+admin.initializeApp();
 
-admin.initializeApp(functions.config().firebase);
+exports.fcmSend = functions.database.ref('/messages/{messageId}').onCreate(event => {
 
-export const helloWorld = functions.firestore.document('Users/{uid}').onCreate((snap, context) => {
-  console.log("test");
-  const testRef = admin.firestore().collection('Users').doc('test');
-  const user = snap.data();
-  console.log(user);
-  const displayName = user.displayName;
-  return testRef.update({functionField: displayName});
+  let val = event.val();
+  console.log("event: ", val);
+  const message = val.content;
+  console.log(message);
+  const userId = val.to;
+  
+  const payload = {
+    notification: {
+      title: "BamBook! books share app",
+      body: "Hi! yo have a new message",
+      icon: "https://placeimg.com/250/250/people"
+    },
+    data:val,
+  };
+  console.log("payload: ",payload);
+  
+  admin.database()
+    .ref(`/fcmTokens/${userId}`)
+    .once('value')
+    .then(token => token.val())
+    .then(userFcmToken => {
+      return admin.messaging().sendToDevice(userFcmToken, payload)
+    })
+    .then(res => {
+      console.log("Sent Successfully", res);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
-*/
