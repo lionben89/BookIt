@@ -83,7 +83,12 @@ export class MyRequestsComponent implements OnInit {
             timeSent: date.toLocaleString("en-US"),
             content: "Request was canceled by other user, reject request if book was returned."
           };
-          this.store.dispatch(new fromStore.AddMessage(message));
+          this.store.dispatch(new fromStore.AddMessage({
+            bookId: this.bookSelected.id,
+            ownerUid: this.bookSelected.ownerUid,
+            borrowerUid: this.bookSelected.currentRequest.borrowerUid,
+            message: message,
+          }));
         }
       });
     }

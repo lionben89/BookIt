@@ -122,7 +122,14 @@ export class MyBooksComponent implements OnInit {
       timeSent: date.toLocaleString("en-US"),
       content: "Request was approved by book owner."
     };
-    this.store.dispatch(new fromStore.AddMessage(message));
+    this.store.dispatch(new fromStore.AddMessage(
+      {
+        bookId: this.bookSelected.id,
+        ownerUid: this.bookSelected.ownerUid,
+        borrowerUid: this.bookSelected.currentRequest.borrowerUid,
+        message: message,
+      }
+    ));
     book.currentRequest.pending = false;
     book.currentRequest.approved = true;
     this.store.dispatch(new fromStore.UpdateBook(book));
