@@ -107,7 +107,7 @@ export class AddBookComponent implements OnInit {
           title: _title,
           author:item.volumeInfo.authors[0],
           categories:item.volumeInfo.categories,
-          imagePath:item.volumeInfo.imageLinks.thumbnail,
+          imagePath:item.volumeInfo.imageLinks.smallThumbnail,//changed to smallThumbnail from thumbnail
           description: _description,
           currentRequest:{
             pending:false,
