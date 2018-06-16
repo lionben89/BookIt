@@ -45,8 +45,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    console.log(this.bookChat);
-    console.log(this.caller);
     this.store
       .select<any>(fromStore.getContextmybooksOption)
       .subscribe(state => {
@@ -67,10 +65,8 @@ export class ChatComponent implements OnInit, OnDestroy {
       
     });
 
-    console.log("Initialize thread");
     this.store.dispatch(new fromStore.InitMessageThread(this.bookChat.currentRequest.requestId));
 
-    console.log("subscribe to messages");
     this.threadSubscribtion = this.store
       .select<any>(fromStore.getThreadMessages(this.bookChat.currentRequest.requestId))
       .subscribe(threadMessages => {

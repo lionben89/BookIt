@@ -9,8 +9,9 @@
           <mat-grid-tile *ngFor="let book of myRequests" (click)="showBookNavbar(book)" style="overflow: visible;">
             <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
               [attr.src]="book.imagePath" />
-            <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved then requestApprove"></div>
-            <!-- <div class='book-bottom'>
+              <div *ngIf="book.currentRequest && !book.currentRequest.pending && book.currentRequest.approved && !book.currentRequest.hasNewMessages then requestApprove"></div>
+              <div *ngIf="book.currentRequest && book.currentRequest.hasNewMessages then unreadMessages"></div>
+              <!-- <div class='book-bottom'>
               <span class='addbook_title'>{{book.title}}</span>
               <br>
               <span class='addbook_author'>by {{book.author}}</span>
@@ -69,6 +70,10 @@
 
 <ng-template #requestApprove>
   <mat-icon svgIcon='accept' class="book-status"></mat-icon>
+</ng-template>
+
+<ng-template #unreadMessages>
+  <mat-icon svgIcon='unread-messages' class="book-status"></mat-icon>
 </ng-template>
 
 <ng-template #chatButton>

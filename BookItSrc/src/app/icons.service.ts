@@ -138,6 +138,11 @@ export class IconsService {
     );
 
     iconRegistry.addSvgIcon(
+      "unread-messages",
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/unread-messages.svg")
+    );
+
+    iconRegistry.addSvgIcon(
       "accept",
       sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/accept.svg")
     );
