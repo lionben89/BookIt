@@ -9,7 +9,7 @@ exports.fcmSend = functions.database.ref('/messages/{messageId}').onCreate(event
     const userId = val.to;
     const payload = {
         notification: {
-            title: "BamBook! books share app",
+            title: "BamBook! book sharing app",
             body: "Hi! you have a new message",
             icon: "https://bookit-54033.firebaseapp.com/assets/images/panda.png",
             data: val.from,
