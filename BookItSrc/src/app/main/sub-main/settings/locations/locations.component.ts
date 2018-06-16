@@ -20,7 +20,7 @@ import { MapsAPILoader } from "@agm/core";
 })
 export class LocationsComponent implements OnInit {
   public which_page = "locations";
-  public no_remove = "Current Location";
+  public no_remove = "My Current Location";
   public new_location: Location;
 
   private locations = new Array<Location>();
@@ -73,16 +73,8 @@ export class LocationsComponent implements OnInit {
       return;
     }
 
-    let dialogRef = this.dialog.open(DialogTwoButtonComponent, {
-      width: "250px",
-      data: "Are you sure you want to remove this location?"
-    });
-    //check if user is sure he wish to remove this location
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === "confirm") {
-        this.store.dispatch(new fromStore.RemoveLocation(location));
-      }
-    });
+    //remove location
+    this.store.dispatch(new fromStore.RemoveLocation(location));
   }
 
   ngOnInit() {
@@ -97,68 +89,8 @@ export class LocationsComponent implements OnInit {
       .subscribe((locations: Location[]) => {
         this.locations=locations.slice();
       });
-
-    
-    //this.getCurrentLoc();
   }
 
   ngOnDestroy() {}
 
- /* getCurrentLoc() {
-    if (this.userGotCurrLocDefined()) {
-      return;
-    }
-    let address: string;
-    let lat: number;
-    let lng: number;
-
-    //set current position
-    if ("geolocation" in navigator) {
-      this.mapsAPILoader.load().then(() => {
-        navigator.geolocation.getCurrentPosition(position => {
-          lat = position.coords.latitude;
-          lng = position.coords.longitude;
-
-          console.log("lat = " + lat + ", long = " + lng);
-
-       
-          var geocoder = new google.maps.Geocoder();
-          var latlng = { lat, lng };
-          var splited;
-
-          geocoder.geocode({ location: latlng }, (results, status) => {
-            if (status.toString() === "OK") {
-              if (results[0]) {
-                splited = results[0].formatted_address.split(",");
-                console.log(splited);
-
-                address = splited[0];
-                if (splited.length > 2) {
-                  address = address.concat(", ");
-                  address = address.concat(splited[1]);
-                }
-
-                console.log("address = " + address);
-
-                this.new_location = {
-                  label: this.no_remove,
-                  address: address,
-                  lat: lat,
-                  long: lng,
-                  active: true,
-                  id: "-1"
-                };
-
-                this.locations.push(this.new_location);
-              } else {
-                console.log("No results found");
-              }
-            } else {
-              console.log("Geocoder failed due to: " + status);
-            }
-          });
-        });
-      });
-    }
-  }*/
 }

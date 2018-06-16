@@ -39,13 +39,14 @@ body{
 
   .book-status{
     position:absolute;
-    top:-5%;
+    top:0%;
     right:-5%;
     border-width: 1px;
     border-style: solid;
     border-radius:50%;
     border-color: #fafafa;
-    transform: scale(1.2);
+    transform: scale(1.3);
+    background-color: #2f3842;
   }
 
   //switch categories
@@ -136,4 +137,9 @@ section {
   
   .addbook_author {
     font-size: 50%;
+  }
+
+icon-bigger{
+    height: 30px !important;
+    width: 30px !important;
   }

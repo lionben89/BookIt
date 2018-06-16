@@ -7,13 +7,16 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
   styleUrls: ['./dialog-two-button.component.scss']
 })
 export class DialogTwoButtonComponent implements OnInit {
+  checked_dontshow = false;
 
   ngOnInit() {
   }
 
   constructor(
     public dialogRef: MatDialogRef<DialogTwoButtonComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) { 
+      
+    }
 
   onNoClick(): void {
     this.dialogRef.close("cancel"); //on this case assume user wish to cancel
@@ -21,11 +24,22 @@ export class DialogTwoButtonComponent implements OnInit {
 
   clickedConfirm(){
     console.log("called clickedConfirm!");
-    this.dialogRef.close("confirm");
+    if(this.checked_dontshow){
+      this.dialogRef.close("confirmAndDontShowAgain");
+    }
+    else{
+      this.dialogRef.close("confirm");
+    }
   }
 
   clickedCancel(){
     console.log("called clickedCancel!");
-    this.dialogRef.close("cancel");
+
+    if(this.checked_dontshow){
+      this.dialogRef.close("cancelAndDontShowAgain");
+    }
+    else{
+      this.dialogRef.close("cancel");
+    }
   }
 }

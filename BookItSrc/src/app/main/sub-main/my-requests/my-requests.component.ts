@@ -7,6 +7,8 @@ import { Observable } from 'rxjs/Observable';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSnackBar } from '@angular/material';
 import { IconsService } from '../../../icons.service';
+import { DialogTwoButtonComponent } from "../settings/dialog-two-button/dialog-two-button.component";
+import { MatDialog } from "@angular/material";
 
 @Component({
   selector: 'app-my-requests',
@@ -26,7 +28,8 @@ export class MyRequestsComponent implements OnInit {
   messegeSubscription;
   whichPageSubscription;
 
-  constructor(private store: Store<fromStore.MainState>, iconService: IconsService, public snackBar: MatSnackBar) { }
+  constructor(private store: Store<fromStore.MainState>, iconService: IconsService, public snackBar: MatSnackBar, 
+    public dialog: MatDialog) { }
 
 
   onResize() {//TODO add font resize
@@ -56,9 +59,20 @@ export class MyRequestsComponent implements OnInit {
   }
 
   removeRequest() {
-    this.store.dispatch(new fromStore.RemoveRequestBook(this.bookSelected));
-    this.hideBookNavbar(this.bookSelected);
-
+    let dialogRef = this.dialog.open(DialogTwoButtonComponent, {
+      width: "250px",
+      data: "Are you sure you want to remove this request?"
+    });
+    //check if user is sure he wish to remove this request
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != "cancel" && result != "cancelAndDontShowAgain") {
+        this.store.dispatch(new fromStore.RemoveRequestBook(this.bookSelected));
+        this.hideBookNavbar(this.bookSelected);
+      }
+      if(result == "confirmAndDontShowAgain" || result == "cancelAndDontShowAgain"){
+        //this.store.dispatch(new fromStore.DontShowAgainRemoveRequestMsg()); YUVAL
+      }
+    });
   }
 
   showBookNavbar(book: Book) {
