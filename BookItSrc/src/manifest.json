@@ -5,7 +5,7 @@
   "display": "standalone",
   "icons": [
     {
-      "src": "assets/panda_96x96.png",
+      "src": "assets/images/panda_96x96.png",
       "sizes": "96x96",
       "type": "image/png",
     }
