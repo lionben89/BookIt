@@ -58,10 +58,10 @@ export class MyBooksComponent implements OnInit {
     this.bookSelected = book;
     this.bookNavbarCols = 2;
     if (book.currentRequest && book.currentRequest.pending && !book.currentRequest.approved) {
-      this.bookNavbarCols = 5;
+      this.bookNavbarCols = 4;
     }
     else if (book.currentRequest && !book.currentRequest.pending && book.currentRequest.approved) {
-      this.bookNavbarCols = 5;
+      this.bookNavbarCols = 4;
     }
     return;
   }
@@ -159,10 +159,7 @@ export class MyBooksComponent implements OnInit {
       this.hideBookNavbar(book);
     }
   }
-  showUser() {
-    console.log('showing user');
 
-  }
 
   startChat() {
     console.log('opening chat');

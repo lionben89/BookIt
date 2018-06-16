@@ -101,9 +101,9 @@ export class MyRequestsComponent implements OnInit {
   showBookNavbar(book: Book) {
     this.bookNavBarEnabled = true;
     this.bookSelected = book;
-    this.bookNavbarCols = 3;
+    this.bookNavbarCols = 2;
     if (book.currentRequest && !book.currentRequest.pending && book.currentRequest.approved) {
-      this.bookNavbarCols = 4;
+      this.bookNavbarCols = 3;
     }
     return;
   }

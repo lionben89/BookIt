@@ -24,7 +24,7 @@
                                 [attr.src]="book.imagePath" />
                             <div *ngIf="book.currentRequest  && book.currentRequest.pending && !book.currentRequest.approved then requestPending"></div>
                             <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved && !book.currentRequest.hasNewMessages then requestApprove"></div>
-                            <div *ngIf="book.currentRequest  && book.currentRequest.hasNewMessages then unreadMessages"></div>
+                            <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved && book.currentRequest.hasNewMessages then unreadMessages"></div>
                         </mat-grid-tile>
                     </mat-grid-list>
                 </div>
@@ -52,10 +52,6 @@
                             <mat-icon svgIcon='waste-bin' class='icon'></mat-icon>
                        
                     </button>
-                </mat-grid-tile>
-
-                <mat-grid-tile item-height="100%">
-                    <div *ngIf="(bookSelected.currentRequest  && (bookSelected.currentRequest.pending && !bookSelected.currentRequest.approved) || (!bookSelected.currentRequest.pending && bookSelected.currentRequest.approved)) then userButton"></div>
                 </mat-grid-tile>
 
                 <mat-grid-tile item-height="100%">
@@ -115,13 +111,6 @@
         <mat-icon svgIcon='new-message' class="icon"></mat-icon>
     </button>
 </ng-template>
-
-<ng-template #userButton>
-    <button style="font-size:1em;background-color: #2f3842;" (click)="showUser()">
-         <mat-icon svgIcon='people-gray' class='icon'></mat-icon>
-    </button>
-</ng-template>
-
 
 <ng-template #noBooks>
     <p>add books to share!</p>

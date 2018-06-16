@@ -42,11 +42,7 @@
 
         </button>
       </mat-grid-tile>
-      <mat-grid-tile item-height="100%">
-        <button style="font-size:1em; " (click)="showUser()">
-          <mat-icon svgIcon='people-gray' class='icon'></mat-icon>
-        </button>
-      </mat-grid-tile>
+      
       <mat-grid-tile item-height="100%">
         <div *ngIf="bookSelected.currentRequest  && !bookSelected.currentRequest.pending && bookSelected.currentRequest.approved then chatButton"></div>
       </mat-grid-tile>
