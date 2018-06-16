@@ -58,29 +58,15 @@ export class AddBookComponent implements OnInit {
   }
   doSearch() {
     this.searched=false;
-    this.results = [];
     if (this.searchTerm === "") {
-      this.results = [];
       return;
     }
     
-    // let splited = this.searchTerm.split(" ");
-    // let final_search_term : string = "";
-
-    // for(let i = 0; i < splited.length; i++){
-    //   if(splited[i] == "")
-    //     return;
-
-    //   if(i!= 0 && i != splited.length - 1){
-    //     final_search_term = final_search_term.concat("+");
-    //   }
-    //   final_search_term = final_search_term.concat(splited[i]);
-    // }    
 
     //send book search request to Book API
     
 
-    let url = this.apiRoot + '/?q=' + encodeURIComponent(this.searchTerm) + '&startIndex=' + this.startIndex + '&maxResults=' + this.maxResults + '&printType=books&fields=items(id%2CvolumeInfo(authors%2Ccategories%2Cdescription%2CimageLinks%2CmainCategory%2CratingsCount%2Ctitle))%2Ckind%2CtotalItems&key=AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4';
+    let url = this.apiRoot + '/?q=' + encodeURIComponent(this.searchTerm) + '&startIndex=' + this.startIndex + '&maxResults=' + this.maxResults + '&printType=books&fields=items(id%2CvolumeInfo(authors%2Ccategories%2Cdescription%2CimageLinks%2CmainCategory%2CratingsCount%2Ctitle))%2Ckind%2CtotalItems';//&key=AIzaSyD3CvQbqcoQxsIoHTJMdBnFeBRu5XlZeP4
     this.startIndex += this.maxResults;
 
     this.httpClient.get(url).subscribe(res => {
@@ -151,14 +137,17 @@ export class AddBookComponent implements OnInit {
       this.onResize();
       this.searchField = new FormControl();
       this.searchField.valueChanges
-        .debounceTime(500)
+        .debounceTime(300)
         .distinctUntilChanged()
         .subscribe(term => {
           this.searchTerm = term;
           if(this.searchTerm===''){
             this.searched=false;
           }
-          else this.doSearch();
+          else {
+            this.results=[];
+            this.doSearch();
+          }
         });
         this.userInfoSubscription=this.store.select(fromStore.getUserInfo).subscribe((state)=>{this.userInfo=state;});
         this.messegeSubscription=this.store.select(fromStore.getMessege).subscribe((state)=>{
