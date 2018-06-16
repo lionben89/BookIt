@@ -241,6 +241,8 @@ export class RemoveRequestBookFail implements Action{
     constructor(public payload?:any){}
 }
 
+
+
 export type UserDataActions =// LoadFavoriteCategories | LoadFavoriteCategoriesFail | LoadFavoriteCategoriesSuccess|
 LoadUserInfo | LoadUserInfoFail | LoadUserInfoSuccess |
 LoginGoogle | LoginFacebook | Logout | ErrorHandler|ShowMessege | LoginSuccess |

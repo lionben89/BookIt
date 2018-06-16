@@ -1,3 +1,4 @@
+import { ActionsUserDataConsts } from './../actions/userData.action';
 
 import { Action } from '@ngrx/store';
 import * as fromContext from '../actions/context.action';
@@ -19,6 +20,7 @@ export const isBookEquale = (book1, book2) => {
 let initState: ExploreState = {
     usersNearBy: [],
     booksNearBy: {},
+    chatUsersInfo:{},
     loading: false,
     loaded: false,
 };
@@ -60,6 +62,11 @@ export function ExploreReducer(state: ExploreState = initState, action: fromExpl
         case fromExplore.ActionsExploreConsts.DELETE_ALL_USERS_NEARBY: {
             return { ...state, usersNearBy: new Array<any>() };
         }
+        case fromExplore.ActionsExploreConsts.LOAD_OTHER_USER_INFO_SUCCESS:{
+            let newChatUsersInfo={...state.chatUsersInfo};
+            newChatUsersInfo[action.payload.userId]=action.payload.info;
+            return {...state,chatUsersInfo:newChatUsersInfo}
+        }
 
         default: return state;
     }
@@ -82,4 +89,4 @@ export const getBooksNearBy = (state: ExploreState) => {
     return booksNearBy;
 }
 export const getExploreStatus = (state: ExploreState) => { return { loading: state.loading, loaded: state.loaded } }
-
+export const getOtherUserInfo =(state: ExploreState, userId:string) => { return state.chatUsersInfo[userId]; }

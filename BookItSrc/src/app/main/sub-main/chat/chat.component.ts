@@ -7,7 +7,8 @@ import {
   ExtendedUserInfo,
   UserUpdateType,
   Message,
-  Book
+  Book,
+  UserSettingsState
 } from "./../../../data_types/states.model";
 import { MatDialog } from "@angular/material";
 import { DialogOneButtonComponent } from "../settings/dialog-one-button/dialog-one-button.component";
@@ -30,6 +31,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   private selfUserId: string;
 
   private otherUserId: string;
+  private otherUserSettings: UserSettingsState;
+  private otherUserSettingsSubscription;
 
   private items = new Array<Message>();
 
@@ -54,12 +57,14 @@ export class ChatComponent implements OnInit, OnDestroy {
       if (state) {
         this.selfUserInfo = state.info;
         this.selfUserId = this.selfUserInfo.uid;
-        if (this.bookChat.ownerUid == this.selfUserId) {
+        if (this.bookChat.ownerUid === this.selfUserId) {
           this.otherUserId = this.bookChat.currentRequest.borrowerUid;
         } else {
           this.otherUserId = this.bookChat.ownerUid;
         }
       }
+      this.store.dispatch(new fromStore.LoadOtherUserInfo(this.otherUserId));
+      
     });
 
     console.log("Initialize thread");
@@ -72,12 +77,22 @@ export class ChatComponent implements OnInit, OnDestroy {
           this.items = threadMessages;
           this.scrollToSpacer();
         });
+       
+        setTimeout(() => {
+          this.spacer.nativeElement.scrollIntoView({behavior: 'smooth'});
+        },300);
+
+      this.otherUserSettingsSubscription=
+      this.store.select<any>(fromStore.getOtherUserInfo(this.otherUserId)).subscribe((state)=>{
+        console.log(state);
+      })
+        
+        
         
       
   }
 
   ngOnDestroy() {
-    console.log("Leaving chat screen");
     this.store.dispatch(new fromStore.DeactivateMessageThread(
       {
         ownerUid: this.bookChat.ownerUid,
@@ -89,6 +104,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     this.selfUserSubscribtion.unsubscribe();
     this.threadSubscribtion.unsubscribe();
+    this.otherUserSettingsSubscription.unsubscribe();
   }
 
   scrollToSpacer(){

@@ -48,6 +48,7 @@ export const getExploreState = createFeatureSelector<ExploreState>('explore');
 export const getUsersNearBy=createSelector(getExploreState,fromExplore.getUsersNearBy);
 export const getBooksNearBy=createSelector(getExploreState,fromExplore.getBooksNearBy);
 export const getExploreStatus=createSelector(getExploreState,fromExplore.getExploreStatus);
+export const getOtherUserInfo=(userId:string)=>createSelector(getExploreState,(state:ExploreState)=>{return fromExplore.getOtherUserInfo(state,userId)});
 
 // Messages solectors
 export const getMessagesState = createFeatureSelector<MessagesState>('messages');

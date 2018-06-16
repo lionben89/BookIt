@@ -8,6 +8,9 @@ export const ActionsExploreConsts={
         LOAD_BOOKS_FROM_USERS_NEAR_BY:"LOAD_BOOKS_FROM_USERS_NEAR_BY",
         LOAD_BOOKS_FROM_USERS_NEAR_BY_SUCCESS:"LOAD_BOOKS_FROM_USERS_NEAR_BY_SUCCESS",
         LOAD_BOOKS_FROM_USERS_NEAR_BY_FAIL:"LOAD_BOOKS_FROM_USERS_NEAR_BY_FAIL",
+        LOAD_OTHER_USER_INFO:"LOAD_OTHER_USER_INFO", //get user data from DB
+        LOAD_OTHER_USER_INFO_SUCCESS:"LOAD_OTHER_USER_INFO_SUCCESS",//put user data in store
+        LOAD_OTHER_USER_INFO_FAIL:"LOAD_OTHER_USER_INFO_FAIL",//user data from DB failed
         
 
 };
@@ -42,10 +45,26 @@ export class DeleteAllUsersNearBy implements Action{
     constructor(public payload?:any){}
 }
 
+export class LoadOtherUserInfo implements Action{
+    readonly type =ActionsExploreConsts.LOAD_OTHER_USER_INFO;
+    constructor(public payload?:any){}
+}
+
+export class LoadOtherUserInfoSuccess implements Action{
+    readonly type =ActionsExploreConsts.LOAD_OTHER_USER_INFO_SUCCESS;
+    constructor(public payload:any){}
+}
+
+export class LoadOtherUserInfoFail implements Action{
+    readonly type =ActionsExploreConsts.LOAD_OTHER_USER_INFO_FAIL;
+    constructor(public payload?:any){}
+}
+
 
 
 
 export type ExploreActions = AddUserNearby | RemoveUserNearby |
     LoadBooksFromUsersNearBy | LoadBooksFromUsersNearBySuccess | LoadBooksFromUsersNearByFail
-    |DeleteAllUsersNearBy;
+    |DeleteAllUsersNearBy|
+    LoadOtherUserInfo | LoadOtherUserInfoFail | LoadOtherUserInfoSuccess;
 

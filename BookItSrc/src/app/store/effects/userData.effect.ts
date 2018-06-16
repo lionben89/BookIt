@@ -284,6 +284,8 @@ export class UserDataEffects {
             //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
         )
 
+   
+
     @Effect()
     UpdateUserInfo: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.UPDATE_USER_INFO)
         .pipe(
@@ -298,9 +300,9 @@ export class UserDataEffects {
                         if (!updatedFields.info) updatedFields.info = {};
                         updatedFields.info.shareMyBooks = action.payload;
                         break;
-                    case UserUpdateType.CATEGORIES:{
-                        if (!updatedFields.favoriteCategories) updatedFields.favoriteCategories = {categories:[]};
-                        updatedFields.favoriteCategories.categories=action.payload;
+                    case UserUpdateType.CATEGORIES: {
+                        if (!updatedFields.favoriteCategories) updatedFields.favoriteCategories = { categories: [] };
+                        updatedFields.favoriteCategories.categories = action.payload;
                         break;
                     }
                     default:
@@ -388,7 +390,7 @@ export class UserDataEffects {
                 return this.afs.collection(`${userPath}/Locations`).valueChanges();
             }),
             map(locations => {
-               
+
                 if (locations.length === 0 && this.firstLoactionsLoad) {
                     this.addCurrentLocation();
                 }
@@ -619,7 +621,7 @@ export class UserDataEffects {
                     let bookDocRef = this.afs.collection('Users/' + book.currentRequest.borrowerUid + '/Requests').doc(book.id);
                     return bookDocRef.set(book, { merge: true }).then(() => {
                         if (book && (book.currentRequest) && (book.currentRequest.pending && !book.currentRequest.approved))
-                        this.store.dispatch(new fromStore.ShowMessege("Book Requested"));
+                            this.store.dispatch(new fromStore.ShowMessege("Book Requested"));
                     });
                 }
             }),

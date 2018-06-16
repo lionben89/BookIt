@@ -15,6 +15,9 @@ export interface ExploreState extends Loadable {
     usersNearBy:string[],
     booksNearBy: {
         [userId: string]: Array<Book>,
+    },
+    chatUsersInfo:{
+        [userId:string]:ExtendedUserInfo,
     }
 }
 

@@ -77,6 +77,34 @@ export class ExploreEffects {
             //.catch(err => Observable.of(new fromUserDataActions.ErrorHandler()));
         )
 
+        @Effect({ dispatch: false })
+        LoadOtherUserInfo: Observable<Action> = this.actions.ofType(fromExploreActions.ActionsExploreConsts.LOAD_OTHER_USER_INFO)
+            .pipe(
+                map((action: fromExploreActions.LoadOtherUserInfo) => action.payload),
+                switchMap(userId => {
+                    if (!userId) {
+                        this.store.dispatch(new fromExploreActions.LoadOtherUserInfoFail());
+                        return Observable.of(null);
+                    }
+                     this.afs.doc<UserSettingsState>(`Users/${userId}`)
+                    .valueChanges()
+                    .subscribe((userInfo)=>{
+                        if (!userInfo) {
+                            return;
+                        }
+                        this.store.dispatch(new fromExploreActions.LoadOtherUserInfoSuccess(
+                            {
+                                userId: userInfo.info.uid,
+                                info:userInfo.info
+                            }
+                        ));
+                    });
+                    return Observable.of(null);
+                }),
+               
+            
+            )
+
        
 
 }
