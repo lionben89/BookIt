@@ -44,7 +44,6 @@ export class ExploreEffects {
         .pipe(
             map((action: fromExploreActions.LoadBooksFromUsersNearBy) => action.payload),
             switchMap(usersNearBy => {
-                console.log("A");
                 if (usersNearBy.length === 0) {
                     //this.store.dispatch(new fromExploreActions.LoadUsersNearByFail());
                     console.log("no users nearby");
@@ -52,9 +51,7 @@ export class ExploreEffects {
                 }
                 this.BooksNearByCol = {};
                 usersNearBy.forEach(user => {
-                    if (!this.BooksNearByCol[user])
-                    {
-                        console.log(user);
+                    if (!this.BooksNearByCol[user]) {
                         this.BooksNearByCol[user] = this.afs.collection('Users/' + user + '/Books')
                         .valueChanges()
                         .subscribe(userBooks => {

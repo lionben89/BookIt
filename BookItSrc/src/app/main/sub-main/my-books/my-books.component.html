@@ -23,7 +23,8 @@
                             <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
                                 [attr.src]="book.imagePath" />
                             <div *ngIf="book.currentRequest  && book.currentRequest.pending && !book.currentRequest.approved then requestPending"></div>
-                            <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved then requestApprove"></div>
+                            <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved && !book.currentRequest.hasNewMessages then requestApprove"></div>
+                            <div *ngIf="book.currentRequest  && book.currentRequest.hasNewMessages then unreadMessages"></div>
                         </mat-grid-tile>
                     </mat-grid-list>
                 </div>
@@ -91,6 +92,10 @@
 
 <ng-template #requestApprove>
     <mat-icon svgIcon='accept' class="book-status"></mat-icon>
+</ng-template>
+
+<ng-template #unreadMessages>
+    <mat-icon svgIcon='unread-messages' class="book-status"></mat-icon>
 </ng-template>
 
 <ng-template #declineButton>

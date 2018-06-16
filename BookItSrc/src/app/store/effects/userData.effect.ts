@@ -175,7 +175,6 @@ export class UserDataEffects {
                         dbRef.child(key).once('value').then(function (store) {
                             return function (snapshot) {
                                 if (snapshot.val().userID !== loggedUserID) {
-                                    console.log(snapshot.val().userID + " entered!");
                                     store.dispatch(new fromExploreActions.AddUserNearby(snapshot.val().userID));
                                 };
                             }
