@@ -1,5 +1,13 @@
 {
   "short_name": "BamBook",
-  "name": "BamBook- Book Share App",
-  "gcm_sender_id": "103953800507"
+  "name": "BamBook - Book Sharing App",
+  "gcm_sender_id": "103953800507",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "assets/panda_96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+    }
+  ]
 }
