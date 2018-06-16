@@ -20,7 +20,7 @@ import { MapsAPILoader } from "@agm/core";
 })
 export class LocationsComponent implements OnInit {
   public which_page = "locations";
-  public no_remove = "Current Location";
+  public no_remove = "My Current Location";
   public new_location: Location;
 
   private locations = new Array<Location>();
@@ -73,16 +73,8 @@ export class LocationsComponent implements OnInit {
       return;
     }
 
-    let dialogRef = this.dialog.open(DialogTwoButtonComponent, {
-      width: "250px",
-      data: "Are you sure you want to remove this location?"
-    });
-    //check if user is sure he wish to remove this location
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === "confirm") {
-        this.store.dispatch(new fromStore.RemoveLocation(location));
-      }
-    });
+    //remove location
+    this.store.dispatch(new fromStore.RemoveLocation(location));
   }
 
   ngOnInit() {

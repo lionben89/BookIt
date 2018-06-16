@@ -39,8 +39,6 @@ location-categories {
   width: 85%;
 }
 
-
-
 pick-buttons {
   width: 90%;
   padding-left: 0px;
@@ -102,6 +100,8 @@ pick-buttons {
 mat-chip {
   max-width: 135px;
   margin: 0 0 0 8px;
+  vertical-align: middle;
+  text-align:center;
 }
 
 /deep/ .mat-chip.mat-chip-selected.mat-accent {

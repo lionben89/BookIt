@@ -7,6 +7,8 @@ import { Observable } from 'rxjs/Observable';
 import { MatGridListModule } from '@angular/material/grid-list';
 import {MatSnackBar} from '@angular/material';
 import { IconsService } from '../../../icons.service';
+import { DialogTwoButtonComponent } from "../settings/dialog-two-button/dialog-two-button.component";
+import { MatDialog } from "@angular/material";
 
 @Component({
   selector: 'app-my-books',
@@ -20,7 +22,7 @@ export class MyBooksComponent implements OnInit {
   public which_page = 'my_books'; /* options = {my_books, add_book, my_books_chat} */
   messegeSubscription;
 
-  constructor(private store: Store<fromStore.MainState>,iconService: IconsService,public snackBar: MatSnackBar) { }
+  constructor(private store: Store<fromStore.MainState>,iconService: IconsService,public snackBar: MatSnackBar, public dialog: MatDialog) { }
   public mybooksOption$: Observable<string>;
   userBooks: Book[];
   userBooksSubscription;
@@ -66,10 +68,22 @@ export class MyBooksComponent implements OnInit {
     }
   }
   removeBook(){
-    //this.userBooks.splice(this.userBooks.indexOf(this.bookSelected),1);
-    this.store.dispatch(new fromStore.RemoveBook(this.bookSelected));
-    this.bookNavBarEnabled=false;
-    this.bookSelected=undefined;
+    let dialogRef = this.dialog.open(DialogTwoButtonComponent, {
+      width: "250px",
+      data: "Are you sure you want to remove this book?"
+    });
+    //check if user is sure he wish to remove this book
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != "cancel" && result != "cancelAndDontShowAgain") {
+        //this.userBooks.splice(this.userBooks.indexOf(this.bookSelected),1);
+        this.store.dispatch(new fromStore.RemoveBook(this.bookSelected));
+        this.bookNavBarEnabled=false;
+        this.bookSelected=undefined;
+      }
+      if(result == "confirmAndDontShowAgain" || result == "cancelAndDontShowAgain"){
+        //this.store.dispatch(new fromStore.DontShowAgainRemoveBookMsg()); YUVAL
+      }
+    });
     
   }
   approveRequest(book:Book){
@@ -80,10 +94,22 @@ export class MyBooksComponent implements OnInit {
     
   }
   rejectRequest(book:Book){
-    book.currentRequest.pending=false;
-    book.currentRequest.approved=false;
-    this.store.dispatch(new fromStore.UpdateBook(book));
-    this.hideBookNavbar(book);
+    let dialogRef = this.dialog.open(DialogTwoButtonComponent, {
+      width: "250px",
+      data: "Are you sure you want to reject the request?"
+    });
+    //check if user is sure he wish to reject the book
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != "cancel" && result != "cancelAndDontShowAgain") {
+        book.currentRequest.pending=false;
+        book.currentRequest.approved=false;
+        this.store.dispatch(new fromStore.UpdateBook(book));
+        this.hideBookNavbar(book);
+      }
+      if(result == "confirmAndDontShowAgain" || result == "cancelAndDontShowAgain"){
+        //this.store.dispatch(new fromStore.DontShowAgainRejectRequestMsg()); YUVAL
+      }
+    });
     
   }
   showUser(){
