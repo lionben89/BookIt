@@ -70,11 +70,9 @@ export class ChatComponent implements OnInit, OnDestroy {
       .select<any>(fromStore.getThreadMessages(this.bookChat.currentRequest.requestId))
       .subscribe(threadMessages => {
           this.items = threadMessages;
+          this.scrollToSpacer();
         });
-       
-        setTimeout(() => {
-          this.spacer.nativeElement.scrollIntoView({behavior: 'smooth'});
-        },300);
+        
       
   }
 
@@ -85,6 +83,11 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.selfUserSubscribtion.unsubscribe();
     this.threadSubscribtion.unsubscribe();
   }
+
+  scrollToSpacer(){
+  setTimeout(() => {
+    this.spacer.nativeElement.scrollIntoView({behavior: 'smooth'});
+  },300);}
 
   orderByDate(item) {
     return new Date(item.timeSent);
@@ -113,7 +116,6 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.store.dispatch(new fromStore.AddMessage(message));
 
       this.emptyChatText();
-      spacer.scrollIntoView({behavior: 'smooth'});
     } else {
       this.openDialog_emptyLocation();
     }
