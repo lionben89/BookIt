@@ -76,7 +76,7 @@ export class MyRequestsComponent implements OnInit {
         if(result === "confirm"){
           this.moveToHasNewMessage(this.bookSelected);
         }
-        if (result !== "cancel") {debugger;
+        if (result !== "cancel") {
           if (this.bookSelected && this.bookSelected.ownerUid === this.selfUserId) {
             this.otherUserId = this.bookSelected.currentRequest.borrowerUid;
           } else {
