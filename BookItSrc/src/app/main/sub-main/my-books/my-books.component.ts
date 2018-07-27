@@ -34,10 +34,10 @@ export class MyBooksComponent implements OnInit {
   selfUserSubscribtion;
   selfUserId;
   otherUserId;
-  pending_arr: Array<Book> = new Array<Book>();
-  approved_arr: Array<Book> = new Array<Book>();
+  waiting_approval_arr: Array<Book> = new Array<Book>();
+  not_requested_arr: Array<Book> = new Array<Book>();
   new_msg_arr: Array<Book> = new Array<Book>();
-
+  approved_arr: Array<Book> = new Array<Book>();
   
   goToAddbook() {
     this.store.dispatch(new fromStore.ChooseMyBooksAddBook);
@@ -84,6 +84,7 @@ export class MyBooksComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (result !== "cancel" && result !== "cancelAndDontShowAgain") {
           //this.userBooks.splice(this.userBooks.indexOf(this.bookSelected),1);
+          this.updateArrayStatus(this.bookSelected);
           this.store.dispatch(new fromStore.RemoveBook(this.bookSelected));
           this.bookNavBarEnabled = false;
           this.bookSelected = undefined;
@@ -99,6 +100,7 @@ export class MyBooksComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (result !== "cancel" && result !== "cancelAndDontShowAgain") {
           //this.userBooks.splice(this.userBooks.indexOf(this.bookSelected),1);
+          this.updateArrayStatus(this.bookSelected);
           this.store.dispatch(new fromStore.RemoveBook(this.bookSelected));
           this.bookNavBarEnabled = false;
           this.bookSelected = undefined;
@@ -106,6 +108,7 @@ export class MyBooksComponent implements OnInit {
       });
     }
     else {
+      this.updateArrayStatus(this.bookSelected);
       this.store.dispatch(new fromStore.RemoveBook(this.bookSelected));
       this.bookNavBarEnabled = false;
       this.bookSelected = undefined;
@@ -137,6 +140,7 @@ export class MyBooksComponent implements OnInit {
     book.currentRequest.approved = true;
     this.store.dispatch(new fromStore.UpdateBook(book));
     this.bookNavBarEnabled = false;
+    this.moveBookToApproved(book);
 
   }
   rejectRequest(book: Book) {
@@ -148,6 +152,8 @@ export class MyBooksComponent implements OnInit {
       //check if user is sure he wish to reject the book
       dialogRef.afterClosed().subscribe(result => {
         if (result !== "cancel") {
+          this.updateArrayStatus(book);
+          this.addToNotRequested(book);
           book.currentRequest.pending = false;
           book.currentRequest.approved = false;
           this.store.dispatch(new fromStore.UpdateBook(book));
@@ -156,6 +162,8 @@ export class MyBooksComponent implements OnInit {
       });
     }
     else{
+      this.updateArrayStatus(book);
+      this.addToNotRequested(book);
       book.currentRequest.pending = false;
       book.currentRequest.approved = false;
       this.store.dispatch(new fromStore.UpdateBook(book));
@@ -163,18 +171,70 @@ export class MyBooksComponent implements OnInit {
     }
   }
 
-  initArrsStatus(){ 
+  addToNotRequested(book: Book){
+    this.not_requested_arr.push(book);
+  }
+
+  initArrayStatus(){ 
     for(var book of this.userBooks){
-      if(book.currentRequest.pending){ //status: pending
-        this.pending_arr.push(book);
+      if(!book.currentRequest.pending){ //status: not requested yet
+        this.not_requested_arr.push(book);
       }
-      else if(book.currentRequest.approved && book.currentRequest.hasNewMessages){ //status: new message
+      else if(!book.currentRequest.approved){ //status: waitng approval
+        this.waiting_approval_arr.push(book);
+      }
+      else if(book.currentRequest.hasNewMessages){ //status: new message
         this.new_msg_arr.push(book);
       }
       else{ //status: approved
         this.approved_arr.push(book);
       }
     }
+  }
+
+  updateArrayStatus(book: Book){ //remove book from the relevant books list
+    var i: number;
+
+    for(i = 0 ; i < this.approved_arr.length; i++){
+      if(this.approved_arr[i].id === book.id){
+        this.approved_arr.splice(i, 1);
+        return;
+      }
+    }
+
+    for(i = 0 ; i < this.new_msg_arr.length; i++){
+      if(this.new_msg_arr[i].id === book.id){
+        this.new_msg_arr.splice(i, 1);
+        return;
+      }
+    } 
+
+    for(i = 0 ; i < this.waiting_approval_arr.length; i++){
+      if(this.waiting_approval_arr[i].id === book.id){
+        this.waiting_approval_arr.splice(i, 1);
+        return;
+      }
+    }
+
+    for(i = 0 ; i < this.not_requested_arr.length; i++){
+      if(this.not_requested_arr[i].id === book.id){
+        this.not_requested_arr.splice(i, 1);
+        return;
+      }
+    }       
+  }
+
+  moveBookToApproved(book: Book){ //move book from waiting approval to approved
+    var i: number;
+
+    for(i = 0 ; i < this.waiting_approval_arr.length; i++){
+      if(this.waiting_approval_arr[i].id === book.id){
+        this.waiting_approval_arr.splice(i, 1); //remove from waiting approval
+        break;
+      }
+    }
+
+    this.approved_arr.push(book); //add to approved
   }
 
   startChat() {
@@ -205,7 +265,7 @@ export class MyBooksComponent implements OnInit {
       }
     });
 
-    this.initArrsStatus();
+    this.initArrayStatus();
 
   }
 

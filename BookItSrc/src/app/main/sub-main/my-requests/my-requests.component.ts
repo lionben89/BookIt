@@ -30,7 +30,7 @@ export class MyRequestsComponent implements OnInit {
   selfUserSubscribtion;
   selfUserId;
   otherUserId;  
-  pending_arr: Array<Book> = new Array<Book>();
+  waiting_approval: Array<Book> = new Array<Book>();
   approved_arr: Array<Book> = new Array<Book>();
   new_msg_arr: Array<Book> = new Array<Book>();
 
@@ -96,6 +96,7 @@ export class MyRequestsComponent implements OnInit {
       });
     }
     else{
+      this.updateArrayStatus(this.bookSelected);
       this.store.dispatch(new fromStore.RemoveRequestBook(this.bookSelected));
           this.hideBookNavbar(this.bookSelected);
     }
@@ -111,16 +112,41 @@ export class MyRequestsComponent implements OnInit {
     return;
   }
 
-  initArrsStatus(){ 
+  initArrayStatus(){ 
     for(var book of this.myRequests){
-      if(book.currentRequest.pending){ //status: pending
-        this.pending_arr.push(book);
+      if(book.currentRequest.pending){ //status: waiting approval
+        this.waiting_approval.push(book);
       }
       else if(book.currentRequest.approved && book.currentRequest.hasNewMessages){ //status: new message
         this.new_msg_arr.push(book);
       }
       else{ //status: approved
         this.approved_arr.push(book);
+      }
+    }
+  }
+
+  updateArrayStatus(book: Book){ //remove book from the relevant books list
+    var i: number;
+
+    for(i = 0 ; i < this.approved_arr.length; i++){
+      if(this.approved_arr[i].id === book.id){
+        this.approved_arr.splice(i, 1);
+        return;
+      }
+    }
+
+    for(i = 0 ; i < this.waiting_approval.length; i++){
+      if(this.waiting_approval[i].id === book.id){
+        this.waiting_approval.splice(i, 1);
+        return;
+      }
+    }
+
+    for(i = 0 ; i < this.new_msg_arr.length; i++){
+      if(this.new_msg_arr[i].id === book.id){
+        this.new_msg_arr.splice(i, 1);
+        return;
       }
     }
   }
@@ -143,8 +169,8 @@ export class MyRequestsComponent implements OnInit {
     this.whichPageSubscription = this.store.select<any>(fromStore.getContextmyRequestsOption).subscribe(state => { this.which_page = state; });
     this.onResize();
 
-    //init the 3 arrs of requests status {new_msg, pending, approved}
-    this.initArrsStatus();
+    //init the 3 arrs of requests status {new message, waiting approval, approved}
+    this.initArrayStatus();
 
   }
   ngOnDestroy() {

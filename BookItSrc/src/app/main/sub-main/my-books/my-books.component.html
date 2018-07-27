@@ -16,9 +16,9 @@
                         </mat-grid-tile>
 
                         <section class="header">
-                                <label class="header-cat">Pending</label>
+                                <label class="header-cat">Waiting your approval</label>
                             </section>
-                        <mat-grid-tile *ngFor="let book of pending_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
+                        <mat-grid-tile *ngFor="let book of waiting_approval_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
                             <!-- <div class='book-bottom'>
                                 <span class='addbook_title'>{{book.title}}</span>
                                 <br>
@@ -51,6 +51,22 @@
                                 <label class="header-cat">Approved</label>
                             </section>
                         <mat-grid-tile *ngFor="let book of approved_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
+                            <!-- <div class='book-bottom'>
+                                        <span class='addbook_title'>{{book.title}}</span>
+                                        <br>
+                                        <span class='addbook_author'>by {{book.author}}</span>
+                                    </div> -->
+                            <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
+                                [attr.src]="book.imagePath" />
+                            <div *ngIf="book.currentRequest  && book.currentRequest.pending && !book.currentRequest.approved then requestPending"></div>
+                            <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved && !book.currentRequest.hasNewMessages then requestApprove"></div>
+                            <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved && book.currentRequest.hasNewMessages then unreadMessages"></div>
+                        </mat-grid-tile>
+
+                        <section class="header">
+                                <label class="header-cat">Not requested yet</label>
+                            </section>
+                        <mat-grid-tile *ngFor="let book of not_requested_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
                             <!-- <div class='book-bottom'>
                                         <span class='addbook_title'>{{book.title}}</span>
                                         <br>

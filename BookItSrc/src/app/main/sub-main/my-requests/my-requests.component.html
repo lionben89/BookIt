@@ -37,9 +37,9 @@
           </mat-grid-tile>
 
           <section class="header">
-              <label class="header-cat">Pending</label>
+              <label class="header-cat">Waiting approval</label>
             </section>
-          <mat-grid-tile *ngFor="let book of pending_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
+          <mat-grid-tile *ngFor="let book of waiting_approval" (click)="showBookNavbar(book)" style="overflow: visible;">
             <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
               [attr.src]="book.imagePath" />
               <div *ngIf="book.currentRequest && !book.currentRequest.pending && book.currentRequest.approved && !book.currentRequest.hasNewMessages then requestApprove"></div>
