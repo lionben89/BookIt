@@ -6,15 +6,19 @@
                 <div class="mybooks">
                     <section class="header">
                         <label class="header-cat">My Books</label>
-                      
                     </section>
+                    
                     <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
                         <mat-grid-tile>
                             <button class="cover" (click)="goToAddbook()">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </mat-grid-tile>
-                        <mat-grid-tile *ngFor="let book of userBooks" (click)="showBookNavbar(book)" style="overflow: visible;">
+
+                        <section class="header">
+                                <label class="header-cat">Pending</label>
+                            </section>
+                        <mat-grid-tile *ngFor="let book of pending_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
                             <!-- <div class='book-bottom'>
                                 <span class='addbook_title'>{{book.title}}</span>
                                 <br>
@@ -26,10 +30,43 @@
                             <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved && !book.currentRequest.hasNewMessages then requestApprove"></div>
                             <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved && book.currentRequest.hasNewMessages then unreadMessages"></div>
                         </mat-grid-tile>
+
+                        <section class="header">
+                                <label class="header-cat">New message</label>
+                            </section>
+                        <mat-grid-tile *ngFor="let book of new_msg_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
+                            <!-- <div class='book-bottom'>
+                                    <span class='addbook_title'>{{book.title}}</span>
+                                    <br>
+                                    <span class='addbook_author'>by {{book.author}}</span>
+                                </div> -->
+                            <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
+                                [attr.src]="book.imagePath" />
+                            <div *ngIf="book.currentRequest  && book.currentRequest.pending && !book.currentRequest.approved then requestPending"></div>
+                            <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved && !book.currentRequest.hasNewMessages then requestApprove"></div>
+                            <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved && book.currentRequest.hasNewMessages then unreadMessages"></div>
+                        </mat-grid-tile>
+
+                        <section class="header">
+                                <label class="header-cat">Approved</label>
+                            </section>
+                        <mat-grid-tile *ngFor="let book of approved_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
+                            <!-- <div class='book-bottom'>
+                                        <span class='addbook_title'>{{book.title}}</span>
+                                        <br>
+                                        <span class='addbook_author'>by {{book.author}}</span>
+                                    </div> -->
+                            <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
+                                [attr.src]="book.imagePath" />
+                            <div *ngIf="book.currentRequest  && book.currentRequest.pending && !book.currentRequest.approved then requestPending"></div>
+                            <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved && !book.currentRequest.hasNewMessages then requestApprove"></div>
+                            <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved && book.currentRequest.hasNewMessages then unreadMessages"></div>
+                        </mat-grid-tile>
+
                     </mat-grid-list>
                 </div>
                 <div *ngIf="!userBooks.length then noBooks"></div>
-                
+
                 <div *ngIf="this.bookNavBarEnabled===true; then bookNavbar"></div>
 
             </div>
@@ -49,8 +86,8 @@
 
                 <mat-grid-tile item-height="100%">
                     <button style="font-size:1em;background-color: #2f3842;" (click)="removeBook()">
-                            <mat-icon svgIcon='waste-bin' class='icon'></mat-icon>
-                       
+                        <mat-icon svgIcon='waste-bin' class='icon'></mat-icon>
+
                     </button>
                 </mat-grid-tile>
 
@@ -77,9 +114,9 @@
 </ng-template>
 
 <ng-template #loading>
-        <div class="centered">
-            <img class="heart" src="assets/images/panda2.png"/>
-        </div>
+    <div class="centered">
+        <img class="heart" src="assets/images/panda2.png" />
+    </div>
 </ng-template>
 
 <ng-template #requestPending>
@@ -115,4 +152,3 @@
 <ng-template #noBooks>
     <p>add books to share!</p>
 </ng-template>
-

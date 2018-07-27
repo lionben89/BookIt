@@ -20,7 +20,7 @@ export class MyBooksComponent implements OnInit {
   getUserDataStatusSubscription;
   whichPageSubscription;
   public which_page = 'my_books'; /* options = {my_books, add_book, my_books_chat} */
-  messegeSubscription;
+  messegeSubscription;  
 
   constructor(private store: Store<fromStore.MainState>, iconService: IconsService, public snackBar: MatSnackBar, public dialog: MatDialog) { }
   public mybooksOption$: Observable<string>;
@@ -34,6 +34,9 @@ export class MyBooksComponent implements OnInit {
   selfUserSubscribtion;
   selfUserId;
   otherUserId;
+  pending_arr: Array<Book> = new Array<Book>();
+  approved_arr: Array<Book> = new Array<Book>();
+  new_msg_arr: Array<Book> = new Array<Book>();
 
   
   goToAddbook() {
@@ -160,6 +163,19 @@ export class MyBooksComponent implements OnInit {
     }
   }
 
+  initArrsStatus(){ 
+    for(var book of this.userBooks){
+      if(book.currentRequest.pending){ //status: pending
+        this.pending_arr.push(book);
+      }
+      else if(book.currentRequest.approved && book.currentRequest.hasNewMessages){ //status: new message
+        this.new_msg_arr.push(book);
+      }
+      else{ //status: approved
+        this.approved_arr.push(book);
+      }
+    }
+  }
 
   startChat() {
     console.log('opening chat');
@@ -188,6 +204,8 @@ export class MyBooksComponent implements OnInit {
         
       }
     });
+
+    this.initArrsStatus();
 
   }
 

@@ -29,7 +29,10 @@ export class MyRequestsComponent implements OnInit {
   whichPageSubscription;
   selfUserSubscribtion;
   selfUserId;
-  otherUserId;
+  otherUserId;  
+  pending_arr: Array<Book> = new Array<Book>();
+  approved_arr: Array<Book> = new Array<Book>();
+  new_msg_arr: Array<Book> = new Array<Book>();
 
   constructor(private store: Store<fromStore.MainState>, iconService: IconsService, public snackBar: MatSnackBar,
     public dialog: MatDialog) { }
@@ -108,6 +111,20 @@ export class MyRequestsComponent implements OnInit {
     return;
   }
 
+  initArrsStatus(){ 
+    for(var book of this.myRequests){
+      if(book.currentRequest.pending){ //status: pending
+        this.pending_arr.push(book);
+      }
+      else if(book.currentRequest.approved && book.currentRequest.hasNewMessages){ //status: new message
+        this.new_msg_arr.push(book);
+      }
+      else{ //status: approved
+        this.approved_arr.push(book);
+      }
+    }
+  }
+
   ngOnInit() {
     this.myRequestsSubscription = this.store.select(fromStore.getUserRequests).subscribe((state) => { this.myRequests = state; })
     this.messegeSubscription = this.store.select(fromStore.getMessege).subscribe((state) => {
@@ -125,6 +142,9 @@ export class MyRequestsComponent implements OnInit {
     this.bookNavBarEnabled = false;
     this.whichPageSubscription = this.store.select<any>(fromStore.getContextmyRequestsOption).subscribe(state => { this.which_page = state; });
     this.onResize();
+
+    //init the 3 arrs of requests status {new_msg, pending, approved}
+    this.initArrsStatus();
 
   }
   ngOnDestroy() {
