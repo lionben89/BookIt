@@ -73,7 +73,10 @@ export class MyRequestsComponent implements OnInit {
       });
       //check if user is sure he wish to remove this request
       dialogRef.afterClosed().subscribe(result => {
-        if (result !== "cancel") {
+        if(result === "confirm"){
+          this.moveToHasNewMessage(this.bookSelected);
+        }
+        if (result !== "cancel") {debugger;
           if (this.bookSelected && this.bookSelected.ownerUid === this.selfUserId) {
             this.otherUserId = this.bookSelected.currentRequest.borrowerUid;
           } else {
@@ -96,9 +99,8 @@ export class MyRequestsComponent implements OnInit {
       });
     }
     else{
-      this.updateArrayStatus(this.bookSelected);
       this.store.dispatch(new fromStore.RemoveRequestBook(this.bookSelected));
-          this.hideBookNavbar(this.bookSelected);
+      this.hideBookNavbar(this.bookSelected);
     }
   }
 
@@ -126,29 +128,27 @@ export class MyRequestsComponent implements OnInit {
     }
   }
 
-  updateArrayStatus(book: Book){ //remove book from the relevant books list
-    var i: number;
-
-    for(i = 0 ; i < this.approved_arr.length; i++){
-      if(this.approved_arr[i].id === book.id){
-        this.approved_arr.splice(i, 1);
-        return;
-      }
-    }
-
-    for(i = 0 ; i < this.waiting_approval.length; i++){
-      if(this.waiting_approval[i].id === book.id){
-        this.waiting_approval.splice(i, 1);
-        return;
-      }
-    }
-
-    for(i = 0 ; i < this.new_msg_arr.length; i++){
+  moveToApproved(book: Book){
+    for(var i = 0 ; i < this.new_msg_arr.length; i++){
       if(this.new_msg_arr[i].id === book.id){
         this.new_msg_arr.splice(i, 1);
-        return;
+        break;
       }
     }
+
+    this.approved_arr.push(book);
+  }
+
+  moveToHasNewMessage(book: Book){
+    debugger;
+    for(var i = 0 ; i < this.approved_arr.length; i++){
+      if(this.approved_arr[i].id === book.id){
+        this.approved_arr.splice(i, 1);
+        break;
+      }
+    }
+
+    this.new_msg_arr.push(book);
   }
 
   ngOnInit() {

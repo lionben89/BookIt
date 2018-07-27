@@ -177,10 +177,10 @@ export class MyBooksComponent implements OnInit {
 
   initArrayStatus(){ 
     for(var book of this.userBooks){
-      if(!book.currentRequest.pending){ //status: not requested yet
+      if(!book.currentRequest.pending && !book.currentRequest.approved){ //status: not requested yet
         this.not_requested_arr.push(book);
       }
-      else if(!book.currentRequest.approved){ //status: waitng approval
+      else if(book.currentRequest.pending && !book.currentRequest.approved){ //status: waitng approval
         this.waiting_approval_arr.push(book);
       }
       else if(book.currentRequest.hasNewMessages){ //status: new message
