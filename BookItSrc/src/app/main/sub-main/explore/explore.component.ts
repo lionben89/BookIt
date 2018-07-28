@@ -109,7 +109,7 @@ export class ExploreComponent implements OnInit {
   sortBooksByCategories(books) {
 
     this.categories = {};
-    this.categories["All"] = books;
+    this.categories["All Books"] = books;
     books.forEach((book: Book) => {
       book.categories.forEach((cat) => {
         if (this.categories && this.categories[cat]) {
@@ -157,8 +157,16 @@ export class ExploreComponent implements OnInit {
       if (!(this.userSettings && this.userSettings.favoriteCategories) && (state.length > 0)) {
         let bookCategories = [];
         state.forEach((book: Book) => {
-          if (bookCategories.indexOf(book.categories[0]) < 0) {
-            bookCategories.push({name:book.categories[0], active:true});
+          book.categories.forEach((cat) => {
+            let ex=false;
+            bookCategories.forEach((c)=>{
+              if (c.name===cat){
+                ex=true;
+              }
+            });
+            if (!ex) {
+              bookCategories.push({ name: book.categories[0], active: true });
+            }
           }
         })
         this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.CATEGORIES, bookCategories));
