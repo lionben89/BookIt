@@ -5,55 +5,76 @@
         <section class="header">
           <label class="header-cat">My Requests</label>
         </section>
-            <section class="subheader">
-                <label class="header-cat">New message</label>
-              </section>
-              <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
+        <section class="subheader">
+          <label class="header-cat">New message</label>
+        </section>
+        <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
 
           <mat-grid-tile *ngFor="let book of new_msg_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
             <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
               [attr.src]="book.imagePath" />
-              <div *ngIf="book.currentRequest && !book.currentRequest.pending && book.currentRequest.approved && !book.currentRequest.hasNewMessages then requestApprove"></div>
-              <div *ngIf="book.currentRequest && book.currentRequest.hasNewMessages then unreadMessages"></div>
-              <!-- <div class='book-bottom'>
+            <div *ngIf="book.currentRequest  && book.currentRequest.waitingReject then requestDecline"></div>
+            <div *ngIf="book.currentRequest && !book.currentRequest.waitingReject && !book.currentRequest.pending && book.currentRequest.approved && !book.currentRequest.hasNewMessages then requestApprove"></div>
+            <div *ngIf="book.currentRequest && book.currentRequest.hasNewMessages then unreadMessages"></div>
+            <!-- <div class='book-bottom'>
               <span class='addbook_title'>{{book.title}}</span>
               <br>
               <span class='addbook_author'>by {{book.author}}</span>
             </div> -->
           </mat-grid-tile>
-</mat-grid-list>
-          <section class="subheader">
-              <label class="header-cat">Approved</label>
-            </section>
-            <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
+        </mat-grid-list>
+        <section class="subheader">
+          <label class="header-cat">Approved</label>
+        </section>
+        <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
 
           <mat-grid-tile *ngFor="let book of approved_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
             <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
               [attr.src]="book.imagePath" />
-              <div *ngIf="book.currentRequest && !book.currentRequest.pending && book.currentRequest.approved && !book.currentRequest.hasNewMessages then requestApprove"></div>
-              <div *ngIf="book.currentRequest && book.currentRequest.hasNewMessages then unreadMessages"></div>
-              <!-- <div class='book-bottom'>
+            <div *ngIf="book.currentRequest  && book.currentRequest.waitingReject then requestDecline"></div>
+            <div *ngIf="book.currentRequest && !book.currentRequest.waitingReject && !book.currentRequest.pending && book.currentRequest.approved && !book.currentRequest.hasNewMessages then requestApprove"></div>
+            <div *ngIf="book.currentRequest && book.currentRequest.hasNewMessages then unreadMessages"></div>
+            <!-- <div class='book-bottom'>
               <span class='addbook_title'>{{book.title}}</span>
               <br>
               <span class='addbook_author'>by {{book.author}}</span>
             </div> -->
           </mat-grid-tile>
-</mat-grid-list>
-          <section class="subheader">
-              <label class="header-cat">Waiting approval</label>
-            </section>
-            <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
+        </mat-grid-list>
+        <section class="subheader">
+          <label class="header-cat">Awaiting approval</label>
+        </section>
+        <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
 
-          <mat-grid-tile *ngFor="let book of waiting_approval" (click)="showBookNavbar(book)" style="overflow: visible;">
+          <mat-grid-tile *ngFor="let book of waiting_approval_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
             <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
               [attr.src]="book.imagePath" />
-              <div *ngIf="book.currentRequest && !book.currentRequest.pending && book.currentRequest.approved && !book.currentRequest.hasNewMessages then requestApprove"></div>
-              <div *ngIf="book.currentRequest && book.currentRequest.hasNewMessages then unreadMessages"></div>
-              <!-- <div class='book-bottom'>
+            <div *ngIf="book.currentRequest  && book.currentRequest.waitingReject then requestDecline"></div>
+            <div *ngIf="book.currentRequest && !book.currentRequest.waitingReject && !book.currentRequest.pending && book.currentRequest.approved && !book.currentRequest.hasNewMessages then requestApprove"></div>
+            <div *ngIf="book.currentRequest && book.currentRequest.hasNewMessages then unreadMessages"></div>
+            <!-- <div class='book-bottom'>
               <span class='addbook_title'>{{book.title}}</span>
               <br>
               <span class='addbook_author'>by {{book.author}}</span>
             </div> -->
+          </mat-grid-tile>
+        </mat-grid-list>
+
+        <section class="subheader">
+          <label class="header-cat">Awaiting reject confirmation</label>
+        </section>
+        <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
+          <mat-grid-tile *ngFor="let book of waiting_owner_reject_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
+            <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
+              [attr.src]="book.imagePath" />
+            <div *ngIf="book.currentRequest  && book.currentRequest.waitingReject then requestDecline"></div>
+            <div *ngIf="book.currentRequest && !book.currentRequest.waitingReject && !book.currentRequest.pending && book.currentRequest.approved && !book.currentRequest.hasNewMessages then requestApprove"></div>
+            <div *ngIf="book.currentRequest && book.currentRequest.hasNewMessages then unreadMessages"></div>
+            <!-- <div class='book-bottom'>
+                <span class='addbook_title'>{{book.title}}</span>
+                <br>
+                <span class='addbook_author'>by {{book.author}}</span>
+              </div> -->
           </mat-grid-tile>
         </mat-grid-list>
       </div>
@@ -80,7 +101,7 @@
 
         </button>
       </mat-grid-tile>
-      
+
       <mat-grid-tile item-height="100%">
         <div *ngIf="bookSelected.currentRequest  && !bookSelected.currentRequest.pending && bookSelected.currentRequest.approved then chatButton"></div>
       </mat-grid-tile>
@@ -98,12 +119,16 @@
 
 <ng-template #loading>
   <div class="centered">
-      <img class="heart" src="assets/images/panda2.png"/>
+    <img class="heart" src="assets/images/panda2.png" />
   </div>
 </ng-template>
 
 <ng-template #requestApprove>
   <mat-icon svgIcon='accept' class="book-status"></mat-icon>
+</ng-template>
+
+<ng-template #requestDecline>
+  <mat-icon svgIcon='decline' class="book-status"></mat-icon>
 </ng-template>
 
 <ng-template #unreadMessages>
