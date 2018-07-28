@@ -11,7 +11,7 @@
 <div *ngIf="(status.loading && !status.loaded) || (!status.loading && !status.loaded); then loading  else loaded"></div>
 <ng-template #loaded>
 
-    <div class="mybooks">
+    <div class="mybooks" (swipeleft)="goToPrevCategory()" (swiperight)="goToNextCategory()">
         <app-auto-complete [books]="this.categories[this.categoriesNames[this.currentCategory]]" [(activeOption)]="this.bookSelected" (getBookSelected)="showBookNavbar($event)"
             id="auto-complete"></app-auto-complete>
         <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
@@ -25,7 +25,7 @@
 
     <ng-template #bookNavbar>
         <div class='bookNavbarBox'>
-            <mat-grid-list class="bookNavbarList" rowHeight="35px" cols="1">
+            <mat-grid-list class="bookNavbarList" rowHeight="35px" cols="1" (click)="hideBookNavbar(bookSelected)"> 
                 <mat-grid-tile>
                     <button mat-icon-button (click)="hideBookNavbar(bookSelected)">
                         <mat-icon svgIcon='down-arrow-black' class="arrow-icon"></mat-icon>

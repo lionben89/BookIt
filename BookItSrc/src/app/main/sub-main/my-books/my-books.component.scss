@@ -89,7 +89,7 @@ ball {
   border-radius: 0px 0px 40px 40px;
   flex: auto;
   display: flex;
-  margin-bottom: 10px;
+  margin-bottom: 2%;
 }
 
 .subheader
@@ -106,7 +106,9 @@ ball {
   flex: auto;
   display: flex;
 }
-
+.mybooks{
+  padding: 0;
+}
 label.header-cat {
   flex-grow: 2;
   position: relative;

@@ -3,6 +3,7 @@ body{
     background-color: #FAFAFA !important;
 }
 
+
 //switch categories
 .header {
   background-color: #00b1b8; 
@@ -67,11 +68,13 @@ section {
     min-height: 97%;
     background-color: #ebebeb;
   }
-
-  .mybooks{
+ *{
+  touch-action: pan-y !important; 
+}
+ .mybooks{
     padding-top: 40px;
   }
-
+ 
   .fas{
     filter: drop-shadow(0 0 3px rgba(0,0,0,0.7));
   }
