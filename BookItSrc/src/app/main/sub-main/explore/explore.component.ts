@@ -1,6 +1,6 @@
 
 import { getUsersNearBy } from './../../../store/reducers/index';
-import { Component, OnInit, Output, Input, ViewEncapsulation} from '@angular/core';
+import { Component, OnInit, Output, Input} from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../../store';
 import { Book, Loadable, UserSettingsState, UserUpdateType } from './../../../data_types/states.model';
@@ -17,7 +17,6 @@ import * as Hammer from 'hammerjs';
   templateUrl: './explore.component.html',
   styleUrls: ['./explore.component.scss'],
   providers: [IconsService],
-  encapsulation: ViewEncapsulation.None
 })
 export class ExploreComponent implements OnInit  {
   public usersNearBy = [];
@@ -38,12 +37,7 @@ export class ExploreComponent implements OnInit  {
   private IsAllowToRequestSubscription;
 
 
-<<<<<<< HEAD
-  constructor(private store: Store<fromStore.MainState>, iconService: IconsService, public snackBar: MatSnackBar,public dialog: MatDialog ) {
-    
-=======
   constructor(private store: Store<fromStore.MainState>, iconService: IconsService, public snackBar: MatSnackBar, public dialog: MatDialog) {
->>>>>>> master
   }
   showBookNavbar(book: Book) {
     this.bookNavBarEnabled = true;
