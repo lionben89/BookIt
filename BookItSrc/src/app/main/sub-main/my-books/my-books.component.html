@@ -4,6 +4,9 @@
         <container-element [ngSwitch]="this.which_page">
             <div *ngSwitchCase="'my_books'">
                 <div class="mybooks">
+
+                    <mat-icon svgIcon='add-black' class="add-icon" (click)="goToAddbook()"></mat-icon>
+
                     <section class="header">
                         <label class="header-cat">My Books</label>
                     </section>
@@ -91,11 +94,6 @@
                         <label class="header-cat">Not requested yet</label>
                     </section>
                     <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
-                        <mat-grid-tile>
-                            <button class="cover" (click)="goToAddbook()">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </mat-grid-tile>
                         <mat-grid-tile *ngFor="let book of not_requested_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
                             <!-- <div class='book-bottom'>
                                         <span class='addbook_title'>{{book.title}}</span>
