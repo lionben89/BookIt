@@ -167,8 +167,9 @@ export class ExploreComponent implements OnInit {
             if (!ex) {
               bookCategories.push({ name: book.categories[0], active: true });
             }
-          }
-        })
+          })
+        });
+        
         this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.CATEGORIES, bookCategories));
       }
     });
