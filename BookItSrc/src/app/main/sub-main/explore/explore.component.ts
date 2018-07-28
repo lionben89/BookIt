@@ -1,6 +1,6 @@
 
 import { getUsersNearBy } from './../../../store/reducers/index';
-import { Component, OnInit, Output, Input} from '@angular/core';
+import { Component, OnInit, Output, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../../store';
 import { Book, Loadable, UserSettingsState, UserUpdateType, Location } from './../../../data_types/states.model';
@@ -47,13 +47,13 @@ export class ExploreComponent implements OnInit {
   showBookNavbar(book: Book) {
     this.bookNavBarEnabled = true;
     this.bookSelected = book;
-    document.body.style.overflow="hidden";
+    document.body.style.overflow = "hidden";
   }
   hideBookNavbar(book: Book) {
     if (book === this.bookSelected) {
       this.bookNavBarEnabled = false;
       this.bookSelected = undefined;
-      document.body.style.overflow="scroll";
+      document.body.style.overflow = "scroll";
     }
   }
   isBookEquale = (book1, book2) => {
@@ -117,25 +117,27 @@ export class ExploreComponent implements OnInit {
     this.categories = {};
     this.categories["All Books"] = books;
     books.forEach((book: Book) => {
-      book.categories.forEach((cat) => {
-        if (this.categories && this.categories[cat]) {
-          this.categories[cat].push(book);
-        } else {
-          let ex = false;
-          if (this.userSettings && this.userSettings.favoriteCategories && this.userSettings.favoriteCategories.categories) {
-            this.userSettings.favoriteCategories.categories.forEach((c) => {
-              if (cat === c.name && c.active) {
-                ex = true;
-              }
-            });
-          }
-
-          if (ex) {
-            this.categories[cat] = [];
+      if (book.categories) {
+        book.categories.forEach((cat) => {
+          if (this.categories && this.categories[cat]) {
             this.categories[cat].push(book);
+          } else {
+            let ex = false;
+            if (this.userSettings && this.userSettings.favoriteCategories && this.userSettings.favoriteCategories.categories) {
+              this.userSettings.favoriteCategories.categories.forEach((c) => {
+                if (cat === c.name && c.active) {
+                  ex = true;
+                }
+              });
+            }
+
+            if (ex) {
+              this.categories[cat] = [];
+              this.categories[cat].push(book);
+            }
           }
-        }
-      });
+        });
+      }
     });
 
     this.categoriesNames = Object.keys(this.categories);
@@ -172,20 +174,22 @@ export class ExploreComponent implements OnInit {
       if (!(this.userSettings && this.userSettings.favoriteCategories) && (state.length > 0)) {
         let bookCategories = [];
         state.forEach((book: Book) => {
-          book.categories.forEach((cat) => {
-            let ex = false;
-            bookCategories.forEach((c) => {
-              if (c.name === cat){
-                ex = true;
+          if (book.categories) {
+            book.categories.forEach((cat) => {
+              let ex = false;
+              bookCategories.forEach((c) => {
+                if (c.name === cat) {
+                  ex = true;
+                }
+              });
+
+              if (!ex) {
+                bookCategories.push({ name: book.categories[0], active: true });
               }
             });
-
-            if (!ex) {
-              bookCategories.push({ name: book.categories[0], active: true });
-            }
-          });
+          }
         });
-        
+
         this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.CATEGORIES, bookCategories));
       }
     });
@@ -234,7 +238,7 @@ export class ExploreComponent implements OnInit {
       for (var coordinates of coordinatesArray) {
         let dists = this.userLocations.map(elem => {
           let dist = {
-            label: elem.label, 
+            label: elem.label,
             distance: this.distance(coordinates.lat, coordinates.long, elem.lat, elem.long)
           };
           return dist;
@@ -255,8 +259,8 @@ export class ExploreComponent implements OnInit {
 
   distance(lat1, lon1, lat2, lon2) {
     let theta = lon1 - lon2;
-    let dist =   Math.sin(this.deg2rad(lat1)) * Math.sin(this.deg2rad(lat2)) 
-               + Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * Math.cos(this.deg2rad(theta));
+    let dist = Math.sin(this.deg2rad(lat1)) * Math.sin(this.deg2rad(lat2))
+      + Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * Math.cos(this.deg2rad(theta));
 
     dist = Math.acos(dist);
     dist = this.rad2deg(dist);
@@ -268,13 +272,13 @@ export class ExploreComponent implements OnInit {
     let name = nameAndDist.label;
     let dist = nameAndDist.distance;
     let distTxt = "";
-    if(dist < 1) {
+    if (dist < 1) {
       let m = dist.toFixed(2);
       distTxt = m.substring(m.indexOf(".") + 1) + "0 m";
     } else {
-        distTxt = dist.toFixed(2) + " km";
+      distTxt = dist.toFixed(2) + " km";
     }
     return distTxt + " from " + name;
-};
+  };
 
 }
