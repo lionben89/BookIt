@@ -19,6 +19,7 @@
                     <section class="subheader">
                         <label class="header-cat">Not requested yet</label>
                     </section>
+                    <div *ngIf="!(not_requested_arr.length > 0) then noRequestsYet"></div>
                     <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
                         <mat-grid-tile *ngFor="let book of not_requested_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
                             <!-- <div class='book-bottom'>
@@ -216,4 +217,10 @@
             <div *ngIf="book.currentRequest  && !book.currentRequest.waitingReject && !book.currentRequest.pending && book.currentRequest.approved && book.currentRequest.hasNewMessages then unreadMessages"></div>
         </mat-grid-tile>
     </mat-grid-list>
+</ng-template>
+
+<ng-template #noRequestsYet>
+    <button mat-button label class="no-req-msg" (click)="goToAddbook()">
+        No requests yet. Add Books to share   
+    </button>
 </ng-template>
