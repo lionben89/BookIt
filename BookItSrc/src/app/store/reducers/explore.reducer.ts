@@ -4,7 +4,7 @@ import { Action } from '@ngrx/store';
 import * as fromContext from '../actions/context.action';
 import * as fromUserData from '../actions/userData.action';
 import * as fromExplore from '../actions/explore.action';
-import { ExploreState, Book } from '../../data_types/states.model'
+import { ExploreState, Book, Coordinates } from '../../data_types/states.model'
 
 export const isBookEquale = (book1, book2) => {
     let eq = true;
@@ -18,7 +18,7 @@ export const isBookEquale = (book1, book2) => {
     return eq;
 }
 let initState: ExploreState = {
-    usersNearBy: [],
+    usersNearBy: {},
     booksNearBy: {},
     chatUsersInfo:{},
     loading: false,
@@ -27,21 +27,50 @@ let initState: ExploreState = {
 export function ExploreReducer(state: ExploreState = initState, action: fromExplore.ExploreActions) {
     switch (action.type) {
         case fromExplore.ActionsExploreConsts.ADD_USER_NEARBY: {
-            let userID = action.payload;
-            let newUsersNearBy = state.usersNearBy.slice();
-            if (newUsersNearBy.indexOf(userID) === -1) {
-                newUsersNearBy.push(userID);
+            let userId = action.payload.userID;
+            let coordinates = action.payload.coordinates;
+
+            let newUsersNearBy = {...state.usersNearBy};
+            
+            if (!(userId in newUsersNearBy)) {
+                newUsersNearBy[userId] = Array<Coordinates>();
             }
-            return { ...state, usersNearBy: newUsersNearBy };
+
+            let locationIndex = newUsersNearBy[userId].findIndex(elem =>
+                elem.lat === coordinates.lat && elem.long === coordinates.long);
+
+            if (locationIndex === -1) {
+                newUsersNearBy[userId].push(coordinates);
+            }
+
+            let newState = {...state, usersNearBy: newUsersNearBy, loading: false, loaded: true};
+            return newState;
         }
 
         case fromExplore.ActionsExploreConsts.REMOVE_USER_NEARBY: {
-            let userID = action.payload;
-            let userIndex = state.usersNearBy.indexOf(userID);
-            if (userIndex > -1) {
-                state.usersNearBy.splice(userIndex, 1);
+            let userId = action.payload.userID;
+            let coordinates = action.payload.coordinates;
+
+            let newUsersNearBy = {...state.usersNearBy};
+            
+            if (!(userId in newUsersNearBy)) {
+                return;
             }
-            return state;
+
+            let locationIndex = newUsersNearBy[userId].findIndex(elem =>
+                elem.lat === coordinates.lat && elem.long === coordinates.long);
+
+            if (locationIndex !== -1) {
+                newUsersNearBy[userId].splice(locationIndex, 1);
+            }
+
+            if (newUsersNearBy[userId].length === 0) {
+                delete newUsersNearBy.usersNearBy[userId];
+
+            }
+            
+            let newState = {...state, usersNearBy: newUsersNearBy, loading: false, loaded: true};
+            return newState;
         }
 
         case fromExplore.ActionsExploreConsts.LOAD_BOOKS_FROM_USERS_NEAR_BY: {
@@ -60,7 +89,7 @@ export function ExploreReducer(state: ExploreState = initState, action: fromExpl
             return newState;
         }
         case fromExplore.ActionsExploreConsts.DELETE_ALL_USERS_NEARBY: {
-            return { ...state, usersNearBy: new Array<any>() };
+            return { ...state, usersNearBy: {} };
         }
         case fromExplore.ActionsExploreConsts.LOAD_OTHER_USER_INFO_SUCCESS:{
             let newChatUsersInfo={...state.chatUsersInfo};

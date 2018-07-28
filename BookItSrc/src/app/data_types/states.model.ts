@@ -12,7 +12,9 @@ export interface ContextState {
 }
 
 export interface ExploreState extends Loadable {
-    usersNearBy:string[],
+    usersNearBy: {
+        [userId: string]: Array<Coordinates>
+    },
     booksNearBy: {
         [userId: string]: Array<Book>,
     },
@@ -38,6 +40,11 @@ export interface ExtendedUserInfo extends Loadable {
     borrowRestricted?: boolean,
     maxAllowedOpenBorrows?: number,
     shareMyBooks?: boolean,
+}
+
+export interface Coordinates {
+    lat: number,
+    long: number
 }
 
 export interface Location {

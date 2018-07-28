@@ -40,7 +40,9 @@
 
                             </div>
                             <div style="box-sizing: border-box;display:inline-block;margin-left: 5%;">
-                                    
+                                    <span style="vertical-align:bottom;">
+                                        Located {{this.distanceText(usersMinimumDistance[bookSelected.ownerUid])}}<br><br>
+                                    </span>
                                     <div *ngIf="bookSelected.lendCount === 1 then oneTime; else notOne"></div>
 
                                     <button  class="request-icon" (click)="requestBook(bookSelected)">

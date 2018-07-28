@@ -1,7 +1,7 @@
 import { getUserData } from './../reducers/userData.reducer';
 import { MainState } from './../reducers/index';
 import { LoadUserInfoSuccess, Logout, LoadMyBooksSuccess, RemoveRequestBookSuccess } from './../actions/userData.action';
-import { UserState, UserSettingsState, ExtendedUserInfo, Category, UserUpdateType, LocationSettings, Location, Book } from './../../data_types/states.model';
+import { UserState, UserSettingsState, ExtendedUserInfo, Category, UserUpdateType, LocationSettings, Location, Coordinates, Book } from './../../data_types/states.model';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 
@@ -166,25 +166,54 @@ export class UserDataEffects {
             if (location.active) {
                 geoQuery = this.geoFire.query({
                     center: [location.lat, location.long],
-                    radius: this.searchRadius  // TODO: get from user settings
+                    radius: this.searchRadius
                 });
 
 
                 let loggedUserID = this.userDoc.ref.id;
                 geoQuery.on("key_entered", function (dbRef, loggedUserID, store) {
                     return function (key, location) {
-                        dbRef.child(key).once('value').then(function (store) {
+                        dbRef.child(key).once('value').then(function (store, location) {
                             return function (snapshot) {
                                 if (snapshot.val().userID !== loggedUserID) {
-                                    store.dispatch(new fromExploreActions.AddUserNearby(snapshot.val().userID));
+                                    let coordinates: Coordinates = {
+                                        lat: location[0],
+                                        long: location[1]
+                                    };
+                                    let payload =
+                                        {
+                                            userID: snapshot.val().userID,
+                                            coordinates: coordinates
+                                        };
+                                    store.dispatch(new fromExploreActions.AddUserNearby(payload));
                                 };
                             }
-                        }(store));
+                        }(store, location));
                     };
                 }(this.dbRef, loggedUserID, this.store)
                 );
 
-                // TODO: remove users somehow (maybe set counter for keys of user and if 0 then remove)
+                geoQuery.on("key_exited", function (dbRef, loggedUserID, store) {
+                    return function (key, location) {
+                        dbRef.child(key).once('value').then(function (store, location) {
+                            return function (snapshot) {
+                                if (snapshot.val().userID !== loggedUserID) {
+                                    let coordinates: Coordinates = {
+                                        lat: location[0],
+                                        long: location[1]
+                                    };
+                                    let payload =
+                                        {
+                                            userID: snapshot.val().userID,
+                                            coordinates: coordinates
+                                        };
+                                    store.dispatch(new fromExploreActions.RemoveUserNearby(payload));
+                                };
+                            }
+                        }(store, location));
+                    };
+                }(this.dbRef, loggedUserID, this.store)
+                );
 
                 this.geoQueries.push(geoQuery);
             }
