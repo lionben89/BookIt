@@ -143,7 +143,7 @@
 
 <ng-template #listWaitReject>
   <section class="subheader">
-    <label class="header-cat">Awaiting reject confirmation</label>
+    <label class="header-cat">Awaiting cancel confirmation</label>
   </section>
   <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
     <mat-grid-tile *ngFor="let book of waiting_owner_reject_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
