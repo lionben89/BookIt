@@ -5,10 +5,11 @@
         <section class="header">
           <label class="header-cat">My Requests</label>
         </section>
-        <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
-            <section class="header">
+            <section class="subheader">
                 <label class="header-cat">New message</label>
               </section>
+              <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
+
           <mat-grid-tile *ngFor="let book of new_msg_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
             <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
               [attr.src]="book.imagePath" />
@@ -20,10 +21,12 @@
               <span class='addbook_author'>by {{book.author}}</span>
             </div> -->
           </mat-grid-tile>
-
-          <section class="header">
+</mat-grid-list>
+          <section class="subheader">
               <label class="header-cat">Approved</label>
             </section>
+            <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
+
           <mat-grid-tile *ngFor="let book of approved_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
             <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
               [attr.src]="book.imagePath" />
@@ -35,10 +38,12 @@
               <span class='addbook_author'>by {{book.author}}</span>
             </div> -->
           </mat-grid-tile>
-
-          <section class="header">
+</mat-grid-list>
+          <section class="subheader">
               <label class="header-cat">Waiting approval</label>
             </section>
+            <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
+
           <mat-grid-tile *ngFor="let book of waiting_approval" (click)="showBookNavbar(book)" style="overflow: visible;">
             <img class='cover' [ngClass]="{'blurred': (this.bookNavBarEnabled==true && this.bookSelected!=book) , 'regular': (this.bookNavBarEnabled==false ||this.bookSelected==book) }"
               [attr.src]="book.imagePath" />

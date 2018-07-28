@@ -13,7 +13,7 @@ body{
     background-color: #ebebeb;
   }
   .my-books{
-    margin-top: 5%;
+    margin-top: 2%;
     margin-left:  5%;
     margin-right: 5%;
   }
@@ -91,6 +91,20 @@ ball {
   display: flex;
 }
 
+.subheader
+{
+  position: relative;
+  background-color: #2f3842; 
+  color: #FAFAFA;
+  width: 60%;
+  left: 20%;
+  //border-top: 2px solid #FAFAFA;
+  border-radius: 40px 40px 0px 0px;
+  //border-top: 2px solid #757575;
+  //border-bottom: 2px solid #757575;
+  flex: auto;
+  display: flex;
+}
 
 label.header-cat {
   flex-grow: 2;

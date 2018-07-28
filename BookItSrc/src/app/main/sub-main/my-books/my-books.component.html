@@ -8,16 +8,13 @@
                         <label class="header-cat">My Books</label>
                     </section>
                     
-                    <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
-                        <mat-grid-tile>
-                            <button class="cover" (click)="goToAddbook()">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </mat-grid-tile>
 
-                        <section class="header">
+
+                        <section class="subheader">
                                 <label class="header-cat">Waiting your approval</label>
                             </section>
+                            <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
+
                         <mat-grid-tile *ngFor="let book of waiting_approval_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
                             <!-- <div class='book-bottom'>
                                 <span class='addbook_title'>{{book.title}}</span>
@@ -30,10 +27,13 @@
                             <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved && !book.currentRequest.hasNewMessages then requestApprove"></div>
                             <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved && book.currentRequest.hasNewMessages then unreadMessages"></div>
                         </mat-grid-tile>
+                    </mat-grid-list>
 
-                        <section class="header">
+                        <section class="subheader">
                                 <label class="header-cat">New message</label>
                             </section>
+                            <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
+
                         <mat-grid-tile *ngFor="let book of new_msg_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
                             <!-- <div class='book-bottom'>
                                     <span class='addbook_title'>{{book.title}}</span>
@@ -46,10 +46,13 @@
                             <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved && !book.currentRequest.hasNewMessages then requestApprove"></div>
                             <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved && book.currentRequest.hasNewMessages then unreadMessages"></div>
                         </mat-grid-tile>
+                    </mat-grid-list>
 
-                        <section class="header">
+                        <section class="subheader">
                                 <label class="header-cat">Approved</label>
                             </section>
+                            <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
+
                         <mat-grid-tile *ngFor="let book of approved_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
                             <!-- <div class='book-bottom'>
                                         <span class='addbook_title'>{{book.title}}</span>
@@ -62,10 +65,17 @@
                             <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved && !book.currentRequest.hasNewMessages then requestApprove"></div>
                             <div *ngIf="book.currentRequest  && !book.currentRequest.pending && book.currentRequest.approved && book.currentRequest.hasNewMessages then unreadMessages"></div>
                         </mat-grid-tile>
+                    </mat-grid-list>
 
-                        <section class="header">
+                        <section class="subheader">
                                 <label class="header-cat">Not requested yet</label>
                             </section>
+                            <mat-grid-list class="my-books" [cols]="numCols" gutterSize="10" rowHeight="5:8" (window:resize)="onResize()">
+                                <mat-grid-tile>
+                                    <button class="cover" (click)="goToAddbook()">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </mat-grid-tile>
                         <mat-grid-tile *ngFor="let book of not_requested_arr" (click)="showBookNavbar(book)" style="overflow: visible;">
                             <!-- <div class='book-bottom'>
                                         <span class='addbook_title'>{{book.title}}</span>
