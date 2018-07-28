@@ -1,6 +1,6 @@
 
 import { getUsersNearBy } from './../../../store/reducers/index';
-import { Component, OnInit, Output, Input } from '@angular/core';
+import { Component, OnInit, Output, Input, ViewEncapsulation} from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../../store';
 import { Book, Loadable, UserSettingsState } from './../../../data_types/states.model';
@@ -9,20 +9,20 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material';
 import { MatDialog } from "@angular/material";
 import { DialogOneButtonComponent } from "../settings/dialog-one-button/dialog-one-button.component";
-
-
+import * as Hammer from 'hammerjs';
 
 
 @Component({
   selector: 'app-explore',
   templateUrl: './explore.component.html',
   styleUrls: ['./explore.component.scss'],
-  providers: [IconsService]
+  providers: [IconsService],
+  encapsulation: ViewEncapsulation.None
 })
-export class ExploreComponent implements OnInit {
+export class ExploreComponent implements OnInit  {
   public usersNearBy = [];
   private usersNearBySubscription;
-  public booksNearBy = [];
+  public booksNearBy = [];  
   private booksNearBySubscription;
   public numCols;
   public bookNavBarEnabled: boolean;
@@ -39,15 +39,18 @@ export class ExploreComponent implements OnInit {
 
 
   constructor(private store: Store<fromStore.MainState>, iconService: IconsService, public snackBar: MatSnackBar,public dialog: MatDialog ) {
+    
   }
   showBookNavbar(book: Book) {
     this.bookNavBarEnabled = true;
     this.bookSelected = book;
+    document.body.style.overflow="hidden";
   }
   hideBookNavbar(book: Book) {
     if (book === this.bookSelected) {
       this.bookNavBarEnabled = false;
       this.bookSelected = undefined;
+      document.body.style.overflow="scroll";
     }
   }
   isBookEquale = (book1, book2) => {
@@ -61,6 +64,7 @@ export class ExploreComponent implements OnInit {
     }
     return eq;
   }
+
   goToPrevCategory() {
     let c = (this.currentCategory - 1);
     if (c < 0) {
