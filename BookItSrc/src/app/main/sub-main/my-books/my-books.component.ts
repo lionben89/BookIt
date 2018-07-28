@@ -34,10 +34,11 @@ export class MyBooksComponent implements OnInit {
   selfUserSubscribtion;
   selfUserId;
   otherUserId;
-  waiting_approval_arr: Array<Book> = new Array<Book>();
-  not_requested_arr: Array<Book> = new Array<Book>();
-  new_msg_arr: Array<Book> = new Array<Book>();
-  approved_arr: Array<Book> = new Array<Book>();
+  waiting_approval_arr: Array<Book>;
+  not_requested_arr: Array<Book>;
+  new_msg_arr: Array<Book>;
+  approved_arr: Array<Book>;
+  waiting_reject_confirm_arr: Array<Book>;
   
   goToAddbook() {
     this.store.dispatch(new fromStore.ChooseMyBooksAddBook);
@@ -84,7 +85,6 @@ export class MyBooksComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (result !== "cancel" && result !== "cancelAndDontShowAgain") {
           //this.userBooks.splice(this.userBooks.indexOf(this.bookSelected),1);
-          this.updateArrayStatus(this.bookSelected);
           this.store.dispatch(new fromStore.RemoveBook(this.bookSelected));
           this.bookNavBarEnabled = false;
           this.bookSelected = undefined;
@@ -100,7 +100,6 @@ export class MyBooksComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (result !== "cancel" && result !== "cancelAndDontShowAgain") {
           //this.userBooks.splice(this.userBooks.indexOf(this.bookSelected),1);
-          this.updateArrayStatus(this.bookSelected);
           this.store.dispatch(new fromStore.RemoveBook(this.bookSelected));
           this.bookNavBarEnabled = false;
           this.bookSelected = undefined;
@@ -108,7 +107,6 @@ export class MyBooksComponent implements OnInit {
       });
     }
     else {
-      this.updateArrayStatus(this.bookSelected);
       this.store.dispatch(new fromStore.RemoveBook(this.bookSelected));
       this.bookNavBarEnabled = false;
       this.bookSelected = undefined;
@@ -140,7 +138,6 @@ export class MyBooksComponent implements OnInit {
     book.currentRequest.approved = true;
     this.store.dispatch(new fromStore.UpdateBook(book));
     this.bookNavBarEnabled = false;
-    this.moveBookToApproved(book);
 
   }
   rejectRequest(book: Book) {
@@ -152,7 +149,6 @@ export class MyBooksComponent implements OnInit {
       //check if user is sure he wish to reject the book
       dialogRef.afterClosed().subscribe(result => {
         if (result !== "cancel") {
-          this.updateArrayStatus(book);
           this.addToNotRequested(book);
           book.currentRequest.pending = false;
           book.currentRequest.approved = false;
@@ -162,7 +158,6 @@ export class MyBooksComponent implements OnInit {
       });
     }
     else{
-      this.updateArrayStatus(book);
       this.addToNotRequested(book);
       book.currentRequest.pending = false;
       book.currentRequest.approved = false;
@@ -176,8 +171,17 @@ export class MyBooksComponent implements OnInit {
   }
 
   initArrayStatus(){ 
+    this.waiting_approval_arr = new Array<Book>();
+    this.new_msg_arr = new Array<Book>();
+    this.approved_arr = new Array<Book>();
+    this.not_requested_arr = new Array<Book>();
+    this.waiting_reject_confirm_arr = new Array<Book>();
+
     for(var book of this.userBooks){
-      if(!book.currentRequest.pending && !book.currentRequest.approved){ //status: not requested yet
+      if(book.currentRequest.waitingReject){ //status: waiting owner confirmation
+        this.waiting_reject_confirm_arr.push(book);
+      }
+      else if(!book.currentRequest.pending && !book.currentRequest.approved){ //status: not requested yet
         this.not_requested_arr.push(book);
       }
       else if(book.currentRequest.pending && !book.currentRequest.approved){ //status: waitng approval
@@ -190,51 +194,6 @@ export class MyBooksComponent implements OnInit {
         this.approved_arr.push(book);
       }
     }
-  }
-
-  updateArrayStatus(book: Book){ //remove book from the relevant books list
-    var i: number;
-
-    for(i = 0 ; i < this.approved_arr.length; i++){
-      if(this.approved_arr[i].id === book.id){
-        this.approved_arr.splice(i, 1);
-        return;
-      }
-    }
-
-    for(i = 0 ; i < this.new_msg_arr.length; i++){
-      if(this.new_msg_arr[i].id === book.id){
-        this.new_msg_arr.splice(i, 1);
-        return;
-      }
-    } 
-
-    for(i = 0 ; i < this.waiting_approval_arr.length; i++){
-      if(this.waiting_approval_arr[i].id === book.id){
-        this.waiting_approval_arr.splice(i, 1);
-        return;
-      }
-    }
-
-    for(i = 0 ; i < this.not_requested_arr.length; i++){
-      if(this.not_requested_arr[i].id === book.id){
-        this.not_requested_arr.splice(i, 1);
-        return;
-      }
-    }       
-  }
-
-  moveBookToApproved(book: Book){ //move book from waiting approval to approved
-    var i: number;
-
-    for(i = 0 ; i < this.waiting_approval_arr.length; i++){
-      if(this.waiting_approval_arr[i].id === book.id){
-        this.waiting_approval_arr.splice(i, 1); //remove from waiting approval
-        break;
-      }
-    }
-
-    this.approved_arr.push(book); //add to approved
   }
 
   startChat() {
@@ -250,7 +209,7 @@ export class MyBooksComponent implements OnInit {
     this.onResize();
     this.whichPageSubscription = this.store.select<any>(fromStore.getContextmybooksOption).subscribe(state => { this.which_page = state; });
 
-    this.userBooksSubscription = this.store.select<any>(fromStore.getUserBooks).subscribe(state => { this.userBooks = state; });
+    this.userBooksSubscription = this.store.select<any>(fromStore.getUserBooks).subscribe(state => { this.userBooks = state; this.initArrayStatus(); });
     this.getUserDataStatusSubscription = this.store.select(fromStore.getUserDataStatus).subscribe(state => { this.status = state; });
     this.messegeSubscription = this.store.select(fromStore.getMessege).subscribe((state) => {
       if (state && state !== '') {
@@ -264,9 +223,6 @@ export class MyBooksComponent implements OnInit {
         
       }
     });
-
-    this.initArrayStatus();
-
   }
 
   ngOnDestroy() {

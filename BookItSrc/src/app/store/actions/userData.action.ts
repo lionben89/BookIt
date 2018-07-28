@@ -49,8 +49,9 @@ export const ActionsUserDataConsts={
         REMOVE_REQUEST_BOOK:"REMOVE_REQUEST_BOOK",
         REMOVE_REQUEST_BOOK_SUCCESS:"REMOVE_REQUEST_BOOK_SUCCESS",
         REMOVE_REQUEST_BOOK_FAIL:"REMOVE_REQUEST_BOOK_FAIL",
-        
-
+        MOVE_TO_WAITING_REJECT:"MOVE_TO_WAITING_REJECT",
+        MOVE_TO_WAITING_REJECT_SUCCESS:"MOVE_TO_WAITING_REJECT_SUCCESS",
+        MOVE_TO_WAITING_REJECT_FAIL:"MOVE_TO_WAITING_REJECT_FAIL",
 }; 
 
 export class LoginGoogle implements Action{
@@ -199,6 +200,20 @@ export class RemoveBookFail implements Action{
     constructor(public payload?:any){}
 }
 
+export class MoveToWaitingReject implements Action{
+    readonly type=ActionsUserDataConsts.MOVE_TO_WAITING_REJECT;
+    constructor(public payload?:any){}
+}
+
+export class MoveToWaitingRejectSuccess implements Action{
+    readonly type=ActionsUserDataConsts.MOVE_TO_WAITING_REJECT_SUCCESS;
+    constructor(public payload?:any){}
+}
+
+export class MoveToWaitingRejectFail implements Action{
+    readonly type=ActionsUserDataConsts.MOVE_TO_WAITING_REJECT_FAIL;
+    constructor(public payload?:any){}
+}
 
 export class LoadMyRequests implements Action{
     readonly type=ActionsUserDataConsts.LOAD_MY_REQUESTS;
@@ -256,4 +271,5 @@ AddBook|AddBookSuccess|AddBookFail|LoadMyBooks|LoadMyBooksSuccess|LoadMyBooksFai
 |RemoveBook|RemoveBookSuccess|RemoveBookFail
 |RequestBook|RequestBookFail|RequestBookSuccess
 |LoadMyRequests|LoadMyRequestsFail|LoadMyRequestsSuccess
-|RemoveRequestBook|RemoveBookSuccess|RemoveRequestBookFail;
+|RemoveRequestBook|RemoveBookSuccess|RemoveRequestBookFail
+|MoveToWaitingReject|MoveToWaitingRejectSuccess|MoveToWaitingRejectFail;
