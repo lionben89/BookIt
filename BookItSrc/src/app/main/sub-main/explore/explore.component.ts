@@ -3,7 +3,7 @@ import { getUsersNearBy } from './../../../store/reducers/index';
 import { Component, OnInit, Output, Input, ViewEncapsulation} from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../../store';
-import { Book, Loadable, UserSettingsState } from './../../../data_types/states.model';
+import { Book, Loadable, UserSettingsState, UserUpdateType } from './../../../data_types/states.model';
 import { IconsService } from '../../../icons.service';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material';
@@ -38,8 +38,12 @@ export class ExploreComponent implements OnInit  {
   private IsAllowToRequestSubscription;
 
 
+<<<<<<< HEAD
   constructor(private store: Store<fromStore.MainState>, iconService: IconsService, public snackBar: MatSnackBar,public dialog: MatDialog ) {
     
+=======
+  constructor(private store: Store<fromStore.MainState>, iconService: IconsService, public snackBar: MatSnackBar, public dialog: MatDialog) {
+>>>>>>> master
   }
   showBookNavbar(book: Book) {
     this.bookNavBarEnabled = true;
@@ -87,12 +91,12 @@ export class ExploreComponent implements OnInit  {
       this.store.dispatch(new fromStore.RequestBook(book));
       this.hideBookNavbar(book);
     }
-    else{
+    else {
       let dialogRef = this.dialog.open(DialogOneButtonComponent, {
         width: '250px',
         data: "You reached the maximum requests number, please share more books or return the others"
       });
-  
+
       dialogRef.disableClose = true;//disable default close operation
     }
 
@@ -113,7 +117,7 @@ export class ExploreComponent implements OnInit  {
   sortBooksByCategories(books) {
 
     this.categories = {};
-    this.categories["All"] = books;
+    this.categories["All Books"] = books;
     books.forEach((book: Book) => {
       book.categories.forEach((cat) => {
         if (this.categories && this.categories[cat]) {
@@ -154,11 +158,28 @@ export class ExploreComponent implements OnInit  {
     this.onResize();
     this.userSettingsSubscription = this.store.select<any>(fromStore.getUserSettings).subscribe(state => {
       this.userSettings = state;
-      //this.sortBooksByCategories(this.categories["All"]);
     }
     );
     this.booksNearBySubscription = this.store.select<any>(fromStore.getBooksNearBy).subscribe(state => {
       this.sortBooksByCategories(state);
+      if (!(this.userSettings && this.userSettings.favoriteCategories) && (state.length > 0)) {
+        let bookCategories = [];
+        state.forEach((book: Book) => {
+          book.categories.forEach((cat) => {
+            let ex=false;
+            bookCategories.forEach((c)=>{
+              if (c.name===cat){
+                ex=true;
+              }
+            });
+            if (!ex) {
+              bookCategories.push({ name: book.categories[0], active: true });
+            }
+          })
+        });
+        
+        this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.CATEGORIES, bookCategories));
+      }
     });
     this.usersNearBySubscription = this.store.select<any>(fromStore.getUsersNearBy).subscribe(state => {
       this.usersNearBy = state;

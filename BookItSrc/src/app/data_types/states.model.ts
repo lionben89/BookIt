@@ -91,6 +91,7 @@ export interface Book {
         pending:boolean,
         startTime?: Date,
         hasNewMessages: boolean,
+        waitingReject: boolean,
     }
     title: string,
     author: string,

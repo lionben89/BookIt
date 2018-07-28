@@ -83,6 +83,11 @@ export class IconsService {
     );
 
     iconRegistry.addSvgIcon(
+      "add-black",
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/add-black.svg")
+    );
+
+    iconRegistry.addSvgIcon(
       "search",
       sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/search.svg")
     );

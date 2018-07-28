@@ -597,6 +597,30 @@ export class UserDataEffects {
     );
 
     @Effect()
+    MoveToWaitReject: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.MOVE_TO_WAITING_REJECT)
+        .pipe(
+            map((action: fromUserDataActions.MoveToWaitingReject) => {
+                return action.payload
+            }),
+            switchMap((book: Book) => {
+                book.currentRequest.pending = false;
+                book.currentRequest.approved = true;
+                book.currentRequest.waitingReject = true;
+                let userPath = this.userDoc.ref.path;
+                return this.afs.doc(`Users/${book.currentRequest.borrowerUid}/Requests/${book.id}`).set(book, { merge: true }).then(() => {
+                    return book;
+                });
+
+            }),
+            map((book: Book) => {
+                this.afs.doc(`Users/${book.ownerUid}/Books/${book.id}`).set(book, { merge: true }).then(() => {
+                    
+                });
+                return new fromUserDataActions.MoveToWaitingRejectSuccess(book);
+            }),
+    );
+
+    @Effect()
     RequestBook: Observable<Action> = this.actions.ofType(fromUserDataActions.ActionsUserDataConsts.REQUEST_BOOK)
         .pipe(
             map((action: fromUserDataActions.RequestBook) => action.payload),
@@ -609,6 +633,7 @@ export class UserDataEffects {
                     pending: true,
                     startTime: null,
                     hasNewMessages: false,
+                    waitingReject: false,
                 };
 
                 console.log(book);

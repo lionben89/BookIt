@@ -89,7 +89,11 @@ ball {
   border-radius: 0px 0px 40px 40px;
   flex: auto;
   display: flex;
+<<<<<<< HEAD
   margin-bottom: 2%;
+=======
+  margin-bottom: 10px;
+>>>>>>> master
 }
 
 .subheader
@@ -128,6 +132,19 @@ section {
   justify-content: stretch;
 }
 
+.add-icon{
+  height: 40px;
+  width: 40px;
+  flex-grow: 2;
+  position: fixed;
+  right: 2%;
+  bottom: 2%;
+  z-index: 5;
+  border-radius: 50%;
+  filter: drop-shadow(rgb(43, 39, 39) 1px 1px 2px);
+  background-color: #00b1b8;
+}
+
   .book-bottom{
     position: absolute;
     overflow: hidden;
@@ -153,6 +170,7 @@ section {
     border-radius:30px 30px 0px 0px ;
     font-size: 32px;
     width: 100%;
+    z-index: 6;
   }
   .bookNavbarList{
     margin-top: 5px;

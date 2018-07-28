@@ -118,6 +118,7 @@ export class AddBookComponent implements OnInit {
             pending:false,
             approved:false,
             hasNewMessages: false,
+            waitingReject: false,
           }
         };
         this.results.push(book);
