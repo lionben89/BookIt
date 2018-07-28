@@ -53,6 +53,10 @@ export class MyRequestsComponent implements OnInit {
     }
   }
 
+  goToExplorer() {
+    this.store.dispatch(new fromStore.ChooseExplorer());
+  }
+
   startChat() {
     console.log("opening chat");
     this.store.dispatch(new fromStore.ChooseMyRequestsChat());
