@@ -40,7 +40,9 @@
 
                             </div>
                             <div style="box-sizing: border-box;display:inline-block;margin-left: 5%;">
-                                    <span style="vertical-align:bottom;">Located 3km. from you<br><br>Borrowed 3 times<br><br></span>
+                                    
+                                    <div *ngIf="bookSelected.lendCount === 1 then oneTime; else notOne"></div>
+
                                     <button  class="request-icon" (click)="requestBook(bookSelected)">
                                             <mat-icon style="display:inline-block;" svgIcon='book-request-gray'></mat-icon>
                                             <span style="display:inline-block;color: #2f3842;top:50%;transform: translate(0%, -40%);">&nbsp;Request Book</span>
@@ -65,6 +67,14 @@
 <ng-template #leftArrowIcon>
     <mat-icon svgIcon='left-arrow' class="arrow-icon"></mat-icon>
 </ng-template>
+
+<ng-template #oneTime>
+        <span style="vertical-align:bottom; font-weight: bold;">Borrowed {{bookSelected.lendCount}} time<br><br></span>
+ </ng-template>
+
+ <ng-template #notOne>
+        <span style="vertical-align:bottom; font-weight: bold;">Borrowed {{bookSelected.lendCount}} times<br><br></span>
+ </ng-template>
 
 <ng-template #loading>
     <div class="centered">

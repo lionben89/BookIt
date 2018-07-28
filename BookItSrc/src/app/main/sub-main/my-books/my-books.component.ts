@@ -136,6 +136,7 @@ export class MyBooksComponent implements OnInit {
     ));
     book.currentRequest.pending = false;
     book.currentRequest.approved = true;
+    book.lendCount = book.lendCount + 1;
     this.store.dispatch(new fromStore.UpdateBook(book));
     this.bookNavBarEnabled = false;
 
@@ -149,25 +150,21 @@ export class MyBooksComponent implements OnInit {
       //check if user is sure he wish to reject the book
       dialogRef.afterClosed().subscribe(result => {
         if (result !== "cancel") {
-          this.addToNotRequested(book);
           book.currentRequest.pending = false;
           book.currentRequest.approved = false;
+          book.currentRequest.waitingReject = false;
           this.store.dispatch(new fromStore.UpdateBook(book));
           this.hideBookNavbar(book);
         }
       });
     }
     else{
-      this.addToNotRequested(book);
       book.currentRequest.pending = false;
       book.currentRequest.approved = false;
+      book.currentRequest.waitingReject = false;
       this.store.dispatch(new fromStore.UpdateBook(book));
       this.hideBookNavbar(book);
     }
-  }
-
-  addToNotRequested(book: Book){
-    this.not_requested_arr.push(book);
   }
 
   initArrayStatus(){ 
