@@ -37,7 +37,6 @@
 
                     </mat-grid-list>
                 </div>
-                <div *ngIf="!userBooks.length then noBooks"></div>
 
                 <div *ngIf="this.bookNavBarEnabled===true; then bookNavbar"></div>
 
@@ -123,10 +122,6 @@
     <button mat-icon-button (click)="startChat()">
         <mat-icon svgIcon='new-message' class="icon"></mat-icon>
     </button>
-</ng-template>
-
-<ng-template #noBooks>
-    <p>add books to share!</p>
 </ng-template>
 
 <ng-template #listReject>
@@ -221,6 +216,7 @@
 
 <ng-template #noRequestsYet>
     <button mat-button label class="no-req-msg" (click)="goToAddbook()">
-        No book shared yet. Add Books to share   
+            <mat-icon svgIcon='add-black' class="add-icon-normal"></mat-icon>
+        &nbsp; No books shared yet. Add Books to share   
     </button>
 </ng-template>
