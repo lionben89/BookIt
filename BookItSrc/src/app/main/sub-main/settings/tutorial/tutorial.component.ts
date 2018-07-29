@@ -1,5 +1,5 @@
 import { ChooseSettings } from "./../../../../store/actions/context.action";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Store } from "@ngrx/store";
 import * as fromStore from "../../../../store";
 
@@ -9,17 +9,24 @@ import * as fromStore from "../../../../store";
   styleUrls: ["./tutorial.component.scss"]
 })
 export class TutorialComponent implements OnInit {
-  videoplayer: any;
+  @ViewChild('videoPlayer') videoplayer: any;
 
-  videosrc = "./../../../../../../src/assets/videos/bambookTutorial.mp4";
+  public videosrc = "http://localhost:4200/assets/videos/bambookTutorial.mp4";
 
-  constructor(private store: Store<fromStore.MainState>) {}
-
+  constructor(private store: Store<fromStore.MainState>) { }
+  getSrc(baseURI){
+    if (baseURI==="http://localhost:4200/"){
+      return "http://localhost:4200/assets/videos/bambookTutorial.mp4";
+    }
+    return "https://bookit-54033.firebaseapp.com/assets/videos/bambookTutorial.mp4"
+  }
   ngOnInit() {
     this.videoplayer.nativeElement.play();
+    
   }
 
   goToSettings() {
     this.store.dispatch(new fromStore.ChooseSettings());
   }
+
 }
