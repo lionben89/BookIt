@@ -54,6 +54,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { UserDataEffects } from './store/effects/userData.effect';
 import { MessagesEffects } from './store/effects/messages.effect';
 import { ExploreEffects } from './store/effects/explore.effect';
+import { TutorialComponent } from './main/sub-main/settings/tutorial/tutorial.component';
 
 
 
@@ -80,6 +81,7 @@ import { ExploreEffects } from './store/effects/explore.effect';
     AppComponent,
     MyRequestsComponent,
     ChatComponent,
+    TutorialComponent,
   ],
   imports: [
     ClickOutsideModule,

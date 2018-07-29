@@ -26,8 +26,7 @@
             <label class="form-margin-sr2" name="search_radius_lab_2" [style.color]="'#8a8a8a'"> {{ this.userSettings.locationSettings.searchRadiusKm }}Km.</label>
           </div>
           <mat-slider name="search_radius_slider" class="form-margin" [max]="max" [min]="min" [step]="step" [thumb-label]="thumbLabel"
-            [(ngModel)]="this.userSettings.locationSettings.searchRadiusKm"
-            (change)="this.updateSearchRadiusKm()">
+            [(ngModel)]="this.userSettings.locationSettings.searchRadiusKm" (change)="this.updateSearchRadiusKm()">
           </mat-slider>
         </mat-card-content>
       </mat-card>
@@ -46,21 +45,19 @@
         </mat-card-content>
       </mat-card>
 
-
- <!-- 
       <mat-card class="RightLeftStyle">
         <mat-card-content>
           <section class="form-section">
-            <div class="container_share_books">
-              <label class="form-margin-c1-share-books" name="location_lab_1"> Share My Books</label>
+            <div class="container_categories">
+              <label class="form-margin-c1" name="categories_lab_1"> Tutorial </label>
               <span class="spacer"></span>
-              <mat-slide-toggle class="slide-show-books"  [(ngModel)]="this.userSettings.info.shareMyBooks"
-              (change)="this.updateShareMyBooks()">
-              </mat-slide-toggle>
+              <button mat-button label class="button-switch-page" (click)="goToPlayTutorial()">
+                <div *ngIf="1 === 1; then playVideo"></div>
+              </button>
             </div>
           </section>
         </mat-card-content>
-      </mat-card>  -->
+      </mat-card>
 
       <mat-card class="buttons">
         <mat-card-content>
@@ -81,10 +78,16 @@
 
   <app-add-location *ngSwitchCase="'add_locations'"> </app-add-location>
 
+  <app-tutorial *ngSwitchCase="'tutorial'"> </app-tutorial>
+
 
 </container-element>
 
 
 <ng-template #rightArrowIcon>
   <mat-icon svgIcon='right-arrow-settings' class="right-arrow-icon"></mat-icon>
+</ng-template>
+
+<ng-template #playVideo>
+  <mat-icon svgIcon='play-video' class="right-arrow-icon"></mat-icon>
 </ng-template>

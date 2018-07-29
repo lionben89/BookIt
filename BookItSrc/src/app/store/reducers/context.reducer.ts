@@ -147,6 +147,14 @@ export function contextReducer(state:ContextState=initState,action:fromContext.C
                     }
                 };
         }
+        case fromContext.ActionsConsts.CHOOSE_SETTINGS_TUTORIAL:{
+            return {...state,
+                    navbar:{...state.navbar,
+                        show:false,
+                        settingsOption:"tutorial"
+                    }
+                };
+        }
         default: return state;
     }
 }

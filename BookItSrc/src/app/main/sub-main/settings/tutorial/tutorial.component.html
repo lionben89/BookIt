@@ -1,0 +1,19 @@
+<div class="container">
+  <section class="header">
+    <button mat-button label class="button-switch-page" (click)="goToSettings()">
+      <div *ngIf="1 === 1; then leftArrowIcon"></div>
+    </button>
+    <label class="header-tut">Tutorial</label>
+  </section>
+
+  <section>
+    <video controls (click)="toggleVideo()" class="video" #videoPlayer>
+      <source src="{{videoSource}}" type="video/mp4" /> Browser not supported
+    </video>
+  </section>
+</div>
+
+
+<ng-template #leftArrowIcon>
+  <mat-icon svgIcon='left-arrow' class="left-arrow-icon"></mat-icon>
+</ng-template>

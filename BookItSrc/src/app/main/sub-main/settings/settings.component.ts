@@ -1,14 +1,18 @@
-
-import { UserSettingsState, UserUpdateType, Book, Category } from './../../../data_types/states.model';
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../../core/auth.service';
-import { Store } from '@ngrx/store';
-import * as fromStore from '../../../store';
-import { Observable } from 'rxjs/Observable';
+import {
+  UserSettingsState,
+  UserUpdateType,
+  Book,
+  Category
+} from "./../../../data_types/states.model";
+import { Component, OnInit } from "@angular/core";
+import { AuthService } from "../../../core/auth.service";
+import { Store } from "@ngrx/store";
+import * as fromStore from "../../../store";
+import { Observable } from "rxjs/Observable";
 import { DialogTwoButtonComponent } from "./dialog-two-button/dialog-two-button.component";
 import { DialogOneButtonComponent } from "./dialog-one-button/dialog-one-button.component";
 import { MatDialog } from "@angular/material";
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from "@angular/material";
 
 @Component({
   selector: "app-settings",
@@ -16,7 +20,8 @@ import { MatSnackBar } from '@angular/material';
   styleUrls: ["./settings.component.scss"]
 })
 export class SettingsComponent implements OnInit {
-  public which_page = "settings"; /* options = {settings, categories, locations, add_location} */
+  public which_page =
+    "settings"; /* options = {settings, categories, locations, add_location, tutorial} */
   public settingsOption$: Observable<string>;
   public userSettings: UserSettingsState;
   booksNearBySubscription;
@@ -43,21 +48,22 @@ export class SettingsComponent implements OnInit {
   //share_enabled = true;
   categoriesNames = [];
 
-
   sortBooksByCategories(books) {
-
     let categories = {};
-    if (this.userSettings && this.userSettings.favoriteCategories && this.userSettings.favoriteCategories.categories) {
+    if (
+      this.userSettings &&
+      this.userSettings.favoriteCategories &&
+      this.userSettings.favoriteCategories.categories
+    ) {
       this.categoriesNames = this.userSettings.favoriteCategories.categories;
     }
 
     books.forEach((book: Book) => {
       if (book.categories) {
-        book.categories.forEach((cat) => {
+        book.categories.forEach(cat => {
           if (categories && categories[cat]) {
             categories[cat].push(book);
-          }
-          else {
+          } else {
             categories[cat] = [];
             categories[cat].push(book);
             let ex = false;
@@ -67,35 +73,36 @@ export class SettingsComponent implements OnInit {
               }
             });
             if (!ex) {
-              this.categoriesNames.push({ name: cat, active: false })
+              this.categoriesNames.push({ name: cat, active: false });
             }
           }
         });
       }
     });
-
-
-
-
-  }
+  }  
 
   logout() {
     this.userSettingsSubscription.unsubscribe();
     this.store.dispatch(new fromStore.Logout());
   }
 
+  goToPlayTutorial(){
+    this.store.dispatch(new fromStore.ChooseSettingsTutorial());
+  }
 
   goToLocations() {
-    this.store.dispatch(new fromStore.ChooseSettingsLocations);
+    this.store.dispatch(new fromStore.ChooseSettingsLocations());
   }
 
   goToCategories() {
-    this.store.dispatch(new fromStore.ChooseSettingsCategories);
+    this.store.dispatch(new fromStore.ChooseSettingsCategories());
   }
 
   updateSearchRadiusKm() {
     let newValue = this.userSettings.locationSettings.searchRadiusKm;
-    this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.SEARCH_RADIUS_KM, newValue));
+    this.store.dispatch(
+      new fromStore.UpdateUserInfo(UserUpdateType.SEARCH_RADIUS_KM, newValue)
+    );
   }
 
   /*updateShareMyBooks() {
@@ -103,21 +110,40 @@ export class SettingsComponent implements OnInit {
     this.store.dispatch(new fromStore.UpdateUserInfo(UserUpdateType.SHARE_MY_BOOKS, newValue));
   }*/
 
-  constructor(public snackBar: MatSnackBar, private store: Store<fromStore.MainState>, public auth: AuthService, public dialog: MatDialog) { }
+  constructor(
+    public snackBar: MatSnackBar,
+    private store: Store<fromStore.MainState>,
+    public auth: AuthService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit() {
-    this.settingsOption$ = this.store.select(fromStore.getContextSettingsOption);
-    this.store.select<any>(fromStore.getContextSettingsOption).subscribe(state => { this.which_page = state; });
-    this.userSettingsSubscription = this.store.select<any>(fromStore.getUserSettings).subscribe(state => { this.userSettings = state; });
-    this.booksNearBySubscription = this.store.select<any>(fromStore.getBooksNearBy).subscribe(state => {
-      this.sortBooksByCategories(state);
-    });
-    this.messegeSubscription = this.store.select(fromStore.getMessege).subscribe((state) => {
-      if (state && state !== '') {
-        this.snackBar.open(state, null, { duration: 3000 });
-        setTimeout(this.store.dispatch(new fromStore.ShowMessege('')), 0);
-      }
-    });
+    this.settingsOption$ = this.store.select(
+      fromStore.getContextSettingsOption
+    );
+    this.store
+      .select<any>(fromStore.getContextSettingsOption)
+      .subscribe(state => {
+        this.which_page = state;
+      });
+    this.userSettingsSubscription = this.store
+      .select<any>(fromStore.getUserSettings)
+      .subscribe(state => {
+        this.userSettings = state;
+      });
+    this.booksNearBySubscription = this.store
+      .select<any>(fromStore.getBooksNearBy)
+      .subscribe(state => {
+        this.sortBooksByCategories(state);
+      });
+    this.messegeSubscription = this.store
+      .select(fromStore.getMessege)
+      .subscribe(state => {
+        if (state && state !== "") {
+          this.snackBar.open(state, null, { duration: 3000 });
+          setTimeout(this.store.dispatch(new fromStore.ShowMessege("")), 0);
+        }
+      });
   }
 
   ngOnDestroy() {

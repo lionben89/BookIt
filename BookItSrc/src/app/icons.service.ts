@@ -88,6 +88,11 @@ export class IconsService {
     );
 
     iconRegistry.addSvgIcon(
+      "play-video",
+      sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/play-video.svg")
+    );
+
+    iconRegistry.addSvgIcon(
       "search",
       sanitizer.bypassSecurityTrustResourceUrl("/assets/icons/search.svg")
     );
