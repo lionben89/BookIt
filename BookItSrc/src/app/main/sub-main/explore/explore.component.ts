@@ -9,7 +9,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material';
 import { MatDialog } from "@angular/material";
 import { DialogOneButtonComponent } from "../settings/dialog-one-button/dialog-one-button.component";
-import * as Hammer from 'hammerjs';
+import  'hammerjs';
 
 
 @Component({
@@ -69,18 +69,22 @@ export class ExploreComponent implements OnInit {
   }
 
   goToPrevCategory() {
+    if(!this.bookNavBarEnabled){
     let c = (this.currentCategory - 1);
     if (c < 0) {
       c = this.categoriesNames.length - 1;
     }
     this.store.dispatch(new fromStore.ChooseCurrentCategory(c));
+    }
   }
   goToNextCategory() {
-    let c = (this.currentCategory + 1);
-    if (c === this.categoriesNames.length) {
-      c = 0;
+    if(!this.bookNavBarEnabled){
+      let c = (this.currentCategory + 1);
+      if (c === this.categoriesNames.length) {
+        c = 0;
+      }
+      this.store.dispatch(new fromStore.ChooseCurrentCategory(c));
     }
-    this.store.dispatch(new fromStore.ChooseCurrentCategory(c));
   }
 
   bookInfo() {

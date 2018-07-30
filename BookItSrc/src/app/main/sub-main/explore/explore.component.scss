@@ -1,4 +1,6 @@
-
+*{
+  touch-action: pan-y !important; 
+}
 body{
     background-color: #FAFAFA !important;
     overflow: scroll;
@@ -69,11 +71,17 @@ section {
     min-height: 97%;
     background-color: #ebebeb;
   }
- *{
-  touch-action: pan-y !important; 
-}
+
  .mybooks{
     padding-top: 40px;
+    height: 100% !important;
+    overflow: scroll !important;
+  }
+
+  .mybooksnoscroll{
+    padding-top: 40px;
+    height: 100% !important;
+    overflow: hidden !important;
   }
  
   .fas{
